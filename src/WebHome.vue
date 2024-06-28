@@ -11,7 +11,6 @@
             active-text-color="#409eff"
             router
         >
-            <!-- Logo 单独作为一个元素 -->
             <div class="image">
               <button @click="goBack" class="button-back">
                 <img src="./assets/imgs/back.png" alt="Back" style="width:30px;background-color: white;">
@@ -21,7 +20,6 @@
               <img src="./assets/imgs/logo.png" alt="Logo" />
             </div>
 
-            <!-- 将 Orders 和 Shopping Cart 放在一个容器中 -->
             <div class="menu-items">
             <el-menu-item v-if="this.$store.getters.getUser" index="order">
                 <router-link to="/order">Orders</router-link>
@@ -79,7 +77,6 @@ export default {
       } else {
         const userData = localStorage.getItem('user');
         const parsedUserData = JSON.parse(userData);
-        console.log("user has log in:",parsedUserData.user.user_id)
         // 用户已经登录,获取该用户的购物车信息
         this.$axios
           .post("/api/cart/list", {
@@ -103,7 +100,23 @@ export default {
   methods: {
     ...mapActions(["setUser", "setShowLogin", "setShoppingCart"]),
     goBack() {
-      window.history.back();
+      // 检查当前路由是否为 'goods'
+      if (this.$route.path === '/goods') {
+        // 弹出确认对话框询问用户是否要退出挑战
+        this.$confirm('Are you sure you want to exit the challenge?', {
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
+          type: 'warning'
+        }).then(() => {
+          // 如果用户选择是，跳转到 '/scoreboard'
+          this.$router.push('/scoreboard');
+        }).catch(() => {
+          // 如果用户选择否，不执行任何操作
+        });
+      } else {
+        // 如果不是在 'goods' 页面，执行正常的返回操作
+        this.$router.push('/goods');
+      }
     },
     login() {
       // 点击登录按钮, 通过更改vuex的showLogin值显示登录组件

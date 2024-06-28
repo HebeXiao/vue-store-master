@@ -31,11 +31,6 @@ const routes = [
     component: () => import('../views/Scoreboard.vue')
   },
   {
-    path: '/home',
-    name: 'Home',
-    component: () => import('../views/Home.vue')
-  },
-  {
     path: '/error',
     name: 'Error',
     component: () => import('../components/Error.vue')

@@ -1,12 +1,13 @@
 <template>
   <div class="confirmOrder">
+  <WebHome />
     <!-- 头部 -->
     <div class="confirmOrder-header">
       <div class="header-content">
         <p>
           <i class="el-icon-s-order"></i>
         </p>
-        <p>确认订单</p>
+        <p>Confrim Orders</p>
         <router-link to></router-link>
       </div>
     </div>
@@ -16,30 +17,27 @@
     <div class="content">
       <!-- 选择地址 -->
       <div class="section-address">
-        <p class="title">收货地址</p> 
-        <font color='red' size=2>提示:双击可以删除地址!</font>
-        <br>
-        <br>
+        <p class="title">Shipping Address</p> 
         <div class="address-body">
           <ul>
         
             <li
-              v-for="(item,index) in address"
+              v-for="(item) in address"
               :class="confirmAddress==item.id?'in-section':''"
               :key="item.id"
               @click="confirmAddress=item.id"
-              @dblclick="removeItem(index)"
             >
               <h2>{{item.linkman}}</h2>
-              <p class="phone">{{item.phone}}</p>
-              <p class="address"><font color='green'>{{item.address}}</font></p>
-
-           
+              <p class="phone">Phone: {{item.phone}}</p>
+              <p class="address">Address:</p>
+              <p>
+                {{item.address}}
+              </p>
             </li>
             
             <li class="add-address"  @click="isAdd=true">
               <i class="el-icon-circle-plus-outline"></i>
-              <p >添加新地址</p>
+              <p >Add new address</p>
             </li>
           </ul>
         </div>
@@ -48,15 +46,15 @@
 
       <!-- 商品及优惠券 -->
       <div class="section-goods">
-        <p class="title">商品及优惠券</p>
+        <p class="title">Products</p>
         <div class="goods-list">
           <ul>
             <li v-for="item in getCheckGoods" :key="item.id">
               <img :src="item.productImg.includes('http:')?item.productImg:$target + item.productImg" />
               <span class="pro-name">{{item.productName}}</span>
-              <span class="pro-price">{{item.price}}元 x {{item.num}}</span>
+              <span class="pro-price">{{item.price}}£ x {{item.num}}</span>
               <span class="pro-status"></span>
-              <span class="pro-total">{{item.price * item.num}}元</span>
+              <span class="pro-total">{{item.price * item.num}}£</span>
             </li>
           </ul>
         </div>
@@ -65,48 +63,31 @@
 
       <!-- 配送方式 -->
       <div class="section-shipment">
-        <p class="title">配送方式</p>
-        <p class="shipment">包邮</p>
+        <p class="title">Delivery Method</p>
+        <p class="shipment">free shipping</p>
       </div>
       <!-- 配送方式END -->
-
-      <!-- 发票 -->
-      <div class="section-invoice">
-        <p class="title">发票</p>
-        <p class="invoice">电子发票</p>
-        <p class="invoice">个人</p>
-        <p class="invoice">商品明细</p>
-      </div>
-      <!-- 发票END -->
 
       <!-- 结算列表 -->
       <div class="section-count">
         <div class="money-box">
           <ul>
             <li>
-              <span class="title">商品件数：</span>
-              <span class="value">{{getCheckNum}}件</span>
+              <span class="title">Number of items: </span>
+              <span class="value">{{getCheckNum}}</span>
             </li>
             <li>
-              <span class="title">商品总价：</span>
-              <span class="value">{{getTotalPrice}}元</span>
+              <span class="title">Total price of goods: </span>
+              <span class="value">{{getTotalPrice}}£</span>
             </li>
             <li>
-              <span class="title">活动优惠：</span>
-              <span class="value">-0元</span>
-            </li>
-            <li>
-              <span class="title">优惠券抵扣：</span>
-              <span class="value">-0元</span>
-            </li>
-            <li>
-              <span class="title">运费：</span>
-              <span class="value">0元</span>
+              <span class="title">Shipping: </span>
+              <span class="value">0£</span>
             </li>
             <li class="total">
-              <span class="title">应付总额：</span>
+              <span class="title">Total amount due: </span>
               <span class="value">
-                <span class="total-price">{{getTotalPrice}}</span>元
+                <span class="total-price">{{getTotalPrice}}</span>£
               </span>
             </li>
           </ul>
@@ -117,8 +98,8 @@
       <!-- 结算导航 -->
       <div class="section-bar">
         <div class="btn">
-          <router-link to="/shoppingCart" class="btn-base btn-return">返回购物车</router-link>
-          <a href="javascript:void(0);" @click="addOrder" class="btn-base btn-primary">结算</a>
+          <router-link to="/shoppingCart" class="btn-base btn-return">Back to Shopping Cart</router-link>
+          <a href="javascript:void(0);" @click="addOrder" class="btn-base btn-primary">Order</a>
         </div>
       </div>
       <!-- 结算导航END -->
@@ -126,7 +107,7 @@
     <!-- 主要内容容器END -->
 
     <!-- 弹出框 -->
-    <el-dialog title="添加地址" width="400px" center :visible.sync="isAdd">
+    <el-dialog title="Add Address" width="400px" center :visible.sync="isAdd">
       <el-form
         :model="add"
         status-icon
@@ -136,7 +117,7 @@
         <el-form-item prop="linkman">
           <el-input
             prefix-icon="el-icon-user-solid"
-            placeholder="请输入收件人姓名!"
+            placeholder="Please enter the recipient's name!"
             v-model="add.linkman"
             maxlength="20"
             show-word-limit
@@ -146,7 +127,7 @@
           <el-input
             prefix-icon="el-icon-view"
             type="text"
-            placeholder="请输入收件人电话"
+            placeholder="Please enter the recipient's phone number!"
             v-model="add.phone"
             maxlength="11"
             show-word-limit
@@ -156,15 +137,13 @@
          <el-input
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4}"
-            placeholder="请输入详细地址"
+            placeholder="Please enter the full address!"
             v-model="add.address">
           </el-input>
         </el-form-item>
-
-
       
         <el-form-item>
-          <el-button size="medium" type="primary" @click="save()" style="width:100%;">保存</el-button>
+          <el-button size="medium" type="primary" @click="save()" style="width:100%;">Save</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -173,9 +152,13 @@
 
 </template>
 <script>
+import WebHome from '../WebHome.vue';
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 export default {
+  components: {
+    WebHome
+  },
   name: "",
   data() {
     return {
@@ -202,7 +185,7 @@ export default {
   created() {
     // 如果没有勾选购物车商品直接进入确认订单页面,提示信息并返回购物车
     if (this.getCheckNum < 1) {
-      this.notifyError("请勾选商品后再结算");
+      this.notifyError("Please check the box before checkout");
       this.$router.push({ path: "/shoppingCart" });
     }
     const userData = localStorage.getItem('user');
@@ -225,15 +208,6 @@ export default {
   },
   methods: {
     ...mapActions(["deleteShoppingCart"]),
-
-
-    removeItem(index){
-      this.dialogValue =  "是否确定要删除联系人:"+this.address[index].linkman+" 的地址信息?";
-      this.delId = this.address[index].id;
-      this.delIndex  = index; //要删除的下角标
-      this.dialogVisible=true
-    },
-
     //删除地址数据!
     remove(){
       this.$axios
@@ -487,29 +461,6 @@ export default {
 }
 /* 配送方式CSS END */
 
-/* 发票CSS */
-.confirmOrder .content .section-invoice {
-  margin: 0 48px;
-  padding: 25px 0;
-  border-bottom: 1px solid #e0e0e0;
-  overflow: hidden;
-}
-.confirmOrder .content .section-invoice .title {
-  float: left;
-  width: 150px;
-  color: #333;
-  font-size: 18px;
-  line-height: 38px;
-}
-.confirmOrder .content .section-invoice .invoice {
-  float: left;
-  line-height: 38px;
-  font-size: 14px;
-  margin-right: 20px;
-  color: #ff6700;
-}
-/* 发票CSS END */
-
 /* 结算列表CSS */
 .confirmOrder .content .section-count {
   margin: 0 48px;
@@ -522,7 +473,7 @@ export default {
 }
 .confirmOrder .content .section-count .money-box .title {
   float: left;
-  width: 126px;
+  width: 150px;
   height: 30px;
   display: block;
   line-height: 30px;

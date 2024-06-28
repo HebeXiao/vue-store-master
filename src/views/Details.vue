@@ -1,5 +1,6 @@
 <template>
   <div id="details">
+    <WebHome />
     <!-- 主要内容 -->
     <div class="main">
       <!-- 左侧商品轮播图 -->
@@ -57,8 +58,12 @@
   </div>
 </template>
 <script>
+import WebHome from '../WebHome.vue';
 import { mapActions } from "vuex";
 export default {
+  components: {
+    WebHome
+  },
   data() {
     return {
       dis: false, // 控制“加入购物车按钮是否可用”

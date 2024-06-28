@@ -102,6 +102,8 @@
     <!-- 购物车为空的时候显示的内容 -->
     <div v-else class="cart-empty">
       <div class="empty">
+        <h2>Your shopping cart is empty!</h2>
+        <p>Go shopping！</p>
       </div>
     </div>
     <!-- 购物车为空的时候显示的内容END -->
@@ -390,12 +392,17 @@ export default {
   margin: 0 auto;
 }
 .shoppingCart .cart-empty .empty {
-  height: 300px;
-  padding: 0 0 130px 558px;
-  margin: 65px 0 0;
-  background: url(../assets/imgs/cart-empty.png) no-repeat 124px 0;
+  height: 300px; /* 根据需要调整高度 */
+  display: flex;
+  flex-direction: column; /* 使内容在垂直方向上排列 */
+  justify-content: center; /* 垂直居中内容 */
+  align-items: center; /* 水平居中内容 */
+  margin: 45px auto 0; /* 上边距保留，左右自动居中 */
+  background: url(../assets/imgs/shoppingcart.png) no-repeat center 20px; /* 调整背景图的位置 */
+  background-size: 220px 220px; /* 可调整背景图大小 */
   color: #b0b0b0;
   overflow: hidden;
+  padding-top: 150px; /* 增加顶部填充，根据背景图大小调整 */
 }
 .shoppingCart .cart-empty .empty h2 {
   margin: 70px 0 15px;
