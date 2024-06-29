@@ -42,10 +42,6 @@
           </span>
           <p class="price-sum">Total : {{productDetails.product_selling_price}}£</p>
         </div>
-         <!-- 数量选择器 -->
-        <div class="quantity-selector">
-          <el-input-number v-model="quantity" :min="1" :max="10" label="Quantity"></el-input-number>
-        </div>
         <!-- 内容区底部按钮 -->
         <div class="button">
           <el-button class="shop-cart" :disabled="dis" @click="addShoppingCart">Add to cart</el-button>
