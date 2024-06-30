@@ -82,7 +82,6 @@ export default {
     start(challenge_id) {
       // 存储当前挑战的 ID
       this.$store.commit('setCurrentChallengeId', challenge_id);
-      console.log('current challenge:', challenge_id);
 
       // 然后跳转到 goods 页面
       this.$router.push('/goods');
