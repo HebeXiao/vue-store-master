@@ -128,7 +128,6 @@ export default {
     const parsedUserData = JSON.parse(userData);
     const userId = parsedUserData.user.user_id;
 
-    console.log('User ID:', userId); // 确认id是否正确
     this.$axios
       .get(`/api/order/list`, { params: { user_id: userId },
       headers: {

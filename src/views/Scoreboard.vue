@@ -9,18 +9,27 @@
     <!-- Show all challenge -->
     <div class="card">
       <div v-for="challenge in challenges" :key="challenge.challenge_id"
-           :class="['card_challenge', { 'completed': challenge.is_completed }]">
+          :class="['card_challenge', { 'completed': challenge.is_completed }]">
         <h3>{{ challenge.challenge_name }}</h3>
         <p>{{ challenge.challenge_description }}</p>
-        <!-- 使用 v-if 指令来条件性地渲染文本 -->
+        <div class="button-container">
+          <!-- 原有的开始/重新挑战按钮 -->
+          <button
+            @click="start(challenge.challenge_id)"
+            class="button"
+            :class="{ 'btn-restart': challenge.is_completed, 'btn-start': !challenge.is_completed }">
+            {{ challenge.is_completed ? 'Challenge Again' : 'Start Challenge' }}
+          </button>
+          <!-- 新增的带交互式指导的开始挑战按钮 -->
+          <button
+            @click="startWithGuidance(challenge.challenge_id)"
+            class="button"
+            :class="{ 'btn-restart': challenge.is_completed, 'btn-start': !challenge.is_completed }">
+            {{ challenge.is_completed ? 'Again with Guidance ' : 'Start with Guidance' }}
+          </button>
+        </div>
+        <!-- 条件渲染成功文本 -->
         <p v-if="challenge.is_completed" class="success-text">Challenge successful!</p>
-        <!-- 添加 :class 来动态改变按钮颜色 -->
-        <button
-          @click="start(challenge.challenge_id)"
-          class="button"
-          :class="{ 'btn-restart': challenge.is_completed, 'btn-start': !challenge.is_completed }">
-          {{ challenge.is_completed ? 'Challenge Again' : 'Start Challenge' }}
-        </button>
       </div>
     </div>
   </div>
@@ -79,6 +88,13 @@ export default {
       }
     },
     start(challenge_id) {
+      // 存储当前挑战的 ID
+      this.$store.commit('setCurrentChallengeId', challenge_id);
+      console.log('current challenge:', challenge_id);
+      // 然后跳转到 goods 页面
+      this.$router.push('/goods');
+    },
+    startWithGuidance(challenge_id) {
       // 存储当前挑战的 ID
       this.$store.commit('setCurrentChallengeId', challenge_id);
       console.log('current challenge:', challenge_id);
@@ -162,7 +178,15 @@ export default {
   margin: 10px 0; /* 上下边距，确保与其他内容有间隔 */
 }
 
+.button-container {
+  display: flex;      /* 使用Flexbox */
+  justify-content: space-between; /* 如果希望按钮之间有间隔，使用space-between */
+  align-items: center; /* 垂直居中对齐 */
+  gap: 10px;           /* 按钮之间的间隔 */
+}
+
 .button {
+  flex-grow: 1;   
   width: 100%; /* 按钮宽度充满容器 */
   padding: 12px 20px; /* 增加内边距，使按钮更高 */
   font-size: 16px; /* 可以调整字体大小 */
