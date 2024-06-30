@@ -16,7 +16,6 @@ export default {
   },
   getters: {
     getShoppingCart (state) {
-      console.log('Getting shopping cart with:', state);  // 添加此行
       // 获取购物车状态
       return state.shoppingCart;
     },
@@ -79,7 +78,6 @@ export default {
   },
   mutations: {
     setShoppingCart (state, data) {
-      console.log('Setting shopping cart with:', data);  // 添加此行
       // 设置购物车状态
       state.shoppingCart = data;
     },

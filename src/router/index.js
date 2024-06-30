@@ -8,7 +8,8 @@ const routes = [
   {
     path: '/ChallengeResult',
     name: 'ChallengeResult',
-    component: () => import('../views/ChallengeResult.vue')
+    component: () => import('../views/ChallengeResult.vue'),
+    meta: { hideRootComponents: true } 
   },
   {
     path: '/APIDetail',

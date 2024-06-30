@@ -51,7 +51,6 @@ export default {
 
       const parsedUserData = JSON.parse(userData);
       const user_id = parsedUserData.user.user_id;
-      console.log('Current User IDaaaa:', user_id);
       this.user_id = user_id; // 赋值给 data 中的 user_id
 
       const requestBody = {
@@ -82,7 +81,7 @@ export default {
     start(challenge_id) {
       // 存储当前挑战的 ID
       this.$store.commit('setCurrentChallengeId', challenge_id);
-
+      console.log('current challenge:', challenge_id);
       // 然后跳转到 goods 页面
       this.$router.push('/goods');
     }

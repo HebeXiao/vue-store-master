@@ -40,6 +40,9 @@ export default new Vuex.Store({
     setChallenges(state, challenges) {
       state.challenges = challenges;
     },
+    resetChallengeId(state) {
+      state.currentChallengeId = null; // 或者使用默认值
+    }
   },
   actions: {
     fetchScoreboardData({ commit, state }) {

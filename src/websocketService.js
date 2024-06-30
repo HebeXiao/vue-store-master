@@ -2,19 +2,27 @@
 let socket;
 const reconnectInterval = 1000; // 1 second
 let reconnectTimeout;
+import store from '@/store'; // 确保路径正确
+
 
 export function connectWebSocket() {
   if (socket && socket.readyState === WebSocket.OPEN) {
     socket.close(); // 关闭旧的会话
   }
 
-  socket = new WebSocket('ws://localhost:3013/challenge');
+  socket = new WebSocket('ws://localhost:3006/challenge');
 
   socket.onmessage = (event) => {
     const message = event.data;
-    if (message === 'Challenge succeeded: Triggered by invalid token.') {
-      // 调用存储逻辑或其他操作
-      window.location.href = 'http://localhost:8080/#/ChallengeResult';
+    // 直接从 Vuex store 获取当前挑战 ID
+    const currentChallengeId = store.getters.getCurrentChallengeId;
+    if (currentChallengeId === 1) {
+      if (message === 'Challenge succeeded: Triggered by invalid token.') {
+        // 当 challenge_id = 1 时才触发以下操作
+        window.location.href = 'http://localhost:8080/#/ChallengeResult';
+      }
+    } else {
+      console.log('Received message for different challenge_id:', currentChallengeId);
     }
   };
 

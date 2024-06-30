@@ -108,7 +108,10 @@ export default {
           cancelButtonText: 'No',
           type: 'warning'
         }).then(() => {
-          // 如果用户选择是，跳转到 '/scoreboard'
+          // 如果用户选择是，先重置 challenge_id
+          this.$store.commit('resetChallengeId');
+
+          // 然后跳转到 '/scoreboard'
           this.$router.push('/scoreboard');
         }).catch(() => {
           // 如果用户选择否，不执行任何操作

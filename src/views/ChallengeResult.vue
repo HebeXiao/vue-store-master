@@ -20,14 +20,13 @@ export default {
   methods: {
     goToDashboard() {
     const challengeId = this.getCurrentChallengeId;
-    console.log('Current Challenge ID:', challengeId);
 
     // 添加一条数据到 challenge_status 表中
     const userData = localStorage.getItem('user');
 
     const parsedUserData = JSON.parse(userData);
     const userId = parsedUserData.user.user_id;
-    console.log('Current User ID:', userId);
+
     const requestBody = {
         user_id: userId,
         challenge_id: challengeId,

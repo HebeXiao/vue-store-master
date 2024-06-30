@@ -61,7 +61,6 @@ export default {
         { carousel_id: 1, imgPath: require('@/assets/imgs/homepage2.png'), description: 'Image 1' },
         { carousel_id: 2, imgPath: require('@/assets/imgs/homepage1.png'), description: 'Image 2' }
       ],
-      // other data...
     };
   }
 };

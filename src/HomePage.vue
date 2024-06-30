@@ -3,7 +3,7 @@
   <div id="app" name="app">
     <el-container>
       <!-- 顶部导航栏 -->
-      <div class="topbar">
+      <div class="topbar" v-if="!$route.meta.hideRootComponents">
       <div class="nav">
         <ul>
           <li>
@@ -50,7 +50,7 @@
 
       <!-- 底栏容器 -->
       <el-footer>
-        <div class="footer">
+        <div class="footer" v-if="!$route.meta.hideRootComponents">
           <div class="ng-promise-box">
             <div class="ng-promise">
               <p class="text">
