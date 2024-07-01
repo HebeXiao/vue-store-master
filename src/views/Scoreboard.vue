@@ -28,8 +28,8 @@
             {{ challenge.is_completed ? 'Again with Guidance ' : 'Start with Guidance' }}
           </button>
         </div>
-        <!-- 条件渲染成功文本 -->
-        <p v-if="challenge.is_completed" class="success-text">Challenge successful!</p>
+        <!-- 条件渲染成功图片 -->
+        <img v-if="challenge.is_completed" src="@/assets/imgs/successful.png" alt="Challenge successful" class="success-image">
       </div>
     </div>
   </div>
@@ -193,19 +193,6 @@ export default {
   color: #FFFFFF; /* Darker text color for readability on light background */
 }
 
-.success-text {
-  text-align: center; /* 文本居中 */
-  color: #FF69B4; /* 明亮的粉红色 */
-  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial', sans-serif; /* 可爱的字体 */
-  font-size: 18px; /* 字体大小 */
-  font-weight: bold; /* 字体加粗 */
-  background-color: #FFFFE0; /* 浅黄色背景 */
-  border-radius: 10px; /* 圆角边框 */
-  padding: 10px 20px; /* 增加内边距使文本更为醒目 */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 轻微阴影 */
-  margin: 10px 0; /* 上下边距，确保与其他内容有间隔 */
-}
-
 .button-container {
   display: flex;      /* 使用Flexbox */
   justify-content: space-between; /* 如果希望按钮之间有间隔，使用space-between */
@@ -247,5 +234,12 @@ export default {
   color: darkblue; /* Make the text color blue to differentiate it */
   font-weight: bold;
   margin-bottom: 20px; /* Add some space below the progress */
+}
+
+.success-image {
+  width: 100px; /* 或者任何适合的尺寸 */
+  height: auto;
+  display: block; /* 确保图片正确显示 */
+  margin: 10px 0; /* 根据需要调整间距 */
 }
 </style>

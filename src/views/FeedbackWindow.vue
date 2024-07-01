@@ -22,6 +22,13 @@ export default {
       setTimeout(() => {
         this.visible = false;
       }, 10000); // Message shows for 10 seconds
+    },
+    showMessageLong(msg) {
+      this.message = msg;
+      this.visible = true;
+      setTimeout(() => {
+        this.visible = false;
+      }, 20000); // Message shows for 20 seconds
     }
   }
 }

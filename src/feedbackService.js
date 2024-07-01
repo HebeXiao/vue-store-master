@@ -1,5 +1,4 @@
 import FeedbackWindow from './views/FeedbackWindow.vue';
-
 import Vue from 'vue';
 
 const FeedbackInstance = new Vue({
@@ -11,6 +10,9 @@ document.body.appendChild(FeedbackInstance.$el);
 const feedbackService = {
   sendFeedback(message) {
     FeedbackInstance.$children[0].showMessage(message);
+  },
+  sendLongFeedback(message){
+    FeedbackInstance.$children[0].showMessageLong(message);
   }
 };
 

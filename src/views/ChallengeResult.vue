@@ -1,14 +1,20 @@
 <template>
   <div class="challenge-container">
-    <h1 class="challenge-title">Challenge Successfully</h1>
-    <div class="challenge-details">
-      <!-- 展示其他挑战详细信息 -->
-      <p>Congratulations! You have successfully completed the challenge.</p>
-      <p>Keep up the good work and continue to hone your skills.</p>
-      <el-button type="primary" @click="goToDashboard">Go to Scoreboard</el-button>
+    <img src="@/assets/imgs/winner.png" alt="Challenge successful" class="success-image">
+    <div class="content">
+      <h1 class="challenge-title">Challenge Successfully</h1>
+      <div class="challenge-details">
+        <!-- 展示其他挑战详细信息 -->
+        <p>Congratulations! You have successfully completed the challenge.</p>
+        <p>Keep up the good work and continue to hone your skills.</p>
+        <el-button type="primary" @click="goToDashboard">Go to Scoreboard</el-button>
+      </div>
     </div>
+    <img src="@/assets/imgs/confetti.png" alt="Confetti left" class="confetti-image left">
+    <img src="@/assets/imgs/confetti.png" alt="Confetti right" class="confetti-image right">
   </div>
 </template>
+
 
 <script>
 import { mapGetters } from 'vuex';
@@ -50,15 +56,35 @@ export default {
 </script>
 
 <style scoped>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* 禁用滚动条 */
+}
+
+#app {
+  height: 100%; /* 确保根容器高度为100% */
+}
+
 .challenge-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background: linear-gradient(to right, #6a11cb, #2575fc);
+  width: 100%;
+  height: 100vh; /* 使用视口高度 */
+  background: linear-gradient(to right, #4CAF50, #4CAF50);
   color: #fff;
   font-family: 'Arial', sans-serif;
+  position: relative; /* 为了放置绝对定位的图片 */
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .challenge-title {
@@ -83,5 +109,41 @@ export default {
 
 .el-button {
   margin-top: 20px;
+  background-color: #476cff;
+  border-color: #476cff;
+  color: #fff;
+  border-radius: 5px;
+  transition: background-color 0.3s; /* 平滑背景色变化 */
+}
+
+.el-button:hover {
+  background-color: #3159f7;
+  border-color: #3159f7;
+}
+
+.success-image {
+  width: 150px; /* 或者任何适合的尺寸 */
+  height: auto;
+  display: block; /* 确保图片正确显示 */
+  margin: 0 auto 20px auto; /* 使其在上方正中间 */
+  position: absolute;
+  top: 20px; /* 根据需要调整位置 */
+}
+
+.confetti-image {
+  width: 150px; /* 或者任何适合的尺寸 */
+  height: auto;
+  position: absolute; /* 使其绝对定位 */
+  bottom: 10px; /* 固定在底部 */
+}
+
+.confetti-image.left {
+  left: 10px; /* 左下角位置 */
+}
+
+.confetti-image.right {
+  right: 10px; /* 右下角位置 */
+  transform: scaleX(-1); /* 水平翻转 */
 }
 </style>
+

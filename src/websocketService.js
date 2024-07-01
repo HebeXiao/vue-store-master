@@ -2,7 +2,7 @@
 let socket;
 let reconnectTimeout;
 import store from '@/store'; // 确保路径正确
-
+import feedbackService from './feedbackService';
 
 export function connectWebSocket() {
   if (socket && socket.readyState === WebSocket.OPEN) {
@@ -24,6 +24,11 @@ export function connectWebSocket() {
       const userData = localStorage.getItem('user');
       const parsedUserData = JSON.parse(userData);
       const user_id = parsedUserData.user.user_id;
+
+      // 处理 token 为空的特定消息
+      if (message === 'Challenge succeeded: Triggered by empty token.') {
+        feedbackService.sendLongFeedback("Oops, looks like you forgot one important thing! A request without a Token is like a door without a key, how can you get in?");
+      }
 
       if (currentChallengeId === 1 &&  user_id !== receivedUserId) {
         if (message === 'Challenge succeeded: Triggered by user ID mismatch.') {

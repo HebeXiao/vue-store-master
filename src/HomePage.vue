@@ -8,15 +8,20 @@
         <ul>
           <li>
             <el-button @click="goBack('/')" type="text" style="font-size: 18px;">Home</el-button>
-          </li>
-          <!-- 只有登录后显示以下内容 -->
+          </li>  
           <li v-if="!this.$store.getters.getUser">
             <el-button type="text" @click="login" style="font-size: 18px;">Login</el-button>
             <span class="sep">|</span>
             <el-button type="text" @click="register = true" style="font-size: 18px;">Register</el-button>
           </li>
+          <!-- 只有登录后显示以下内容 -->
           <li v-else>
             <el-button @click="goBack('/scoreboard')" type="text" style="font-size: 18px;">Scoreboard</el-button>
+          </li>
+          <li v-if="this.$store.getters.getUser && getCurrentChallengeId">
+              <el-button @click="showHint" type="text" style="font-size: 18px;">Hint</el-button>
+          </li>
+          <li v-if="this.$store.getters.getUser">
             <span class="sep"></span>
             <span class="sep"></span>
             <el-popover placement="top" width="180" v-model="visible">
@@ -29,6 +34,7 @@
             </el-popover>
           </li>
         </ul>
+        <hint-window ref="hintWindow"></hint-window>
       </div>
       </div>
       <!-- 顶部导航栏END -->
@@ -76,8 +82,11 @@
 <script>
 import { mapActions } from "vuex";
 import { mapGetters } from "vuex";
-
+import HintWindow from './views/HintWindow.vue';
 export default {
+  components: {
+    HintWindow
+  },
   beforeUpdate() {
     this.activeIndex = this.$route.path;
   },
@@ -97,7 +106,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getUser", "getNum","getCurrentChallengeId"])
+    ...mapGetters(["getUser", "getNum", "getCurrentChallengeId"])
   },
   watch: {
     // 获取vuex的登录状态
@@ -113,6 +122,7 @@ export default {
           })
           .then(res => {
             if (res.data.code === "001") {
+              console.log("what is this:",res.data.data);
               // 001 为成功, 更新vuex购物车状态
               this.setShoppingCart(res.data.data);
             } else {
@@ -128,6 +138,10 @@ export default {
   },
   methods: {
     ...mapActions(["setUser", "setShowLogin", "setShoppingCart"]),
+    showHint() {
+      // 使用 refs 来调用 HintWindow 的方法
+      this.$refs.hintWindow.open();
+    },
     goBack(targetRoute) {
       // 检查是否有 challenge_id
       const challengeId = this.getCurrentChallengeId;
@@ -169,17 +183,25 @@ export default {
       this.setUser("");
       this.$router.push('/');  // Redirect to home page
       this.notifySucceed("Successfully logged out");
-    
+      this.setCurrentChallengeId("");
     },
     // 接收注册子组件传过来的数据
     isRegister(val) {
       this.register = val;
     },
+    // 点击搜索按钮
+    searchClick() {
+      if (this.search != "") {
+        // 跳转到全部商品页面,并传递搜索条件
+        this.$router.push({ path: "/goods", query: { search: this.search } });
+        this.search = "";
+      }
+    }
   }
 };
 </script>
 
-<style scope>
+<style scoped>
 /* 全局CSS */
 * {
   padding: 0;
@@ -191,8 +213,8 @@ export default {
   padding: 0;
 }
 #app .el-main {
-  min-height: 300px;
-  padding: 20px 0;
+  min-height: 100px;
+  padding: 0 0;
 }
 #app .el-footer {
   padding: 0;
@@ -307,5 +329,4 @@ a:hover {
   padding: 0 22px;
 }
 /* 底栏容器CSS END */
-
 </style>
