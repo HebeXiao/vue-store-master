@@ -31,7 +31,6 @@
 </template>
 <script>
 import WebHome from '../WebHome.vue';
-
 export default {
   components: {
     WebHome

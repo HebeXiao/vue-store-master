@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import feedbackService from '@/feedbackService';
 export default {
   data() {
     return {
@@ -94,13 +95,40 @@ export default {
       // 然后跳转到 goods 页面
       this.$router.push('/goods');
     },
-    startWithGuidance(challenge_id) {
-      // 存储当前挑战的 ID
-      this.$store.commit('setCurrentChallengeId', challenge_id);
-      console.log('current challenge:', challenge_id);
+    // 在你的Vue组件中
+    startWithGuidance(challengeId) {
+      const guidance = true;  // 设定guidance的值
+      this.$store.dispatch('startChallenge', {
+        challengeId: challengeId,
+        guidance: guidance
+      });
+
+      // 根据不同的 challengeId 提供不同的欢迎信息反馈
+      let welcomeMessages = [];
+      switch (challengeId) {
+        case 1:
+          welcomeMessages = [
+            'Welcome to our Challenge! For this challenge, we will be looking at the Broken Object Level Authorization (BOLA) vulnerability. Please proceed carefully and observe the security implications.',
+            'Please try to shop using the platform normally first and try to view your order. Watch for system responses and any possible security alerts.'
+          ];
+          break;
+        case 2:
+          welcomeMessages = ['欢迎开始挑战2！', '请继续关注后续的指导。'];
+          break;
+      }
+
+      // 发送第一条消息
+      feedbackService.sendFeedback(welcomeMessages[0]);
+
+      // 使用 setTimeout 来延迟发送第二条消息
+      setTimeout(() => {
+        feedbackService.sendFeedback(welcomeMessages[1]);
+      }, 5000); // 延迟5秒发送
+
       // 然后跳转到 goods 页面
       this.$router.push('/goods');
     }
+
   }
 }
 </script>

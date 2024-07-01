@@ -175,14 +175,6 @@ export default {
     isRegister(val) {
       this.register = val;
     },
-    // 点击搜索按钮
-    searchClick() {
-      if (this.search != "") {
-        // 跳转到全部商品页面,并传递搜索条件
-        this.$router.push({ path: "/goods", query: { search: this.search } });
-        this.search = "";
-      }
-    }
   }
 };
 </script>

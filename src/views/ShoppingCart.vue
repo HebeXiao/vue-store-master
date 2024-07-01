@@ -90,9 +90,7 @@
             <span class="total-price-title">Total：</span>
             <span class="total-price">{{getTotalPrice}}£</span>
           </span>
-          <router-link :to="getCheckNum > 0 ? '/confirmOrder' : ''">
-            <div :class="getCheckNum > 0 ? 'btn-primary' : 'btn-primary-disabled'">Order</div>
-          </router-link>
+          <div :class="getCheckNum > 0 ? 'btn-primary' : 'btn-primary-disabled'" @click="handleOrderClick">Order</div>
         </div>
       </div>
       <!-- 购物车底部导航条END -->
@@ -123,6 +121,14 @@ export default {
   },
   methods: {
     ...mapActions(["updateShoppingCart", "deleteShoppingCart", "checkAll"]),
+     // 处理订单按钮点击
+    handleOrderClick() {
+      if (this.getCheckNum > 0) {
+        this.$router.push('/confirmOrder');
+      } else {
+        this.notifyError('Please select items to order.');
+      }
+    },
     // 修改商品数量的时候调用该函数
     handleChange(currentValue, key, productID) {
       // 当修改数量时，默认勾选

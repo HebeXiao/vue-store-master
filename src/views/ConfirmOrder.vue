@@ -1,26 +1,25 @@
 <template>
   <div class="confirmOrder">
-  <WebHome />
+    <WebHome />
     <!-- 头部 -->
     <div class="confirmOrder-header">
       <div class="header-content">
         <p>
           <i class="el-icon-s-order"></i>
         </p>
-        <p>Confrim Orders</p>
+        <p>Confirm Orders</p>
         <router-link to></router-link>
       </div>
     </div>
     <!-- 头部END -->
 
     <!-- 主要内容容器 -->
-    <div class="content">
+    <div class="content" v-if="!isLoading">
       <!-- 选择地址 -->
       <div class="section-address">
-        <p class="title">Shipping Address</p> 
+        <p class="title">Shipping Address</p>
         <div class="address-body">
           <ul>
-        
             <li
               v-for="(item) in address"
               :class="confirmAddress==item.id?'in-section':''"
@@ -30,27 +29,24 @@
               <h2>{{item.linkman}}</h2>
               <p class="phone">Phone: {{item.phone}}</p>
               <p class="address">Address:</p>
-              <p>
-                {{item.address}}
-              </p>
+              <p>{{item.address}}</p>
             </li>
-            
-            <li class="add-address"  @click="isAdd=true">
+            <li class="add-address" @click="isAdd=true">
               <i class="el-icon-circle-plus-outline"></i>
-              <p >Add new address</p>
+              <p>Add new address</p>
             </li>
           </ul>
         </div>
       </div>
       <!-- 选择地址END -->
 
-      <!-- 商品及优惠券 -->
+      <!-- 商品 -->
       <div class="section-goods">
         <p class="title">Products</p>
         <div class="goods-list">
           <ul>
             <li v-for="item in getCheckGoods" :key="item.id">
-              <img :src="item.productImg.includes('http:')?item.productImg:$target + item.productImg" />
+              <img :src="item.productImg.includes('http:') ? item.productImg : $target + item.productImg" />
               <span class="pro-name">{{item.productName}}</span>
               <span class="pro-price">{{item.price}}£ x {{item.num}}</span>
               <span class="pro-status"></span>
@@ -59,12 +55,12 @@
           </ul>
         </div>
       </div>
-      <!-- 商品及优惠券END -->
+      <!-- 商品END -->
 
       <!-- 配送方式 -->
       <div class="section-shipment">
         <p class="title">Delivery Method</p>
-        <p class="shipment">free shipping</p>
+        <p class="shipment">Free shipping</p>
       </div>
       <!-- 配送方式END -->
 
@@ -108,12 +104,7 @@
 
     <!-- 弹出框 -->
     <el-dialog title="Add Address" width="400px" center :visible.sync="isAdd">
-      <el-form
-        :model="add"
-        status-icon
-        ref="ruleForm"
-        class="demo-ruleForm"
-      >
+      <el-form :model="add" status-icon ref="ruleForm" class="demo-ruleForm">
         <el-form-item prop="linkman">
           <el-input
             prefix-icon="el-icon-user-solid"
@@ -134,169 +125,143 @@
           ></el-input>
         </el-form-item>
         <el-form-item prop="address">
-         <el-input
+          <el-input
             type="textarea"
-            :autosize="{ minRows: 2, maxRows: 4}"
+            :autosize="{ minRows: 2, maxRows: 4 }"
             placeholder="Please enter the full address!"
-            v-model="add.address">
-          </el-input>
+            v-model="add.address"
+          ></el-input>
         </el-form-item>
-      
         <el-form-item>
-          <el-button size="medium" type="primary" @click="save()" style="width:100%;">Save</el-button>
+          <el-button size="medium" type="primary" @click="save" style="width:100%;">Save</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
 
+    <!-- Loading Indicator -->
+    <div v-if="isLoading" class="loading">
+      Loading...
+    </div>
   </div>
-
 </template>
+
 <script>
 import WebHome from '../WebHome.vue';
-import { mapGetters } from "vuex";
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex';
+import feedbackService from '@/feedbackService';
+
 export default {
   components: {
     WebHome
   },
-  name: "",
   data() {
     return {
-      // 虚拟数据
-      confirmAddress: 0, // 选择的地址id,
-      isAdd:false,
-      dialogVisible:false,  //dialog框显示
-      dialogValue: null, //删除提示语
-      delId:0,  //删除的id
-      delIndex:0,
-      //添加地址接口
-      add:{
-        linkman:"",
-        phone:"",
-        address:""
+      confirmAddress: 0,
+      isAdd: false,
+      isLoading: true,
+      add: {
+        linkman: "",
+        phone: "",
+        address: ""
       },
-
-      // 地址列表
-      address: [
-        
-      ]
+      address: []
     };
   },
   created() {
-    // 如果没有勾选购物车商品直接进入确认订单页面,提示信息并返回购物车
     if (this.getCheckNum < 1) {
       this.notifyError("Please check the box before checkout");
       this.$router.push({ path: "/shoppingCart" });
     }
     const userData = localStorage.getItem('user');
     const parsedUserData = JSON.parse(userData);
-     // 获取轮播图数据
-     this.$axios
-      .post("api/user/address/list", {
-          user_id: parsedUserData.user.user_id
-      })
+    this.$axios
+      .post("api/user/address/list", { user_id: parsedUserData.user.user_id })
       .then(res => {
         this.address = res.data.data;
+        this.isLoading = false;
       })
       .catch(err => {
-        return Promise.reject(err);
-      })
+        console.error(err);
+        this.isLoading = false;
+      });
   },
   computed: {
-    // 结算的商品数量; 结算商品总计; 结算商品信息
-    ...mapGetters(["getCheckNum", "getTotalPrice", "getCheckGoods"])
+    ...mapGetters(["getCheckNum", "getTotalPrice", "getCheckGoods", "isGuidanceMode","getCurrentChallengeId"])
   },
   methods: {
     ...mapActions(["deleteShoppingCart"]),
-    //删除地址数据!
-    remove(){
+    remove() {
       this.$axios
-        .post("/api/user/address/remove", {
-          id: this.delId
-        })
+        .post("/api/user/address/remove", { id: this.delId })
         .then(res => {
-          switch (res.data.code) {
-            // “001”代表结算成功
-            case "001":
-               this.delId = 0;
-               this.dialogVisible=false
-               this.address.splice(this.delIndex,1);
-               this.delIndex  = 0; //要删除的下角标
-              // 提示结算结果 
-              this.notifySucceed(res.data.msg);  
-              break;
-            default:
-              // 提示失败信息
-              this.notifyError(res.data.msg);
+          if (res.data.code === "001") {
+            this.address = this.address.filter(addr => addr.id !== this.delId);
+            this.delId = 0;
+            this.dialogVisible = false;
+            this.notifySucceed(res.data.msg);
+          } else {
+            this.notifyError(res.data.msg);
           }
         })
         .catch(err => {
-          return Promise.reject(err);
+          console.error(err);
         });
     },
-
-    save(){
+    save() {
       const userData = localStorage.getItem('user');
       const parsedUserData = JSON.parse(userData);
       this.$axios
         .post("/api/user/address/save", {
           user_id: parsedUserData.user.user_id,
-          add: this.add
+          ...this.add
         })
         .then(res => {
-          switch (res.data.code) {
-            // “001”代表结算成功
-            case "001":
-              this.isAdd = false; //隐藏弹出框
-              this.address = res.data.data; //接收新地址内容
-              // 提示结算结果 
-              this.notifySucceed(res.data.msg);  
-              break;
-            default:
-              // 提示失败信息
-              this.notifyError(res.data.msg);
+          if (res.data.code === "001") {
+            this.isAdd = false;
+            this.address = res.data.data;
+            this.notifySucceed(res.data.msg);
+          } else {
+            this.notifyError(res.data.msg);
           }
         })
         .catch(err => {
-          return Promise.reject(err);
+          console.error(err);
         });
-
     },
     addOrder() {
       const userData = localStorage.getItem('user');
       const parsedUserData = JSON.parse(userData);
+      const challengeId = this.getCurrentChallengeId;
       this.$axios
         .post("/api/order/save", {
           user_id: parsedUserData.user.user_id,
           products: this.getCheckGoods
         })
         .then(res => {
-          let products = this.getCheckGoods;
-          switch (res.data.code) {
-            // “001”代表结算成功
-            case "001":
-              for (let i = 0; i < products.length; i++) {
-                const temp = products[i];
-                // 删除已经结算的购物车商品
-                this.deleteShoppingCart(temp.id);
-              }
-              // 提示结算结果
-              this.notifySucceed(res.data.msg);
-              // 跳转我的订单页面
-              this.$router.push({ path: "/order" });
-              break;
-            default:
-              // 提示失败信息
-              this.notifyError(res.data.msg);
+          if (res.data.code === "001") {
+            this.getCheckGoods.forEach(item => {
+              this.deleteShoppingCart(item.id);
+            });
+            this.notifySucceed(res.data.msg);
+            if (this.isGuidanceMode && challengeId === 1) {
+              feedbackService.sendFeedback('You have successfully placed your order! Please note how to access the order information and how the system responds to your request.');
+              setTimeout(() => {
+                feedbackService.sendFeedback("Press the magic F12 key to summon up your browser's developer tools, then click on the 'Network' (Network) tab and refresh this page, you'll find something!");
+              }, 4000); // 延迟4秒发送
+            }
+            this.$router.push({ path: '/order' });
+          } else {
+            this.notifyError(res.data.msg);
           }
         })
         .catch(err => {
-          return Promise.reject(err);
+          console.error(err);
         });
     }
   }
 };
 </script>
+
 <style scoped>
 .confirmOrder {
   background-color: #f5f5f5;
@@ -527,6 +492,13 @@ export default {
   color: #fff;
 }
 /* 结算导航CSS */
+
+/* Loading Indicator CSS */
+.loading {
+  text-align: center;
+  font-size: 20px;
+  margin-top: 50px;
+}
 
 /* 主要内容容器CSS END */
 </style>

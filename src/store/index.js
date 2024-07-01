@@ -26,10 +26,12 @@ export default new Vuex.Store({
     challenges: [],
     user: null,
     socket: null,
+    guidanceMode: false,
   },
   getters: {
     getCurrentChallengeId: state => state.currentChallengeId,
-    getChallenges: state => state.challenges
+    getChallenges: state => state.challenges,
+    isGuidanceMode: (state) => state.guidanceMode
   },
   mutations: {
     setCurrentOrderId(state, orderId) {
@@ -51,6 +53,9 @@ export default new Vuex.Store({
       if (state.socket) {
         state.socket.close();
       }
+    },
+    setGuidanceMode(state, mode) {
+      state.guidanceMode = mode;
     }
   },
   actions: {
@@ -69,6 +74,10 @@ export default new Vuex.Store({
             reject(error);
           });
       });
-    }
+    },
+    startChallenge({ commit }, { challengeId, guidance }) {
+      commit('setCurrentChallengeId', challengeId);
+      commit('setGuidanceMode', guidance);
+    },
   }
 })

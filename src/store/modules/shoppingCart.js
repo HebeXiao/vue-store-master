@@ -148,6 +148,6 @@ export default {
     },
     checkAll ({ commit }, data) {
       commit('checkAll', data);
-    }
+    },
   }
 }

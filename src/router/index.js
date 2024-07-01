@@ -77,7 +77,7 @@ const routes = [
     component: () => import('../views/ConfirmOrder.vue'),
     meta: {
       requireAuth: true // 需要验证登录状态
-    }
+    },
   }
 ]
 

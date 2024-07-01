@@ -21,10 +21,10 @@
             </div>
 
             <div class="menu-items">
-            <el-menu-item v-if="this.$store.getters.getUser" index="order">
+            <el-menu-item v-if="this.$store.getters.getUser" index="/order">
                 <router-link to="/order">Orders</router-link>
             </el-menu-item>
-            <el-menu-item v-if="this.$store.getters.getUser" index="shoppingCart" :class="getNum > 0 ? 'shopCart-full' : 'shopCart'">
+            <el-menu-item v-if="this.$store.getters.getUser" index="/shoppingCart" :class="getNum > 0 ? 'shopCart-full' : 'shopCart'">
                 <router-link to="/shoppingCart">
                 <i class="el-icon-shopping-cart-full"></i> Basket
                 <span class="num">({{getNum}})</span>
@@ -141,14 +141,6 @@ export default {
     isRegister(val) {
       this.register = val;
     },
-    // 点击搜索按钮
-    searchClick() {
-      if (this.search != "") {
-        // 跳转到全部商品页面,并传递搜索条件
-        this.$router.push({ path: "/goods", query: { search: this.search } });
-        this.search = "";
-      }
-    }
   }
 };
 </script>

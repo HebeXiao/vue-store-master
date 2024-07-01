@@ -137,16 +137,13 @@ export default {
       .then(res => {
         if (res.data.code === "001") {
             this.orders = res.data.data;
-            if (!token) {
-                this.notifySuccess('挑战成功');
-            }
         } else {
             this.notifyError(res.data.msg);
         }
       })
       .catch(err => {
         if (err.response && err.response.status === 503) {
-          this.notifyError('服务不可用，请稍后再试。');
+          this.notifyError('Service is unavailable, please try again later.');
         } else {
           this.notifyError(err.response.data.msg);
           this.checkChallengeSuccess(err.response);
