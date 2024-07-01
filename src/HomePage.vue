@@ -7,7 +7,7 @@
       <div class="nav">
         <ul>
           <li>
-            <router-link to="/" class="nav-link" style="font-size: 18px;">Home</router-link>
+            <el-button @click="goBack('/')" type="text" style="font-size: 18px;">Home</el-button>
           </li>
           <!-- 只有登录后显示以下内容 -->
           <li v-if="!this.$store.getters.getUser">
@@ -16,9 +16,7 @@
             <el-button type="text" @click="register = true" style="font-size: 18px;">Register</el-button>
           </li>
           <li v-else>
-            <router-link to="/scoreboard" class="nav-link">
-                    <el-button type="text" style="font-size: 18px;">Scoreboard</el-button>
-            </router-link>
+            <el-button @click="goBack('/scoreboard')" type="text" style="font-size: 18px;">Scoreboard</el-button>
             <span class="sep"></span>
             <span class="sep"></span>
             <el-popover placement="top" width="180" v-model="visible">
@@ -99,7 +97,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getUser", "getNum"])
+    ...mapGetters(["getUser", "getNum","getCurrentChallengeId"])
   },
   watch: {
     // 获取vuex的登录状态
@@ -130,6 +128,34 @@ export default {
   },
   methods: {
     ...mapActions(["setUser", "setShowLogin", "setShoppingCart"]),
+    goBack(targetRoute) {
+      // 检查是否有 challenge_id
+      const challengeId = this.getCurrentChallengeId;
+
+      if (challengeId) {
+        // 如果有 challenge_id，弹出确认对话框询问用户是否要退出挑战
+        this.$confirm('Are you sure you want to exit the challenge?', {
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
+          type: 'warning'
+        }).then(() => {
+          // 如果用户选择是，先重置 challenge_id
+          this.$store.commit('resetChallengeId');
+
+          // 关闭 WebSocket 连接
+          this.$store.commit('closeSocket');
+
+          // 然后跳转到指定的路径
+          this.$router.push(targetRoute);
+        }).catch(() => {
+          // 如果用户选择否，不执行任何操作
+          // 可选：可以在这里添加一些日志或者提示信息
+        });
+      } else {
+        // 如果没有 challenge_id，直接跳转到指定的路径
+        this.$router.push(targetRoute);
+      }
+    },
     login() {
       // 点击登录按钮, 通过更改vuex的showLogin值显示登录组件
       this.setShowLogin(true);
@@ -161,7 +187,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scope>
 /* 全局CSS */
 * {
   padding: 0;
@@ -289,4 +315,5 @@ a:hover {
   padding: 0 22px;
 }
 /* 底栏容器CSS END */
+
 </style>

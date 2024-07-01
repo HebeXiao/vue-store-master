@@ -99,7 +99,7 @@ export default {
   },
   methods: {
     ...mapActions(["setUser", "setShowLogin", "setShoppingCart"]),
-    goBack() {
+   goBack() {
       // 检查当前路由是否为 'goods'
       if (this.$route.path === '/goods') {
         // 弹出确认对话框询问用户是否要退出挑战
@@ -110,6 +110,9 @@ export default {
         }).then(() => {
           // 如果用户选择是，先重置 challenge_id
           this.$store.commit('resetChallengeId');
+
+          // 关闭 WebSocket 连接
+          this.$store.commit('closeSocket');
 
           // 然后跳转到 '/scoreboard'
           this.$router.push('/scoreboard');

@@ -25,6 +25,7 @@ export default new Vuex.Store({
     currentChallengeId: null, //存储当前挑战ID
     challenges: [],
     user: null,
+    socket: null,
   },
   getters: {
     getCurrentChallengeId: state => state.currentChallengeId,
@@ -42,6 +43,14 @@ export default new Vuex.Store({
     },
     resetChallengeId(state) {
       state.currentChallengeId = null; // 或者使用默认值
+    },
+    setSocket(state, socket) {
+      state.socket = socket;
+    },
+    closeSocket(state) {
+      if (state.socket) {
+        state.socket.close();
+      }
     }
   },
   actions: {

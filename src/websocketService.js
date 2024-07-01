@@ -1,6 +1,5 @@
 // src/websocketService.js
 let socket;
-const reconnectInterval = 1000; // 1 second
 let reconnectTimeout;
 import store from '@/store'; // 确保路径正确
 
@@ -10,8 +9,10 @@ export function connectWebSocket() {
     socket.close(); // 关闭旧的会话
   }
 
+ 
   socket = new WebSocket('ws://localhost:3006/challenge');
 
+  store.commit('setSocket', socket);
   socket.onmessage = (event) => {
     try {
       const data = JSON.parse(event.data);
@@ -25,7 +26,7 @@ export function connectWebSocket() {
       const user_id = parsedUserData.user.user_id;
 
       if (currentChallengeId === 1 &&  user_id !== receivedUserId) {
-        if (message === 'Challenge succeeded: Triggered by invalid token.') {
+        if (message === 'Challenge succeeded: Triggered by user ID mismatch.') {
           // 当 challenge_id = 1 并且 userID 匹配时才触发以下操作
           window.location.href = 'http://localhost:8080/#/ChallengeResult';
         }
@@ -37,8 +38,6 @@ export function connectWebSocket() {
     }
   };
 
-
-
   socket.onopen = () => {
     console.log('WebSocket connection established');
     if (reconnectTimeout) {
@@ -48,8 +47,9 @@ export function connectWebSocket() {
   };
 
   socket.onclose = () => {
-    console.log('WebSocket connection closed, attempting to reconnect...');
-    reconnectTimeout = setTimeout(connectWebSocket, reconnectInterval); // 尝试重连
+    console.log('WebSocket connection closed.');
+    // 当连接关闭时，也更新 Vuex store
+    store.commit('setSocket', null);
   };
 
   socket.onerror = (error) => {
@@ -65,5 +65,4 @@ export function sendMessage(message) {
   }
 }
 
-// 初始连接
-connectWebSocket();
+
