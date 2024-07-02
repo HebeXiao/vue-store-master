@@ -61,7 +61,7 @@ const routes = [
     component: () => import('../views/ShoppingCart.vue'),
     meta: {
       requireAuth: true // 需要验证登录状态
-    }
+    },
   },
   {
     path: '/order',

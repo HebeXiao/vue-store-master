@@ -3,9 +3,15 @@
     <WebHome />
     <!-- 购物车头部 -->
     <div class="cart-header">
-      <div class="cart-header-content" style="display: flex; justify-content: center; align-items: center;">
+      <div
+        class="cart-header-content"
+        style="display: flex; justify-content: center; align-items: center"
+      >
         <p>
-          <i class="el-icon-shopping-cart-full" style="color:#ff6700; font-weight: 600;"></i>
+          <i
+            class="el-icon-shopping-cart-full"
+            style="color: #ff6700; font-weight: 600"
+          ></i>
           My Shopping Cart
         </p>
       </div>
@@ -13,7 +19,7 @@
     <!-- 购物车头部END -->
 
     <!-- 购物车主要内容区 -->
-    <div class="content" v-if="getShoppingCart.length>0">
+    <div class="content" v-if="getShoppingCart.length > 0">
       <ul>
         <!-- 购物车表头 -->
         <li class="header">
@@ -30,31 +36,53 @@
         <!-- 购物车表头END -->
 
         <!-- 购物车列表 -->
-        <li class="product-list" v-for="(item,index) in getShoppingCart" :key="item.id">
+        <li
+          class="product-list"
+          v-for="(item, index) in getShoppingCart"
+          :key="item.id"
+        >
           <div class="pro-check">
-            <el-checkbox :value="item.check" @change="checkChange($event,index)"></el-checkbox>
+            <el-checkbox
+              :value="item.check"
+              @change="checkChange($event, index)"
+            ></el-checkbox>
           </div>
           <div class="pro-img">
-            <router-link :to="{ path: '/goods/details', query: {productID:item.productID} }">
-              <img :src="item.productImg.includes('http:')?item.productImg:$target + item.productImg" />
+            <router-link
+              :to="{
+                path: '/goods/details',
+                query: { productID: item.productID },
+              }"
+            >
+              <img
+                :src="
+                  item.productImg.includes('http:')
+                    ? item.productImg
+                    : $target + item.productImg
+                "
+              />
             </router-link>
           </div>
           <div class="pro-name">
             <router-link
-              :to="{ path: '/goods/details', query: {productID:item.productID} }"
-            >{{item.productName}}</router-link>
+              :to="{
+                path: '/goods/details',
+                query: { productID: item.productID },
+              }"
+              >{{ item.productName }}</router-link
+            >
           </div>
-          <div class="pro-price">{{item.price}}£</div>
+          <div class="pro-price">{{ item.price }}£</div>
           <div class="pro-num">
             <el-input-number
               size="small"
               :value="item.num"
-              @change="handleChange($event,index,item.productID)"
+              @change="handleChange($event, index, item.productID)"
               :min="1"
               :max="item.maxNum"
             ></el-input-number>
           </div>
-          <div class="pro-total pro-total-in">{{item.price*item.num}}£</div>
+          <div class="pro-total pro-total-in">{{ item.price * item.num }}£</div>
           <div class="pro-action">
             <el-popover placement="right">
               <p>Are you sure about the deletion?</p>
@@ -62,16 +90,21 @@
                 <el-button
                   type="primary"
                   size="mini"
-                  @click="deleteItem($event,item.id,item.productID)"
-                >Confirm</el-button>
+                  @click="deleteItem($event, item.id, item.productID)"
+                  >Confirm</el-button
+                >
               </div>
-              <i class="el-icon-error" slot="reference" style="font-size: 18px;"></i>
+              <i
+                class="el-icon-error"
+                slot="reference"
+                style="font-size: 18px"
+              ></i>
             </el-popover>
           </div>
         </li>
         <!-- 购物车列表END -->
       </ul>
-      <div style="height:20px;background-color: #f5f5f5"></div>
+      <div style="height: 20px; background-color: #f5f5f5"></div>
       <!-- 购物车底部导航条 -->
       <div class="cart-bar">
         <div class="cart-bar-left">
@@ -80,17 +113,22 @@
           </span>
           <span class="sep">|</span>
           <span class="cart-total">
-            Total 
-            <span class="cart-total-num">{{getNum}}</span> items，
-            <span class="cart-total-num">{{getCheckNum}}</span> items selected
+            Total
+            <span class="cart-total-num">{{ getNum }}</span> items，
+            <span class="cart-total-num">{{ getCheckNum }}</span> items selected
           </span>
         </div>
         <div class="cart-bar-right">
           <span>
             <span class="total-price-title">Total：</span>
-            <span class="total-price">{{getTotalPrice}}£</span>
+            <span class="total-price">{{ getTotalPrice }}£</span>
           </span>
-          <div :class="getCheckNum > 0 ? 'btn-primary' : 'btn-primary-disabled'" @click="handleOrderClick">Order</div>
+          <div
+            :class="getCheckNum > 0 ? 'btn-primary' : 'btn-primary-disabled'"
+            @click="handleOrderClick"
+          >
+            Order
+          </div>
         </div>
       </div>
       <!-- 购物车底部导航条END -->
@@ -110,23 +148,50 @@
 <script>
 import { mapActions } from "vuex";
 import { mapGetters } from "vuex";
-import WebHome from '../WebHome.vue';
+import WebHome from "../WebHome.vue";
 
 export default {
-   components: {
-    WebHome
+  components: {
+    WebHome,
   },
   data() {
     return {};
   },
+  created() {
+    this.initShoppingCart(); 
+  },
   methods: {
-    ...mapActions(["updateShoppingCart", "deleteShoppingCart", "checkAll"]),
-     // 处理订单按钮点击
+    ...mapActions(["updateShoppingCart", "deleteShoppingCart", "checkAll","setShoppingCart"]),
+
+    initShoppingCart() {
+      const userData = localStorage.getItem("user");
+      const parsedUserData = JSON.parse(userData);
+
+      // 用户已经登录,获取该用户的购物车信息
+      this.$axios
+        .post("/api/cart/list", {
+          user_id: parsedUserData.user.user_id,
+        })
+        .then((res) => {
+          if (res.data.code === "001") {
+            // 001 为成功, 更新vuex购物车状态
+            this.setShoppingCart(res.data.data);
+          } else {
+            // 提示失败信息
+            this.notifyError(res.data.msg);
+          }
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    },
+
+    // 处理订单按钮点击
     handleOrderClick() {
-      if (this.getCheckNum > 0) {
-        this.$router.push('/confirmOrder');
+      if (this.canOrder) {
+        this.$router.push("/confirmOrder");
       } else {
-        this.notifyError('Please select items to order.');
+        this.notifyError("Please select items to order.");
       }
     },
     // 修改商品数量的时候调用该函数
@@ -134,15 +199,15 @@ export default {
       // 当修改数量时，默认勾选
       this.updateShoppingCart({ key: key, prop: "check", val: true });
       // 向后端发起更新购物车的数据库信息请求
-      const userData = localStorage.getItem('user');
+      const userData = localStorage.getItem("user");
       const parsedUserData = JSON.parse(userData);
       this.$axios
         .post("/api/cart/update", {
           user_id: parsedUserData.user.user_id,
           product_id: productID,
-          num: currentValue
+          num: currentValue,
         })
-        .then(res => {
+        .then((res) => {
           switch (res.data.code) {
             case "001":
               // “001”代表更新成功
@@ -150,7 +215,7 @@ export default {
               this.updateShoppingCart({
                 key: key,
                 prop: "num",
-                val: currentValue
+                val: currentValue,
               });
               // 提示更新成功信息
               this.notifySucceed(res.data.msg);
@@ -160,7 +225,7 @@ export default {
               this.notifyError(res.data.msg);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           return Promise.reject(err);
         });
     },
@@ -170,14 +235,14 @@ export default {
     },
     // 向后端发起删除购物车的数据库信息请求
     deleteItem(e, id, productID) {
-      const userData = localStorage.getItem('user');
+      const userData = localStorage.getItem("user");
       const parsedUserData = JSON.parse(userData);
       this.$axios
         .post("/api/cart/remove", {
           user_id: parsedUserData.user.user_id,
-          product_id: productID
+          product_id: productID,
         })
-        .then(res => {
+        .then((res) => {
           switch (res.data.code) {
             case "001":
               // “001” 删除成功
@@ -191,17 +256,18 @@ export default {
               this.notifyError(res.data.msg);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           return Promise.reject(err);
         });
-    }
+    },
   },
   computed: {
     ...mapGetters([
       "getShoppingCart",
       "getCheckNum",
       "getTotalPrice",
-      "getNum"
+      "getNum",
+      "getCheckGoods",
     ]),
     isAllCheck: {
       get() {
@@ -209,9 +275,12 @@ export default {
       },
       set(val) {
         this.checkAll(val);
-      }
-    }
-  }
+      },
+    },
+    canOrder() {
+      return this.getCheckGoods.length > 0;
+    },
+  },
 };
 </script>
 <style scoped>

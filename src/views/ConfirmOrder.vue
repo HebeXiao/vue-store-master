@@ -14,7 +14,7 @@
     <!-- 头部END -->
 
     <!-- 主要内容容器 -->
-    <div class="content" v-if="!isLoading">
+    <div class="content">
       <!-- 选择地址 -->
       <div class="section-address">
         <p class="title">Shipping Address</p>
@@ -45,12 +45,11 @@
         <p class="title">Products</p>
         <div class="goods-list">
           <ul>
-            <li v-for="item in getCheckGoods" :key="item.id">
-              <img :src="item.productImg.includes('http:') ? item.productImg : $target + item.productImg" />
-              <span class="pro-name">{{item.productName}}</span>
-              <span class="pro-price">{{item.price}}£ x {{item.num}}</span>
-              <span class="pro-status"></span>
-              <span class="pro-total">{{item.price * item.num}}£</span>
+            <li v-for="item in processedGoods" :key="item.id">
+              <img :src="item.imageUrl" />
+              <span class="pro-name">{{ item.productName }}</span>
+              <span class="pro-price">{{ item.displayPrice }}</span>
+              <span class="pro-total">{{ item.totalPrice }}</span>
             </li>
           </ul>
         </div>
@@ -137,11 +136,6 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-
-    <!-- Loading Indicator -->
-    <div v-if="isLoading" class="loading">
-      Loading...
-    </div>
   </div>
 </template>
 
@@ -158,7 +152,6 @@ export default {
     return {
       confirmAddress: 0,
       isAdd: false,
-      isLoading: true,
       add: {
         linkman: "",
         phone: "",
@@ -178,15 +171,23 @@ export default {
       .post("api/user/address/list", { user_id: parsedUserData.user.user_id })
       .then(res => {
         this.address = res.data.data;
-        this.isLoading = false;
       })
       .catch(err => {
         console.error(err);
-        this.isLoading = false;
       });
   },
   computed: {
-    ...mapGetters(["getCheckNum", "getTotalPrice", "getCheckGoods", "isGuidanceMode","getCurrentChallengeId"])
+    ...mapGetters(["getCheckNum", "getTotalPrice", "getCheckGoods", "isGuidanceMode","getCurrentChallengeId"]),
+      processedGoods() {
+        const goods = this.getCheckGoods.map(item => ({
+          ...item,
+          displayPrice: `${item.price}£ x ${item.num}`,
+          totalPrice: `${item.price * item.num}£`,
+          imageUrl: item.productImg.includes('http:') ? item.productImg : this.$target + item.productImg
+        }));
+        console.log('Processed Goods:', goods);
+        return goods;
+      }
   },
   methods: {
     ...mapActions(["deleteShoppingCart"]),
@@ -492,13 +493,6 @@ export default {
   color: #fff;
 }
 /* 结算导航CSS */
-
-/* Loading Indicator CSS */
-.loading {
-  text-align: center;
-  font-size: 20px;
-  margin-top: 50px;
-}
 
 /* 主要内容容器CSS END */
 </style>

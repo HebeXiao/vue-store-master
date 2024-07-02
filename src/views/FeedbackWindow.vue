@@ -1,8 +1,10 @@
 <template>
   <transition name="fade">
     <div v-if="visible" class="feedback-window">
-      <h4>Feedback</h4>
-      <p>{{ message }}</p>
+      <img src="@/assets/imgs/robot.png" alt="Robot" class="robot-image">
+      <div class="message-container">
+        <p style="font-size: 13px;">{{ message }}</p>
+      </div>
     </div>
   </transition>
 </template>
@@ -47,7 +49,7 @@ export default {
   top: 20px;
   left: 20px;
   padding: 15px;
-  background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient background */
+  background: linear-gradient(to right, #2b972f, #4CAF50); /* Gradient background */
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   color: white;
@@ -56,16 +58,19 @@ export default {
   width: auto;
   min-width: 200px; /* Ensure it has a decent width */
   max-width: 300px; /* Max width to avoid too long lines */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-h4 {
-  margin: 0 0 10px 0;
-  font-size: 16px;
+.robot-image {
+  width: 50px; /* Adjust the size as needed */
+  height: auto;
+  display: block;
+  margin-bottom: 3px; /* Space between image and text */
 }
 
-p {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.4;
+.message-container {
+  text-align: center;
 }
 </style>

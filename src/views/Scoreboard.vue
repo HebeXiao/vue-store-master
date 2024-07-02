@@ -113,7 +113,7 @@ export default {
           ];
           break;
         case 2:
-          welcomeMessages = ['欢迎开始挑战2！', '请继续关注后续的指导。'];
+          welcomeMessages = ['Welcome to Challenge 2！', 'Stay tuned for subsequent guidance.'];
           break;
       }
 
