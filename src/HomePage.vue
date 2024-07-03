@@ -196,6 +196,20 @@ export default {
   border: 0;
   list-style: none;
 }
+#app .el-header {
+  padding: 0;
+}
+#app .el-main {
+  min-height: 100px;
+  padding: 0 0;
+}
+#app .el-footer {
+  padding: 0;
+}
+a,
+a:hover {
+  text-decoration: none;
+}
 /* Global CSS END */
 
 /* Top navigation bar CSS */
