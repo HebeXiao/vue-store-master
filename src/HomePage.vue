@@ -1,230 +1,204 @@
-<!-- 教育工具的顶部导航栏（登录注册）-->
+<!-- Top navigation bar for educational tools-->
 <template>
   <div id="app" name="app">
     <el-container>
-      <!-- 顶部导航栏 -->
+      <!-- Top Navigation Bar -->
       <div class="topbar" v-if="!$route.meta.hideRootComponents">
-      <div class="nav">
-        <ul>
-          <li>
-            <el-button @click="goBack('/')" type="text" style="font-size: 18px;">Home</el-button>
-          </li>  
-          <li v-if="!this.$store.getters.getUser">
-            <el-button type="text" @click="login" style="font-size: 18px;">Login</el-button>
-            <span class="sep">|</span>
-            <el-button type="text" @click="register = true" style="font-size: 18px;">Register</el-button>
-          </li>
-          <!-- 只有登录后显示以下内容 -->
-          <li v-else>
-            <el-button @click="goBack('/scoreboard')" type="text" style="font-size: 18px;">Scoreboard</el-button>
-          </li>
-          <li v-if="this.$store.getters.getUser && getCurrentChallengeId">
-              <el-button @click="showHint" type="text" style="font-size: 18px;">Hint</el-button>
-          </li>
-          <li v-if="this.$store.getters.getUser">
-            <span class="sep"></span>
-            <span class="sep"></span>
-            <el-popover placement="top" width="180" v-model="visible">
-              <p>Are you sure you want to log out?</p>
-              <div style="text-align: right; margin: 10px 0 0">
-                <el-button size="mini" type="text" @click="visible = false">No</el-button>
-                <el-button type="primary" size="mini" @click="logout">Yes</el-button>
-              </div>
-              <el-button type="text" slot="reference" style="font-size: 16px;">Logout</el-button>
-            </el-popover>
-          </li>
-        </ul>
-        <hint-window ref="hintWindow"></hint-window>
+        <div class="nav">
+          <ul>
+            <li>
+              <el-button
+                @click="goBack('/')"
+                type="text"
+                style="font-size: 18px"
+                >Home</el-button
+              >
+            </li>
+            <li v-if="!this.$store.getters.getUser">
+              <el-button type="text" @click="login" style="font-size: 18px"
+                >Login</el-button
+              >
+              <span class="sep">|</span>
+              <el-button
+                type="text"
+                @click="register = true"
+                style="font-size: 18px"
+                >Register</el-button
+              >
+            </li>
+            <!-- Only the following is displayed when logged in -->
+            <li v-else>
+              <el-button
+                @click="goBack('/scoreboard')"
+                type="text"
+                style="font-size: 18px"
+                >Scoreboard</el-button
+              >
+            </li>
+            <li v-if="this.$store.getters.getUser && getCurrentChallengeId">
+              <el-button @click="showHint" type="text" style="font-size: 18px"
+                >Hint</el-button
+              >
+            </li>
+            <li v-if="this.$store.getters.getUser">
+              <span class="sep"></span>
+              <span class="sep"></span>
+              <el-popover placement="top" width="180" v-model="visible">
+                <p>Are you sure you want to log out?</p>
+                <div style="text-align: right; margin: 10px 0 0">
+                  <el-button size="mini" type="text" @click="visible = false"
+                    >No</el-button
+                  >
+                  <el-button type="primary" size="mini" @click="logout"
+                    >Yes</el-button
+                  >
+                </div>
+                <el-button type="text" slot="reference" style="font-size: 16px"
+                  >Logout</el-button
+                >
+              </el-popover>
+            </li>
+          </ul>
+          <hint-window ref="hintWindow"></hint-window>
+        </div>
       </div>
-      </div>
-      <!-- 顶部导航栏END -->
+      <!-- Top navigation bar END -->
 
-      <!-- 登录模块 -->
+      <!-- Login Module -->
       <MyLogin></MyLogin>
-      <!-- 注册模块 -->
+      <!-- Registration Module -->
       <MyRegister :register="register" @fromChild="isRegister"></MyRegister>
 
-      <!-- 主要区域容器 -->
+      <!-- Major area packagings -->
       <el-main>
         <keep-alive>
           <router-view></router-view>
         </keep-alive>
       </el-main>
-      <!-- 主要区域容器END -->
+      <!-- Major area packagings END -->
 
-      <!-- 底栏容器 -->
+      <!-- Bottom row container -->
       <el-footer>
         <div class="footer" v-if="!$route.meta.hideRootComponents">
           <div class="ng-promise-box">
             <div class="ng-promise">
               <p class="text">
-                <a class="icon1" href="javascript:;">Learn how hackers find security vulnerabilities!</a>
-                <a class="icon2" href="javascript:;">Learn how hackers exploit web applications!</a>
-                <a class="icon3" style="margin-right: 0" href="javascript:;">Learn how to stop them!</a>
+                <a class="icon1" href="javascript:;"
+                  >Learn how hackers find security vulnerabilities!</a
+                >
+                <a class="icon2" href="javascript:;"
+                  >Learn how hackers exploit web applications!</a
+                >
+                <a class="icon3" style="margin-right: 0" href="javascript:;"
+                  >Learn how to stop them!</a
+                >
               </p>
             </div>
           </div>
           <div class="mod_help">
-            <p>
-              <router-link to="/">Home</router-link>
-              <span>|</span>
-              <router-link to="/about">About</router-link>
+            <p class="coty">
+              Web Application Exploits and Defenses &copy; 2012-2021
             </p>
-            <p class="coty">Web Application Exploits and Defenses &copy; 2012-2021</p>
           </div>
         </div>
       </el-footer>
-      <!-- 底栏容器END -->
+      <!-- Bottom row container END -->
     </el-container>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import { mapGetters } from "vuex";
-import HintWindow from './views/HintWindow.vue';
+import { mapActions, mapMutations, mapGetters } from "vuex";
+import HintWindow from "./views/HintWindow.vue";
 export default {
   components: {
-    HintWindow
+    HintWindow,
   },
   beforeUpdate() {
     this.activeIndex = this.$route.path;
   },
   data() {
     return {
-      activeIndex: "", // 头部导航栏选中的标签
-      search: "", // 搜索条件
-      register: false, // 是否显示注册组件
-      visible: false // 是否退出登录
+      activeIndex: "", // Selected tabs in the header navigation bar
+      register: false, // Whether to show registered components
+      visible: false, // Whether to log out
     };
   },
   created() {
-    // 获取浏览器localStorage，判断用户是否已经登录
+    // Get the browser localStorage and determine if the user is logged in.
     if (localStorage.getItem("user")) {
-      // 如果已经登录，设置vuex登录状态
       this.setUser(JSON.parse(localStorage.getItem("user")));
     }
   },
   computed: {
-    ...mapGetters(["getUser", "getNum", "getCurrentChallengeId"])
-  },
-  watch: {
-    // 获取vuex的登录状态
-    getUser: function(val) {
-      if (val === "") {
-        // 用户没有登录
-        // this.setShoppingCart([]);
-      } else {
-        // 用户已经登录,获取该用户的购物车信息
-        this.$axios
-          .post("/api/cart/list", {
-            user_id: val.user_id
-          })
-          .then(res => {
-            if (res.data.code === "001") {
-              // 001 为成功, 更新vuex购物车状态
-              // this.setShoppingCart(res.data.data);
-            } else {
-              // 提示失败信息
-              this.notifyError(res.data.msg);
-            }
-          })
-          .catch(err => {
-            return Promise.reject(err);
-          });
-      }
-    }
+    ...mapGetters(["getUser", "getNum", "getCurrentChallengeId"]),
   },
   methods: {
-    ...mapActions(["setUser", "setShowLogin", "setShoppingCart"]),
-    showHint() {
-      // 使用 refs 来调用 HintWindow 的方法
-      this.$refs.hintWindow.open();
-    },
-    goBack(targetRoute) {
-      // 检查是否有 challenge_id
-      const challengeId = this.getCurrentChallengeId;
-
-      if (challengeId) {
-        // 如果有 challenge_id，弹出确认对话框询问用户是否要退出挑战
-        this.$confirm('Are you sure you want to exit the challenge?', {
-          confirmButtonText: 'Yes',
-          cancelButtonText: 'No',
-          type: 'warning'
-        }).then(() => {
-          // 如果用户选择是，先重置 challenge_id
-          this.$store.commit('resetChallengeId');
-
-          // 关闭 WebSocket 连接
-          this.$store.commit('closeSocket');
-
-          // 然后跳转到指定的路径
-          this.$router.push(targetRoute);
-        }).catch(() => {
-          // 如果用户选择否，不执行任何操作
-          // 可选：可以在这里添加一些日志或者提示信息
-        });
-      } else {
-        // 如果没有 challenge_id，直接跳转到指定的路径
-        this.$router.push(targetRoute);
-      }
-    },
-    login() {
-      // 点击登录按钮, 通过更改vuex的showLogin值显示登录组件
-      this.setShowLogin(true);
-    },
-    // 退出登录
-    logout() {
-      this.visible = false;
-      // 清空本地登录信息
-      localStorage.setItem("user", "");
-      // 清空vuex登录信息
-      this.setUser("");
-      this.$router.push('/');  // Redirect to home page
-      this.notifySucceed("Successfully logged out");
-      this.setCurrentChallengeId("");
-    },
-    // 接收注册子组件传过来的数据
+    ...mapActions(["setUser", "setShowLogin"]),
+    ...mapMutations(["setCurrentChallengeId"]),
+    // Receive data from registered subcomponents
     isRegister(val) {
       this.register = val;
     },
-    // 点击搜索按钮
-    searchClick() {
-      if (this.search != "") {
-        // 跳转到全部商品页面,并传递搜索条件
-        this.$router.push({ path: "/goods", query: { search: this.search } });
-        this.search = "";
+    // Click the login button, and show the login component by changing the showLogin value of the vuex.
+    login() {
+      this.setShowLogin(true);
+    },
+    // Log out
+    logout() {
+      this.visible = false;
+      localStorage.setItem("user", "");
+      this.setUser("");
+      // If in the challenge
+      if (this.getCurrentChallengeId) {
+        this.setCurrentChallengeId("");
+        this.$store.commit("closeSocket");
       }
-    }
-  }
+      this.$router.push("/").catch((err) => {
+        console.error("Router error:", err);
+      });
+      this.notifySucceed("Successfully logged out");
+    },
+    // Calling HintWindow methods with refs
+    showHint() {
+      this.$refs.hintWindow.open();
+    },
+    // Exit the challenge via the navigation bar
+    goBack(targetRoute) {
+      if (this.getCurrentChallengeId) {
+        this.$confirm("Are you sure you want to exit the challenge?", {
+          confirmButtonText: "Yes",
+          cancelButtonText: "No",
+          type: "warning",
+        })
+          // if yes
+          .then(() => {
+            this.$store.commit("resetChallengeId");
+            this.$store.commit("closeSocket");
+            this.$router.push(targetRoute);
+          })
+          // if no
+          .catch(() => {});
+      } else {
+        // If not in the challenge, jump directly to the specified path
+        this.$router.push(targetRoute);
+      }
+    },
+  },
 };
 </script>
 
 <style scoped>
-/* 全局CSS */
+/* Global CSS END */
 * {
   padding: 0;
   margin: 0;
   border: 0;
   list-style: none;
 }
-#app .el-header {
-  padding: 0;
-}
-#app .el-main {
-  min-height: 100px;
-  padding: 0 0;
-}
-#app .el-footer {
-  padding: 0;
-}
-a,
-a:hover {
-  text-decoration: none;
-}
-/* 全局CSS END */
+/* Global CSS END */
 
-/* 顶部导航栏CSS */
+/* Top navigation bar CSS */
 .topbar {
   height: 50px;
   background-color: #3d3d3d;
@@ -263,35 +237,14 @@ a:hover {
 .topbar .nav a:hover {
   color: #fff;
 }
-.topbar .nav .shopCart {
-  width: 120px;
-  background: #424242;
-}
-.topbar .nav .shopCart:hover {
-  background: #fff;
-}
-.topbar .nav .shopCart:hover a {
-  color: #ff6700;
-}
-.topbar .nav .shopCart-full {
-  width: 120px;
-  background: #ff6700;
-}
-.topbar .nav .shopCart-full a {
-  color: white;
-}
-/* 顶部导航栏CSS END */
+/* Top navigation bar CSS END */
 
-/* 底栏容器CSS */
+/* Bottom Bar Container CSS */
 .footer {
   width: 100%;
   text-align: center;
   background: #2f2f2f;
   padding-bottom: 20px;
-}
-.footer .ng-promise-box {
-  border-bottom: 1px solid #3d3d3d;
-  line-height: 145px;
 }
 .footer .ng-promise-box {
   margin: 0 auto;
@@ -316,16 +269,5 @@ a:hover {
 .footer .mod_help p {
   margin: 20px 0 16px 0;
 }
-
-.footer .mod_help p a {
-  color: #888888;
-  text-decoration: none;
-}
-.footer .mod_help p a:hover {
-  color: #fff;
-}
-.footer .mod_help p span {
-  padding: 0 22px;
-}
-/* 底栏容器CSS END */
+/* Bottom Bar Container CSS END */
 </style>

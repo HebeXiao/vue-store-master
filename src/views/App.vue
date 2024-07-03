@@ -67,6 +67,9 @@ export default {
 </script>
 
 <style scoped>
+*{
+  list-style: none;
+}
 .title{
   font-size: 30px;
   color:#45A049;
