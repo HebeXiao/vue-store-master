@@ -30,7 +30,7 @@ export default {
       this.visible = true;
       setTimeout(() => {
         this.visible = false;
-      }, 20000); // Message shows for 20 seconds
+      }, 15000); // Message shows for 20 seconds
     }
   }
 }

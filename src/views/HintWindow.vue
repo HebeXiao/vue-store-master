@@ -31,7 +31,7 @@ export default {
         1: {
           1: 'Notice the API request URL, especially the parameters section. Should every user see the same content?',
           2: 'The return message mentions "Token is invalid". This means you need some form of authentication to access the data.',
-          3: 'Use Postman or another API tool to include a valid Token in your request. Tokens can be found in the login or other API responses.'
+          3: "Use Postman or another API tool to include a valid Token in your request. Tokens can be found in the browser's developer tools under the Application tab."
         },
         2: {
           1: 'Look at the HTML structure of the page. Which element seems to be incorrectly nested?',

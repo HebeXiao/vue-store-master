@@ -27,7 +27,6 @@
             <el-menu-item v-if="this.$store.getters.getUser" index="/shoppingCart" :class="getNum > 0 ? 'shopCart-full' : 'shopCart'">
                 <router-link to="/shoppingCart">
                 <i class="el-icon-shopping-cart-full"></i> Basket
-                <span class="num">({{getNum}})</span>
                 </router-link>
             </el-menu-item>
             </div>

@@ -122,11 +122,10 @@ html, body {
 }
 
 .success-image {
-  width: 150px; /* 或者任何适合的尺寸 */
+  width: 100px; /* 或者任何适合的尺寸 */
   height: auto;
   display: block; /* 确保图片正确显示 */
   margin: 0 auto 20px auto; /* 使其在上方正中间 */
-  position: absolute;
   top: 20px; /* 根据需要调整位置 */
 }
 

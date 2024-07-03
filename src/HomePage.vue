@@ -122,7 +122,6 @@ export default {
           })
           .then(res => {
             if (res.data.code === "001") {
-              console.log("what is this:",res.data.data);
               // 001 为成功, 更新vuex购物车状态
               // this.setShoppingCart(res.data.data);
             } else {

@@ -28,6 +28,9 @@ export function connectWebSocket() {
       // 处理 token 为空的特定消息
       if (message === 'Challenge succeeded: Triggered by empty token.') {
         feedbackService.sendLongFeedback("Oops, looks like you forgot one important thing! A request without a Token is like a door without a key, how can you get in?");
+        setTimeout(() => {
+          feedbackService.sendFeedback("No worries! Just pop open your browser's developer tools, hop over to the 'Application' tab, and you'll find it chilling under 'Local Storage'.");
+        }, 8000); // 延迟4秒发送
       }
 
       if (currentChallengeId === 1 &&  user_id !== receivedUserId) {

@@ -11,7 +11,7 @@
       <div v-for="challenge in challenges" :key="challenge.challenge_id"
           :class="['card_challenge', { 'completed': challenge.is_completed }]">
         <h3>{{ challenge.challenge_name }}</h3>
-        <p>{{ challenge.challenge_description }}</p>
+        <p v-html="formattedDescription(challenge.challenge_description)"></p>
         <div class="button-container">
           <!-- 原有的开始/重新挑战按钮 -->
           <button
@@ -127,6 +127,9 @@ export default {
 
       // 然后跳转到 goods 页面
       this.$router.push('/goods');
+    },
+    formattedDescription(description) {
+      return description.replace(/\\n/g, '<br>');
     }
 
   }

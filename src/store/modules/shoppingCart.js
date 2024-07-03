@@ -44,8 +44,6 @@ export default {
     getCheckGoods (state) {
       // 获取勾选的商品信息
       // 用于确认订单页面
-      console.log('Fetching products from store11111:', state.shoppingCart);
-
       let checkGoods = [];
       for (let i = 0; i < state.shoppingCart.length; i++) {
         const temp = state.shoppingCart[i];
@@ -53,7 +51,6 @@ export default {
           checkGoods.push(temp);
         }
       }
-      console.log('Fetching products from store:', checkGoods);
       return checkGoods;
     },
     getCheckNum (state) {
@@ -102,9 +99,6 @@ export default {
           return;
         }
       }
-      const {key, prop, val} = payload
-      console.log('key: ' + key + ' prop: ' + prop + ' val: ' + val)
-      
       // 根据商品在购物车的数组的索引和属性更改
       state.shoppingCart[payload.key][payload.prop] = payload.val;
     },

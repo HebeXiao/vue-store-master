@@ -132,7 +132,7 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button size="medium" type="primary" @click="save" style="width:100%;">Save</el-button>
+          <el-button size="medium" type="primary" @click="validateAndSave" style="width:100%;">Save</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -178,16 +178,15 @@ export default {
   },
   computed: {
     ...mapGetters(["getCheckNum", "getTotalPrice", "getCheckGoods", "isGuidanceMode","getCurrentChallengeId"]),
-      processedGoods() {
-        const goods = this.getCheckGoods.map(item => ({
-          ...item,
-          displayPrice: `${item.price}£ x ${item.num}`,
-          totalPrice: `${item.price * item.num}£`,
-          imageUrl: item.productImg.includes('http:') ? item.productImg : this.$target + item.productImg
-        }));
-        console.log('Processed Goods:', goods);
-        return goods;
-      }
+    processedGoods() {
+      const goods = this.getCheckGoods.map(item => ({
+        ...item,
+        displayPrice: `${item.price}£ x ${item.num}`,
+        totalPrice: `${item.price * item.num}£`,
+        imageUrl: item.productImg.includes('http:') ? item.productImg : this.$target + item.productImg
+      }));
+      return goods;
+    }
   },
   methods: {
     ...mapActions(["deleteShoppingCart"]),
@@ -208,13 +207,24 @@ export default {
           console.error(err);
         });
     },
+    validateAndSave() {
+      if (!this.add.linkman || !this.add.phone || !this.add.address) {
+        this.notifyError('Please fill in all address fields.');
+        return;
+      }
+      this.save();
+    },
     save() {
       const userData = localStorage.getItem('user');
       const parsedUserData = JSON.parse(userData);
+      const userId = parsedUserData.user.user_id;
+      console.log('Saving address for user ID:', userId);
+      console.log('Address data:', this.add);
+
       this.$axios
         .post("/api/user/address/save", {
-          user_id: parsedUserData.user.user_id,
-          ...this.add
+          user_id: userId,
+          add: this.add
         })
         .then(res => {
           if (res.data.code === "001") {
