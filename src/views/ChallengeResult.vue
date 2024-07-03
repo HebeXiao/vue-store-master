@@ -4,7 +4,6 @@
     <div class="content">
       <h1 class="challenge-title">Challenge Successfully</h1>
       <div class="challenge-details">
-        <!-- 展示其他挑战详细信息 -->
         <p>Congratulations! You have successfully completed the challenge.</p>
         <p>Keep up the good work and continue to hone your skills.</p>
         <el-button type="primary" @click="goToDashboard">Go to Scoreboard</el-button>
@@ -15,10 +14,8 @@
   </div>
 </template>
 
-
 <script>
 import { mapGetters } from 'vuex';
-
 export default {
   computed: {
     ...mapGetters(['getCurrentChallengeId'])
@@ -26,25 +23,22 @@ export default {
   methods: {
     goToDashboard() {
     const challengeId = this.getCurrentChallengeId;
-
-    // 添加一条数据到 challenge_status 表中
     const userData = localStorage.getItem('user');
-
     const parsedUserData = JSON.parse(userData);
     const userId = parsedUserData.user.user_id;
 
     const requestBody = {
         user_id: userId,
         challenge_id: challengeId,
-        is_completed: 1 // 假设 is_completed 为 1 表示挑战完成
+        is_completed: 1 // Assuming is_completed is 1, which means the challenge is complete.
     };
 
     this.$axios.post('/api/challenge/add', requestBody)
         .then(response => {
         console.log('Challenge status added:', response.data);
-        // 在重定向之前刷新 Scoreboard 页面的数据
+        // Refresh the data on the Scoreboard page before redirection
         this.$router.push({ path: '/Scoreboard' }).then(() => {
-            window.location.reload(); // 强制刷新页面
+            window.location.reload(); 
         });
         })
         .catch(error => {
@@ -60,11 +54,11 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden; /* 禁用滚动条 */
+  overflow: hidden; /* Disable scrollbars */
 }
 
 #app {
-  height: 100%; /* 确保根容器高度为100% */
+  height: 100%; 
 }
 
 .challenge-container {
@@ -73,11 +67,11 @@ html, body {
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100vh; /* 使用视口高度 */
+  height: 100vh; 
   background: linear-gradient(to right, #4CAF50, #4CAF50);
   color: #fff;
   font-family: 'Arial', sans-serif;
-  position: relative; /* 为了放置绝对定位的图片 */
+  position: relative;
 }
 
 .content {
@@ -113,7 +107,7 @@ html, body {
   border-color: #476cff;
   color: #fff;
   border-radius: 5px;
-  transition: background-color 0.3s; /* 平滑背景色变化 */
+  transition: background-color 0.3s; 
 }
 
 .el-button:hover {
@@ -122,27 +116,27 @@ html, body {
 }
 
 .success-image {
-  width: 100px; /* 或者任何适合的尺寸 */
+  width: 100px; 
   height: auto;
-  display: block; /* 确保图片正确显示 */
-  margin: 0 auto 20px auto; /* 使其在上方正中间 */
-  top: 20px; /* 根据需要调整位置 */
+  display: block; 
+  margin: 0 auto 20px auto; 
+  top: 20px; 
 }
 
 .confetti-image {
-  width: 150px; /* 或者任何适合的尺寸 */
+  width: 150px; 
   height: auto;
-  position: absolute; /* 使其绝对定位 */
-  bottom: 10px; /* 固定在底部 */
+  position: absolute; 
+  bottom: 10px;
 }
 
 .confetti-image.left {
-  left: 10px; /* 左下角位置 */
+  left: 10px; 
 }
 
 .confetti-image.right {
-  right: 10px; /* 右下角位置 */
-  transform: scaleX(-1); /* 水平翻转 */
+  right: 10px; 
+  transform: scaleX(-1); 
 }
 </style>
 

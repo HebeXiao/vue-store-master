@@ -1,46 +1,45 @@
 <template>
   <div class="confirmOrder">
     <WebHome />
-    <!-- 头部 -->
+    <!-- Header -->
     <div class="confirmOrder-header">
       <div class="header-content">
         <p>
           <i class="el-icon-s-order"></i>
         </p>
         <p>Confirm Orders</p>
-        <router-link to></router-link>
       </div>
     </div>
-    <!-- 头部END -->
+    <!-- Header END -->
 
-    <!-- 主要内容容器 -->
+    <!-- Main content container -->
     <div class="content">
-      <!-- 选择地址 -->
+      <!-- Choose address -->
       <div class="section-address">
         <p class="title">Shipping Address</p>
         <div class="address-body">
           <ul>
             <li
-              v-for="(item) in address"
-              :class="confirmAddress==item.id?'in-section':''"
+              v-for="item in address"
+              :class="confirmAddress == item.id ? 'in-section' : ''"
               :key="item.id"
-              @click="confirmAddress=item.id"
+              @click="confirmAddress = item.id"
             >
-              <h2>{{item.linkman}}</h2>
-              <p class="phone">Phone: {{item.phone}}</p>
+              <h2>{{ item.linkman }}</h2>
+              <p class="phone">Phone: {{ item.phone }}</p>
               <p class="address">Address:</p>
-              <p>{{item.address}}</p>
+              <p>{{ item.address }}</p>
             </li>
-            <li class="add-address" @click="isAdd=true">
+            <li class="add-address" @click="isAdd = true">
               <i class="el-icon-circle-plus-outline"></i>
               <p>Add new address</p>
             </li>
           </ul>
         </div>
       </div>
-      <!-- 选择地址END -->
+      <!-- Choose address END -->
 
-      <!-- 商品 -->
+      <!-- Products -->
       <div class="section-goods">
         <p class="title">Products</p>
         <div class="goods-list">
@@ -54,54 +53,58 @@
           </ul>
         </div>
       </div>
-      <!-- 商品END -->
+      <!-- Products END -->
 
-      <!-- 配送方式 -->
+      <!-- Shipping methods -->
       <div class="section-shipment">
         <p class="title">Delivery Method</p>
         <p class="shipment">Free shipping</p>
       </div>
-      <!-- 配送方式END -->
+      <!-- Shipping methods END -->
 
-      <!-- 结算列表 -->
+      <!-- Billing statement -->
       <div class="section-count">
         <div class="money-box">
           <ul>
             <li>
               <span class="title">Number of items: </span>
-              <span class="value">{{getCheckNum}}</span>
-            </li>
-            <li>
-              <span class="title">Total price of goods: </span>
-              <span class="value">{{getTotalPrice}}£</span>
+              <span class="value">{{ getCheckNum }}</span>
             </li>
             <li>
               <span class="title">Shipping: </span>
               <span class="value">0£</span>
             </li>
             <li class="total">
-              <span class="title">Total amount due: </span>
+              <span class="title">Total: </span>
               <span class="value">
-                <span class="total-price">{{getTotalPrice}}</span>£
+                <span class="total-price">{{ getTotalPrice }}</span
+                >£
               </span>
             </li>
           </ul>
         </div>
       </div>
-      <!-- 结算列表END -->
+      <!-- Billing statement END -->
 
-      <!-- 结算导航 -->
+      <!-- Settlement Navigation -->
       <div class="section-bar">
         <div class="btn">
-          <router-link to="/shoppingCart" class="btn-base btn-return">Back to Shopping Cart</router-link>
-          <a href="javascript:void(0);" @click="addOrder" class="btn-base btn-primary">Order</a>
+          <router-link to="/shoppingCart" class="btn-base btn-return"
+            >Back</router-link
+          >
+          <a
+            href="javascript:void(0);"
+            @click="addOrder"
+            class="btn-base btn-primary"
+            >Order</a
+          >
         </div>
       </div>
-      <!-- 结算导航END -->
+      <!-- Settlement Navigation END -->
     </div>
-    <!-- 主要内容容器END -->
+    <!-- Main content container END -->
 
-    <!-- 弹出框 -->
+    <!-- pop-up box -->
     <el-dialog title="Add Address" width="400px" center :visible.sync="isAdd">
       <el-form :model="add" status-icon ref="ruleForm" class="demo-ruleForm">
         <el-form-item prop="linkman">
@@ -132,7 +135,13 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button size="medium" type="primary" @click="validateAndSave" style="width:100%;">Save</el-button>
+          <el-button
+            size="medium"
+            type="primary"
+            @click="validateAndSave"
+            style="width: 100%"
+            >Save</el-button
+          >
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -140,13 +149,13 @@
 </template>
 
 <script>
-import WebHome from '../WebHome.vue';
-import { mapGetters, mapActions } from 'vuex';
-import feedbackService from '@/feedbackService';
+import WebHome from "../WebHome.vue";
+import { mapGetters, mapActions } from "vuex";
+import feedbackService from "@/feedbackService";
 
 export default {
   components: {
-    WebHome
+    WebHome,
   },
   data() {
     return {
@@ -155,9 +164,9 @@ export default {
       add: {
         linkman: "",
         phone: "",
-        address: ""
+        address: "",
       },
-      address: []
+      address: [],
     };
   },
   created() {
@@ -165,37 +174,49 @@ export default {
       this.notifyError("Please check the box before checkout");
       this.$router.push({ path: "/shoppingCart" });
     }
-    const userData = localStorage.getItem('user');
+    const userData = localStorage.getItem("user");
     const parsedUserData = JSON.parse(userData);
     this.$axios
       .post("api/user/address/list", { user_id: parsedUserData.user.user_id })
-      .then(res => {
+      .then((res) => {
         this.address = res.data.data;
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   },
   computed: {
-    ...mapGetters(["getCheckNum", "getTotalPrice", "getCheckGoods", "isGuidanceMode","getCurrentChallengeId"]),
+    ...mapGetters([
+      "getCheckNum",
+      "getTotalPrice",
+      "getCheckGoods",
+      "isGuidanceMode",
+      "getCurrentChallengeId",
+    ]),
+    // Show order products
     processedGoods() {
-      const goods = this.getCheckGoods.map(item => ({
+      const goods = this.getCheckGoods.map((item) => ({
         ...item,
         displayPrice: `${item.price}£ x ${item.num}`,
         totalPrice: `${item.price * item.num}£`,
-        imageUrl: item.productImg.includes('http:') ? item.productImg : this.$target + item.productImg
+        imageUrl: item.productImg.includes("http:")
+          ? item.productImg
+          : this.$target + item.productImg,
       }));
       return goods;
-    }
+    },
   },
   methods: {
     ...mapActions(["deleteShoppingCart"]),
+    // delete from shopping cart
     remove() {
       this.$axios
         .post("/api/user/address/remove", { id: this.delId })
-        .then(res => {
+        .then((res) => {
           if (res.data.code === "001") {
-            this.address = this.address.filter(addr => addr.id !== this.delId);
+            this.address = this.address.filter(
+              (addr) => addr.id !== this.delId
+            );
             this.delId = 0;
             this.dialogVisible = false;
             this.notifySucceed(res.data.msg);
@@ -203,30 +224,28 @@ export default {
             this.notifyError(res.data.msg);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
         });
     },
+    // Check the information all filled
     validateAndSave() {
       if (!this.add.linkman || !this.add.phone || !this.add.address) {
-        this.notifyError('Please fill in all address fields.');
+        this.notifyError("Please fill in all address fields.");
         return;
       }
       this.save();
     },
+    // Save the address information
     save() {
-      const userData = localStorage.getItem('user');
+      const userData = localStorage.getItem("user");
       const parsedUserData = JSON.parse(userData);
-      const userId = parsedUserData.user.user_id;
-      console.log('Saving address for user ID:', userId);
-      console.log('Address data:', this.add);
-
       this.$axios
         .post("/api/user/address/save", {
-          user_id: userId,
-          add: this.add
+          user_id: parsedUserData.user.user_id,
+          add: this.add,
         })
-        .then(res => {
+        .then((res) => {
           if (res.data.code === "001") {
             this.isAdd = false;
             this.address = res.data.data;
@@ -235,41 +254,46 @@ export default {
             this.notifyError(res.data.msg);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
         });
     },
+    // Add order information
     addOrder() {
-      const userData = localStorage.getItem('user');
+      const userData = localStorage.getItem("user");
       const parsedUserData = JSON.parse(userData);
       const challengeId = this.getCurrentChallengeId;
       this.$axios
         .post("/api/order/save", {
           user_id: parsedUserData.user.user_id,
-          products: this.getCheckGoods
+          products: this.getCheckGoods,
         })
-        .then(res => {
+        .then((res) => {
           if (res.data.code === "001") {
-            this.getCheckGoods.forEach(item => {
+            this.getCheckGoods.forEach((item) => {
               this.deleteShoppingCart(item.id);
             });
             this.notifySucceed(res.data.msg);
             if (this.isGuidanceMode && challengeId === 1) {
-              feedbackService.sendFeedback('You have successfully placed your order! Please note how to access the order information and how the system responds to your request.');
+              feedbackService.sendFeedback(
+                "You have successfully placed your order! Please note how to access the order information and how the system responds to your request."
+              );
               setTimeout(() => {
-                feedbackService.sendFeedback("Press the magic F12 key to summon up your browser's developer tools, then click on the 'Network' (Network) tab and refresh this page, you'll find something!");
-              }, 4000); // 延迟4秒发送
+                feedbackService.sendFeedback(
+                  "Press the magic F12 key to summon up your browser's developer tools, then click on the 'Network' (Network) tab and refresh this page, you'll find something!"
+                );
+              }, 4000); 
             }
-            this.$router.push({ path: '/order' });
+            this.$router.push({ path: "/order" });
           } else {
             this.notifyError(res.data.msg);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -278,17 +302,23 @@ export default {
   background-color: #f5f5f5;
   padding-bottom: 20px;
 }
-/* 头部CSS */
+
+/* Header CSS */
 .confirmOrder .confirmOrder-header {
   background-color: #fff;
-  border-bottom: 2px solid #ff6700;
+  border-bottom: 2px solid #4caf50;
   margin-bottom: 20px;
 }
+
 .confirmOrder .confirmOrder-header .header-content {
   width: 1225px;
   margin: 0 auto;
   height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .confirmOrder .confirmOrder-header .header-content p {
   float: left;
   font-size: 28px;
@@ -296,14 +326,15 @@ export default {
   color: #424242;
   margin-right: 20px;
 }
+
 .confirmOrder .confirmOrder-header .header-content p i {
   font-size: 45px;
-  color: #ff6700;
+  color: #4caf50;
   line-height: 80px;
 }
-/* 头部CSS END */
+/* Header CSS END */
 
-/* 主要内容容器CSS */
+/* Main content container CSS */
 .confirmOrder .content {
   width: 1225px;
   margin: 0 auto;
@@ -311,17 +342,19 @@ export default {
   background-color: #fff;
 }
 
-/* 选择地址CSS */
+/* Select Address CSS */
 .confirmOrder .content .section-address {
   margin: 0 48px;
   overflow: hidden;
 }
+
 .confirmOrder .content .section-address .title {
   color: #333;
   font-size: 18px;
   line-height: 20px;
   margin-bottom: 20px;
 }
+
 .confirmOrder .content .address-body li {
   float: left;
   color: #333;
@@ -332,19 +365,23 @@ export default {
   margin-right: 17px;
   margin-bottom: 24px;
 }
+
 .confirmOrder .content .address-body .in-section {
-  border: 1px solid #ff6700;
+  border: 1px solid #4caf50;
 }
+
 .confirmOrder .content .address-body li h2 {
   font-size: 18px;
   font-weight: normal;
   line-height: 30px;
   margin-bottom: 10px;
 }
+
 .confirmOrder .content .address-body li p {
   font-size: 14px;
   color: #757575;
 }
+
 .confirmOrder .content .address-body li .address {
   padding: 10px 0;
   max-width: 180px;
@@ -352,76 +389,79 @@ export default {
   line-height: 22px;
   overflow: hidden;
 }
+
 .confirmOrder .content .address-body .add-address {
   text-align: center;
   line-height: 30px;
 }
+
 .confirmOrder .content .address-body .add-address i {
   font-size: 30px;
   padding-top: 50px;
   text-align: center;
 }
-/* 选择地址CSS END */
+/* Select Address CSS END */
 
-/* 商品及优惠券CSS */
+/* Products CSS */
 .confirmOrder .content .section-goods {
   margin: 0 48px;
 }
+
 .confirmOrder .content .section-goods p.title {
   color: #333;
   font-size: 18px;
   line-height: 40px;
 }
+
 .confirmOrder .content .section-goods .goods-list {
-  padding: 5px 0;
+  padding: 10px 0;
   border-top: 1px solid #e0e0e0;
   border-bottom: 1px solid #e0e0e0;
 }
+
 .confirmOrder .content .section-goods .goods-list li {
   padding: 10px 0;
   color: #424242;
   overflow: hidden;
 }
+
 .confirmOrder .content .section-goods .goods-list li img {
   float: left;
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   margin-right: 10px;
 }
+
 .confirmOrder .content .section-goods .goods-list li .pro-name {
   float: left;
   width: 650px;
   line-height: 30px;
 }
+
 .confirmOrder .content .section-goods .goods-list li .pro-price {
   float: left;
   width: 150px;
   text-align: center;
   line-height: 30px;
 }
-.confirmOrder .content .section-goods .goods-list li .pro-status {
-  float: left;
-  width: 99px;
-  height: 30px;
-  text-align: center;
-  line-height: 30px;
-}
+
 .confirmOrder .content .section-goods .goods-list li .pro-total {
   float: left;
   width: 190px;
   text-align: center;
-  color: #ff6700;
+  color: #4caf50;
   line-height: 30px;
 }
-/* 商品及优惠券CSS END */
+/* Products CSS END */
 
-/* 配送方式CSS */
+/* Delivery method CSS */
 .confirmOrder .content .section-shipment {
   margin: 0 48px;
-  padding: 25px 0;
+  padding: 10px 0;
   border-bottom: 1px solid #e0e0e0;
   overflow: hidden;
 }
+
 .confirmOrder .content .section-shipment .title {
   float: left;
   width: 150px;
@@ -429,24 +469,27 @@ export default {
   font-size: 18px;
   line-height: 38px;
 }
+
 .confirmOrder .content .section-shipment .shipment {
   float: left;
   line-height: 38px;
   font-size: 14px;
-  color: #ff6700;
+  color: #4caf50;
 }
-/* 配送方式CSS END */
+/* Delivery method CSS END */
 
-/* 结算列表CSS */
+/* Billing statement CSS */
 .confirmOrder .content .section-count {
   margin: 0 48px;
   padding: 20px 0;
   overflow: hidden;
 }
+
 .confirmOrder .content .section-count .money-box {
   float: right;
   text-align: right;
 }
+
 .confirmOrder .content .section-count .money-box .title {
   float: left;
   width: 150px;
@@ -455,34 +498,32 @@ export default {
   line-height: 30px;
   color: #757575;
 }
+
 .confirmOrder .content .section-count .money-box .value {
   float: left;
   min-width: 105px;
   height: 30px;
   display: block;
   line-height: 30px;
-  color: #ff6700;
+  color: #4caf50;
 }
-.confirmOrder .content .section-count .money-box .total .title {
-  padding-top: 15px;
-}
-.confirmOrder .content .section-count .money-box .total .value {
-  padding-top: 10px;
-}
+
 .confirmOrder .content .section-count .money-box .total-price {
   font-size: 30px;
 }
-/* 结算列表CSS END */
+/* Billing statement CSS END */
 
-/* 结算导航CSS */
+/* Settlement Navigation CSS */
 .confirmOrder .content .section-bar {
   padding: 20px 48px;
   border-top: 2px solid #f5f5f5;
   overflow: hidden;
 }
+
 .confirmOrder .content .section-bar .btn {
   float: right;
 }
+
 .confirmOrder .content .section-bar .btn .btn-base {
   float: left;
   margin-left: 30px;
@@ -493,16 +534,17 @@ export default {
   line-height: 38px;
   text-align: center;
 }
+
 .confirmOrder .content .section-bar .btn .btn-return {
   color: rgba(0, 0, 0, 0.27);
   border-color: rgba(0, 0, 0, 0.27);
 }
+
 .confirmOrder .content .section-bar .btn .btn-primary {
-  background: #ff6700;
-  border-color: #ff6700;
+  background: #4caf50;
+  border-color: #4caf50;
   color: #fff;
 }
-/* 结算导航CSS */
-
-/* 主要内容容器CSS END */
+/* Settlement Navigation CSS */
+/* Main content container CSS END */
 </style>
