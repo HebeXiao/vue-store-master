@@ -6,6 +6,11 @@ Vue.use(Router)
 
 const routes = [
   {
+    path: '/Postman',
+    name: 'Postman',
+    component: () => import('../views/Postman.vue'),
+  },
+  {
     path: '/ChallengeFix',
     name: 'ChallengeFix',
     component: () => import('../views/ChallengeFix.vue'),
