@@ -135,6 +135,7 @@ a:hover {
 .button-back img {
   width: 30px; 
   background-color: transparent;
+  margin-left:-30px;
 }
 /* Top bar container CSS END */
 </style>

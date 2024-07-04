@@ -2,14 +2,16 @@
   <div v-if="visible" class="dialog-overlay">
     <div class="dialog-box">
       <div class="dialog-header">
-        <img src="@/assets/imgs/question.png" alt="Question" class="question-image"/>
-        <span>Confirmation</span>
+        <div class = "dialog-header-content" style="margin-left:110px">
+            <img src="@/assets/imgs/question.png" alt="Question" class="question-image"/>
+            <span>Confirmation</span>
+        </div>
+        <button @click="handleClose" class="close-button">×</button>
       </div>
       <div class="dialog-content">
         <span>Are you sure you want to exit the challenge?</span>
       </div>
       <div class="dialog-footer">
-        <button @click="handleClose" class="dialog-button">No</button>
         <button @click="handleConfirm" class="dialog-button dialog-button-confirm">Yes</button>
       </div>
     </div>
@@ -63,7 +65,7 @@ export default {
 .dialog-header {
   display: flex;
   align-items: center;
-  justify-content: center; /* 水平居中 */
+  justify-content: space-between; /* 在弹窗头部两端对齐 */
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -73,11 +75,23 @@ export default {
   width: 30px;
   height: auto;
   margin-right: 10px;
+  margin-bottom: -8px;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 30px;
+  color: #ffffff;
+  cursor: pointer;
+  margin-left: auto; /* 确保按钮靠右 */
 }
 
 .dialog-content {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   text-align: center; /* 使内容文本居中 */
+  margin-top: 40px;
+  font-size:18px;
 }
 
 .dialog-footer {

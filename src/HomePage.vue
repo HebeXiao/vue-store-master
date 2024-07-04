@@ -39,9 +39,10 @@
                 >Hint</el-button
               >
             </li>
-            <li v-if="this.$store.getters.getUser">
+            <li v-if="this.$store.getters.getUser && !getCurrentChallengeId">
               <span class="sep"></span>
               <span class="sep"></span>
+              <span class="divider">|</span> <!-- 分割线 -->
               <el-popover placement="top" width="180" v-model="visible">
                 <p>Are you sure you want to log out?</p>
                 <div style="text-align: right; margin: 10px 0 0">
@@ -52,7 +53,7 @@
                     >Yes</el-button
                   >
                 </div>
-                <el-button type="text" slot="reference" style="font-size: 16px"
+                <el-button type="text" slot="reference" style="font-size: 18px"
                   >Logout</el-button
                 >
               </el-popover>
@@ -233,6 +234,13 @@ a:hover {
   color: #b0b0b0;
   font-size: 16px;
   margin: 0 5px;
+}
+.topbar .nav .divider {
+  height: 30px;
+  width: 1px;
+  background-color: #b0b0b0;
+  margin: 0 5px;
+  margin-left:-10px;
 }
 .topbar .nav li .el-button {
   color: #b0b0b0;
