@@ -48,7 +48,7 @@
         </div>
         <!-- Buttons at the bottom of the content area -->
         <div class="button">
-          <el-button class="shop-cart" :disabled="dis" @click="addShoppingCart"
+          <el-button class="shop-cart" :disabled="isDisabled" @click="addShoppingCart"
             >Add to cart</el-button
           >
         </div>
@@ -72,6 +72,7 @@ export default {
       productID: "",
       productDetails: {},
       productPicture: [],
+      isDisabled: false,
     };
   },
   activated() {

@@ -1,4 +1,3 @@
-<!-- Top navigation bar for educational tools-->
 <template>
   <div id="app" name="app">
     <el-container>
@@ -104,31 +103,30 @@
       </el-footer>
       <!-- Bottom row container END -->
     </el-container>
+    
+    <!-- Confirmation Dialog -->
+    <dialog-window :visible.sync="showDialog" @confirm="confirmExit"></dialog-window>
   </div>
 </template>
 
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
-import HintWindow from "./views/HintWindow.vue";
+import HintWindow from "./components/HintWindow.vue";
+import DialogWindow from './components/DialogWindow.vue'; // Import the DialogWindow component
+
 export default {
   components: {
     HintWindow,
-  },
-  beforeUpdate() {
-    this.activeIndex = this.$route.path;
+    DialogWindow  // Register the DialogWindow component
   },
   data() {
     return {
       activeIndex: "", // Selected tabs in the header navigation bar
       register: false, // Whether to show registered components
       visible: false, // Whether to log out
+      showDialog: false, // Control the visibility of the confirmation dialog
+      targetRoute: '' // Store the target route to navigate after confirmation
     };
-  },
-  created() {
-    // Get the browser localStorage and determine if the user is logged in.
-    if (localStorage.getItem("user")) {
-      this.setUser(JSON.parse(localStorage.getItem("user")));
-    }
   },
   computed: {
     ...mapGetters(["getUser", "getNum", "getCurrentChallengeId"]),
@@ -166,25 +164,22 @@ export default {
     // Exit the challenge via the navigation bar
     goBack(targetRoute) {
       if (this.getCurrentChallengeId) {
-        this.$confirm("Are you sure you want to exit the challenge?", {
-          confirmButtonText: "Yes",
-          cancelButtonText: "No",
-          type: "warning",
-        })
-          // if yes
-          .then(() => {
-            this.$store.commit("resetChallengeId");
-            this.$store.commit("closeSocket");
-            this.$router.push(targetRoute);
-          })
-          // if no
-          .catch(() => {});
+        this.showDialog = true;
+        this.targetRoute = targetRoute;  // Save the target route for later use
       } else {
-        // If not in the challenge, jump directly to the specified path
         this.$router.push(targetRoute);
       }
     },
-  },
+    // Confirm exit from the challenge
+    confirmExit() {
+      this.$store.commit("resetChallengeId");
+      this.$store.commit("closeSocket");
+      this.$router.push(this.targetRoute).catch(err => {
+        console.error("Router error:", err);
+      });
+      this.showDialog = false; // Close the dialog
+    }
+  }
 };
 </script>
 

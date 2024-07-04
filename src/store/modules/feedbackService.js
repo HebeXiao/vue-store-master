@@ -1,4 +1,5 @@
-import FeedbackWindow from './views/FeedbackWindow.vue';
+import FeedbackWindow from '../../components/FeedbackWindow.vue';
+
 import Vue from 'vue';
 
 const FeedbackInstance = new Vue({

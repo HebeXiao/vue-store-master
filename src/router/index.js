@@ -1,10 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { connectWebSocket } from '@/websocketService';
+import { connectWebSocket, isWebSocketConnected } from '@/websocketService';
 
 Vue.use(Router)
 
 const routes = [
+  {
+    path: '/ChallengeFix',
+    name: 'ChallengeFix',
+    component: () => import('../views/ChallengeFix.vue'),
+  },
   {
     path: '/ChallengeResult',
     name: 'ChallengeResult',
@@ -41,7 +46,9 @@ const routes = [
     name: 'Goods',
     component: () => import('../views/Goods.vue'),
     beforeEnter: (to, from, next) => {
-      connectWebSocket(); // 在进入 /goods 页面时开启 WebSocket 连接
+      if (!isWebSocketConnected()) {
+        connectWebSocket(); // 仅在 WebSocket 未连接时开启连接
+      }
       next();
     }
   },

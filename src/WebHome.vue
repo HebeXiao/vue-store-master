@@ -1,4 +1,3 @@
-<!-- Top navigation bar of the shopping mall  -->
 <template>
   <div id="app" name="app">
     <el-container>
@@ -12,7 +11,7 @@
           router
         >
           <div class="image">
-            <button @click="goBack" class="button-back">
+            <button @click="promptExit" class="button-back">
               <img
                 src="./assets/imgs/back.png"
                 alt="Back"
@@ -41,42 +40,45 @@
       </el-header>
       <!-- top bar container END -->
     </el-container>
+    <!-- Confirmation Dialog -->
+    <dialog-window :visible.sync="showDialog" @confirm="confirmExit"></dialog-window>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import DialogWindow from './components/DialogWindow.vue'; // Import the DialogWindow component
+
 export default {
+  components: {
+    DialogWindow // Register the DialogWindow component
+  },
   data() {
     return {
       activeIndex: "", // Selected tabs in the header navigation bar
+      showDialog: false, // Control the visibility of the confirmation dialog
     };
   },
   computed: {
     ...mapGetters(["getUser"]),
   },
   methods: {
-    // Back button logic
-    goBack() {
+    // Prompt the exit confirmation dialog
+    promptExit() {
       if (this.$route.path === "/goods") {
-        this.$confirm("Are you sure you want to exit the challenge?", {
-          confirmButtonText: "Yes",
-          cancelButtonText: "No",
-          type: "warning",
-        })
-          // if yes
-          .then(() => {
-            this.$store.commit("resetChallengeId");
-            this.$store.commit("closeSocket");
-            this.$router.push("/scoreboard");
-          })
-          // if no
-          .catch(() => {});
+        this.showDialog = true;
       } else {
         // If you're not on the 'goods' page, do the normal return operation
         this.$router.push("/goods");
       }
     },
+    // Confirm exit from the challenge
+    confirmExit() {
+      this.$store.commit("resetChallengeId");
+      this.$store.commit("closeSocket");
+      this.$router.push("/scoreboard");
+      this.showDialog = false; // Close the dialog
+    }
   },
 };
 </script>

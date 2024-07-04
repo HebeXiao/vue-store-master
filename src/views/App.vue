@@ -56,7 +56,7 @@
           which provides a detailed description of each vulnerability and
           related tutorials. Besides, it is also recommended that you can visit
           our
-          <router-link to="/about" class="nav-link" style="color: #409eff"
+          <router-link to="/about" class="nav-link" style="color: #476cff"
             >information page</router-link
           >
           , which provides a detailed architectural background of the simulated

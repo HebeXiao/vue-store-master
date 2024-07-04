@@ -151,7 +151,7 @@
 <script>
 import WebHome from "../WebHome.vue";
 import { mapGetters, mapActions } from "vuex";
-import feedbackService from "@/feedbackService";
+import feedbackService from "@/store/modules/feedbackService";
 
 export default {
   components: {

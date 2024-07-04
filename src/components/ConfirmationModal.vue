@@ -1,0 +1,154 @@
+<template>
+  <div v-if="showModal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <img
+          src="@/assets/imgs/challenge.png"
+          alt="Challenge"
+          class="challenge-image"
+        />
+        <h2 class="modal-title">Challenge</h2>
+        <button class="close-button" @click="cancelEntry">×</button>
+      </div>
+      <div class="modal-body">
+        <div v-html="challengeMessage"></div>
+      </div>
+      <p style="font-weight:bold;font-size:20px">Are you ready to start your adventure?</p>
+      <div class="modal-footer">
+        <button @click="confirmEntry" class="confirm-button">
+          Start Challenge
+        </button>
+        <button @click="startWithGuidance" class="guidance-button">
+          Start with Guidance
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "ConfirmationModal",
+  props: {
+    showModal: {
+      type: Boolean,
+      required: true,
+    },
+    challengeId: {
+      type: Number,
+      required: true,
+    },
+  },
+  computed: {
+    challengeMessage() {
+      switch (this.challengeId) {
+        case 1: {
+          const message = `Your first mission is ready and waiting! You are now a detective exploring the secrets of a simulated shopping platform. <br><br>
+          Your objective? To uncover how to view other users' order information through API vulnerabilities.`;
+          return message;
+        }
+        case 2: {
+          return "你即将开始挑战2，确认继续吗？";
+        }
+        default: {
+          return "你即将开始一个新的挑战，确认继续吗？";
+        }
+      }
+    },
+  },
+  methods: {
+    confirmEntry() {
+      this.$emit("confirm");
+    },
+    startWithGuidance() {
+      this.$emit("start-guidance");
+    },
+    cancelEntry() {
+      this.$emit("cancel");
+    },
+  },
+};
+</script>
+
+<style scoped>
+.challenge-image {
+  width: 30px; /* Adjust the size as needed */
+  height: auto;
+  margin-right: 10px; /* Space between image and title */
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-container {
+  background-color: #333;
+  color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  width: 500px;
+  text-align: center;
+  position: relative;
+}
+
+.modal-header {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center; /* Center the content horizontally */
+  align-items: center;
+  margin-right: 30px;
+}
+
+.modal-title {
+  font-size: 24px;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 30px;
+  color: #ffffff;
+  cursor: pointer;
+  position: absolute; /* Position the close button in the top-right corner */
+  right: 20px;
+}
+
+.modal-body {
+  margin-top: 40px;
+  margin-bottom: 50px;
+  text-align: left;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top:20px;
+}
+
+.confirm-button,
+.guidance-button {
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.confirm-button:hover,
+.guidance-button:hover {
+  background-color: #45a049;
+}
+</style>

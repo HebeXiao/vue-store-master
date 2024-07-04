@@ -86,6 +86,14 @@ import MyLogin from './components/MyLogin';
 Vue.component(MyLogin.name, MyLogin);
 import MyRegister from './components/MyRegister';
 Vue.component(MyRegister.name, MyRegister);
+import ConfirmationModal from './components/ConfirmationModal';
+Vue.component(ConfirmationModal.name, ConfirmationModal);
+import FeedbackWindow from './components/FeedbackWindow';
+Vue.component(FeedbackWindow.name, FeedbackWindow);
+import HintWindow from './components/HintWindow';
+Vue.component(HintWindow.name, HintWindow);
+import DialogWindow from './components/DialogWindow';
+Vue.component(DialogWindow.name, DialogWindow);
 
 Vue.config.productionTip = false;
 

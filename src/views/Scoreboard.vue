@@ -3,9 +3,7 @@
     <!-- Show progress -->
     <div class="progress-container">
       <div class="progress-bar" :style="{ width: progress + '%' }">
-        <span class="progress-text"
-          >Challenge Progress: {{ progress.toFixed(2) }}%</span
-        >
+        <span class="progress-text">Challenge Progress: {{ progress.toFixed(2) }}%</span>
       </div>
     </div>
     <!-- Show all challenge -->
@@ -16,11 +14,11 @@
         :class="['card_challenge', { completed: challenge.is_completed }]"
       >
         <h3>{{ challenge.challenge_name }}</h3>
-        <p v-html="formattedDescription(challenge.challenge_description)"></p>
+        <p v-html="challenge.challenge_description"></p>
         <div class="button-container">
           <!-- Start/Re-challenge button -->
           <button
-            @click="start(challenge.challenge_id)"
+            @click="showConfirmationModal(challenge.challenge_id)"
             class="button"
             :class="{
               'btn-restart': challenge.is_completed,
@@ -29,20 +27,12 @@
           >
             {{ challenge.is_completed ? "Challenge Again" : "Start Challenge" }}
           </button>
-          <!-- Start Challenge Button with Interactive Guidance -->
+          <!-- View Fix button -->
           <button
-            @click="startWithGuidance(challenge.challenge_id)"
-            class="button"
-            :class="{
-              'btn-restart': challenge.is_completed,
-              'btn-start': !challenge.is_completed,
-            }"
+            @click="viewFix"
+            class="button btn-fix"
           >
-            {{
-              challenge.is_completed
-                ? "Again with Guidance "
-                : "Start with Guidance"
-            }}
+            View Fix
           </button>
         </div>
         <!-- Conditional Rendering Challenge Success Picture -->
@@ -54,16 +44,32 @@
         />
       </div>
     </div>
+    <ConfirmationModal
+      v-if="showModal"
+      :show-modal="showModal"
+      :challenge-id="currentChallengeId"
+      @confirm="confirmEntry"
+      @start-guidance="startWithGuidance"
+      @cancel="cancelEntry"
+    />
   </div>
 </template>
 
 <script>
-import feedbackService from "@/feedbackService";
+import ConfirmationModal from '../components/ConfirmationModal.vue';
+import feedbackService from "@/store/modules/feedbackService";
+
 export default {
+  components: {
+    ConfirmationModal
+  },
   data() {
     return {
       challenges: [],
       progress: 0,
+      showModal: false,
+      currentChallengeId: null,
+      withGuidance: false
     };
   },
   mounted() {
@@ -101,21 +107,25 @@ export default {
           });
       }
     },
-    // Stores the ID of the current challenge and starts the challenge
-    start(challenge_id) {
-      this.$store.commit("setCurrentChallengeId", challenge_id);
-      this.$router.push("/goods");
+    // Show confirmation modal
+    showConfirmationModal(challengeId) {
+      this.currentChallengeId = challengeId;
+      this.withGuidance = false;
+      this.showModal = true;
     },
-    // Starting a guided challenge
-    startWithGuidance(challengeId) {
-      const guidance = true;
+    // Handle confirmation modal actions
+    confirmEntry() {
+      this.showModal = false;
+      this.start(this.currentChallengeId);
+    },
+    startWithGuidance() {
+      this.showModal = false;
       this.$store.dispatch("startChallenge", {
-        challengeId: challengeId,
-        guidance: guidance,
+        challengeId: this.currentChallengeId,
+        guidance: true,
       });
-      // Provide different welcome message feedback based on different challengeIds
       let welcomeMessages = [];
-      switch (challengeId) {
+      switch (this.currentChallengeId) {
         case 1:
           welcomeMessages = [
             "Welcome to our Challenge! For this challenge, we will be looking at the Broken Object Level Authorization (BOLA) vulnerability. Please proceed carefully and observe the security implications.",
@@ -136,9 +146,17 @@ export default {
       }, 5000); // Send with a delay of 5 seconds
       this.$router.push("/goods");
     },
-    // Change the format
-    formattedDescription(description) {
-      return description.replace(/\\n/g, "<br>");
+    cancelEntry() {
+      this.showModal = false;
+      this.currentChallengeId = null;
+    },
+    // Stores the ID of the current challenge and starts the challenge
+    start(challengeId) {
+      this.$store.commit("setCurrentChallengeId", challengeId);
+      this.$router.push("/goods");
+    },
+    viewFix() {
+      this.$router.push("/ChallengeFix");
     },
   },
 };
@@ -184,7 +202,7 @@ export default {
   background-color: #333;
   color: white;
   box-sizing: border-box;
-  margin: 10px 0;
+  margin: 20px 0;
   width: calc(50% - 40px);
 }
 
@@ -204,11 +222,12 @@ export default {
   justify-content: space-between; /* Spacing between buttons */
   align-items: center;
   gap: 10px; /* Spacing between buttons */
+  margin-top: 20px;
 }
 
 .button {
   flex-grow: 1;
-  width: 100%;
+  width: 180px;
   padding: 12px 20px;
   font-size: 16px;
   margin-top: auto;
@@ -225,11 +244,13 @@ export default {
   background-color: #45a049;
 }
 
-.btn-restart {
+.btn-restart,
+.btn-fix {
   background-color: #476cff;
 }
 
-.btn-restart:hover {
+.btn-restart:hover,
+.btn-fix:hover {
   background-color: #3159f7;
 }
 

@@ -2,14 +2,14 @@
 let socket;
 let reconnectTimeout;
 import store from '@/store'; // 确保路径正确
-import feedbackService from './feedbackService';
+import feedbackService from "./store/modules/feedbackService";
 
 export function connectWebSocket() {
   if (socket && socket.readyState === WebSocket.OPEN) {
-    socket.close(); // 关闭旧的会话
+    console.log('WebSocket connection already established');
+    return; // WebSocket 已连接，不做任何操作
   }
 
- 
   socket = new WebSocket('ws://localhost:3006/challenge');
 
   store.commit('setSocket', socket);
@@ -65,6 +65,10 @@ export function connectWebSocket() {
   };
 }
 
+export function isWebSocketConnected() {
+  return socket && socket.readyState === WebSocket.OPEN;
+}
+
 export function sendMessage(message) {
   if (socket && socket.readyState === WebSocket.OPEN) {
     socket.send(message);
@@ -72,5 +76,3 @@ export function sendMessage(message) {
     console.error('WebSocket connection is not open');
   }
 }
-
-

@@ -11,6 +11,7 @@ import axios from 'axios';
 
 import user from './modules/user'
 import shoppingCart from './modules/shoppingCart'
+import feedbackService from './modules/feedbackService'
 
 Vue.use(Vuex)
 
@@ -18,7 +19,8 @@ export default new Vuex.Store({
   strict: true,
   modules: {
     user,
-    shoppingCart
+    shoppingCart,
+    feedbackService
   },
   state: {
     currentOrderId: null, // 存储当前订单ID
