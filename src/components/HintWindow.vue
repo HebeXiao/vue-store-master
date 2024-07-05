@@ -23,11 +23,13 @@
             class="hint-level-image"
           />
           <div v-else-if="needsPlaceholder(currentLevel)" class="placeholder">
-            点击查看图片
+            Click Me for a Visual Surprise!
           </div>
         </div>
       </div>
       <div class="dialog-footer">
+        <!-- 新增按钮在当前等级为2时显示，并且在其他按钮上方 -->
+        <button v-if="currentLevel === 2" class="tutorial-button" @click="navigateToPostman">Go to Postman Tutorial</button>
         <button class="dialog-button" @click="setHint(1, currentChallengeId)">
           Level 1 Hint
         </button>
@@ -37,8 +39,6 @@
         <button class="dialog-button" @click="setHint(3, currentChallengeId)">
           Level 3 Hint
         </button>
-        <!-- 新增按钮仅在当前等级为2时显示 -->
-        <button v-if="currentLevel === 2" class="dialog-button" @click="navigateToPostman">Go to Postman Tutorial</button>
       </div>
     </div>
   </div>
@@ -159,6 +159,7 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 700px;
+  padding: 10px;
 }
 
 .dialog-header {
@@ -167,7 +168,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   color: #ffffff;
-  margin-left: 270px;
+  margin-left: 280px;
 }
 
 .dialog-body {
@@ -215,6 +216,14 @@ button:focus {
   outline: none;
 }
 
+.tutorial-button {
+  background-color: #007bff;
+}
+
+.tutorial-button:hover {
+  background-color: #0056b3;
+}
+
 .level-one-image {
   width: 290px;
   height: 180px;
@@ -239,6 +248,8 @@ button:focus {
   align-items: center;
   cursor: pointer;
   position: relative; /* 为占位符定位 */
+  margin-left: auto; /* 水平居中 */
+  margin-right: auto; /* 水平居中 */
 }
 
 .image-container.with-border {

@@ -34,7 +34,7 @@
                 >Scoreboard</el-button
               >
             </li>
-            <li v-if="this.$store.getters.getUser && getCurrentChallengeId">
+            <li v-if="this.$store.getters.getUser && getCurrentChallengeId && this.$route.path !== '/ChallengeFix'">
               <el-button @click="showHint" type="text" style="font-size: 18px"
                 >Hint</el-button
               >
@@ -164,11 +164,12 @@ export default {
     },
     // Exit the challenge via the navigation bar
     goBack(targetRoute) {
-      if (this.getCurrentChallengeId) {
+      if (this.getCurrentChallengeId && this.$route.path !== '/ChallengeFix') {
         this.showDialog = true;
         this.targetRoute = targetRoute;  // Save the target route for later use
       } else {
         this.$router.push(targetRoute);
+        this.$store.commit("resetChallengeId");
       }
     },
     // Confirm exit from the challenge

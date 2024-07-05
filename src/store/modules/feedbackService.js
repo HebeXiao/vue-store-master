@@ -14,7 +14,11 @@ const feedbackService = {
   },
   sendLongFeedback(message){
     FeedbackInstance.$children[0].showMessageLong(message);
-  }
+  },
+  sendFeedbackRight(message){
+    FeedbackInstance.$children[0].showMessageRight(message);
+  },
+
 };
 
 export default feedbackService;

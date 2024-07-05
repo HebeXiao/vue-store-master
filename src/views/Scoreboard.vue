@@ -29,10 +29,10 @@
           </button>
           <!-- View Fix button -->
           <button
-            @click="viewFix"
+            @click="viewFix(challenge.challenge_id)"
             class="button btn-fix"
           >
-            View Fix
+            How To Prevent
           </button>
         </div>
         <!-- Conditional Rendering Challenge Success Picture -->
@@ -130,6 +130,7 @@ export default {
           welcomeMessages = [
             "Welcome to our Challenge! For this challenge, we will be looking at the Broken Object Level Authorization (BOLA) vulnerability. Please proceed carefully and observe the security implications.",
             "Please try to shop using the platform normally first and try to view your order. Watch for system responses and any possible security alerts.",
+            "If you need help you can check the hint.",
           ];
           break;
         case 2:
@@ -139,11 +140,16 @@ export default {
           ];
           break;
       }
-      // Send messages
+      // Send messages with delays
       feedbackService.sendFeedback(welcomeMessages[0]);
       setTimeout(() => {
         feedbackService.sendFeedback(welcomeMessages[1]);
-      }, 5000); // Send with a delay of 5 seconds
+      }, 5000); // Send second message after 5 seconds
+      if (welcomeMessages[2]) {
+        setTimeout(() => {
+          feedbackService.sendFeedbackRight(welcomeMessages[2]);
+        }, 10000); // Send third message after 10 seconds
+      }
       this.$router.push("/goods");
     },
     cancelEntry() {
@@ -155,7 +161,8 @@ export default {
       this.$store.commit("setCurrentChallengeId", challengeId);
       this.$router.push("/goods");
     },
-    viewFix() {
+    viewFix(challengeId) {
+      this.$store.commit("setCurrentChallengeId", challengeId);
       this.$router.push("/ChallengeFix");
     },
   },

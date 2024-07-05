@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div v-if="visible" class="feedback-window">
+    <div v-if="visible" :class="['feedback-window', positionClass]">
       <img src="@/assets/imgs/robot.png" alt="Robot" class="robot-image" />
       <div class="message-container">
         <p style="font-size: 13px">{{ message }}</p>
@@ -16,11 +16,21 @@ export default {
     return {
       visible: false,
       message: "",
+      positionClass: "left-top", // Default position
     };
   },
   methods: {
     showMessage(msg) {
       this.message = msg;
+      this.positionClass = "left-top";
+      this.visible = true;
+      setTimeout(() => {
+        this.visible = false;
+      }, 10000); // Message shows for 10 seconds
+    },
+    showMessageRight(msg) {
+      this.message = msg;
+      this.positionClass = "right-top";
       this.visible = true;
       setTimeout(() => {
         this.visible = false;
@@ -28,6 +38,7 @@ export default {
     },
     showMessageLong(msg) {
       this.message = msg;
+      this.positionClass = "left-top";
       this.visible = true;
       setTimeout(() => {
         this.visible = false;
@@ -48,8 +59,6 @@ export default {
 
 .feedback-window {
   position: fixed;
-  top: 20px;
-  left: 20px;
   padding: 15px;
   background: linear-gradient(
     to right,
@@ -70,7 +79,7 @@ export default {
 }
 
 .robot-image {
-  width: 50px; /* Adjust the size as needed */
+  width: 40px; /* Adjust the size as needed */
   height: auto;
   display: block;
   margin-bottom: 3px; /* Space between image and text */
@@ -78,5 +87,16 @@ export default {
 
 .message-container {
   text-align: center;
+}
+
+/* Position classes */
+.left-top {
+  top: 20px;
+  left: 20px;
+}
+
+.right-top {
+  top: 35px;
+  right: 20px;
 }
 </style>
