@@ -1,52 +1,68 @@
 <template>
-  <div>
+  <div class="profile">
     <WebHome />
-    <h1>用户资料</h1>
-    <div v-if="user">
-      <div class="user-info">
-        <p><strong>用户名:</strong> {{ user.userName }}</p>
-        <p><strong>电话:</strong> {{ user.userPhonenumber }}</p>
-        <p><strong>联系人:</strong> {{ user.linkman }}</p>
-        <p><strong>地址:</strong> {{ user.address }}</p>
-        <p><strong>会员等级:</strong> {{ user.membership }}</p>
-        <button @click="editUser">编辑</button>
+    <!-- Profile Header -->
+    <div class="profile-header">
+      <div class="profile-header-content">
+        <p>
+          <i
+            class="el-icon-s-order"
+            style="font-size: 30px; color: #4caf50"
+          ></i>
+          My Profile
+        </p>
       </div>
     </div>
-    <div v-else>
-      <p>正在加载用户信息...</p>
-    </div>
+    <!-- Profile Header END -->
 
-    <div v-if="isEditing">
-      <h2>编辑用户资料</h2>
-      <form @submit.prevent="updateUser">
-        <div>
-          <label for="user_phonenumber">电话:</label>
-          <input
-            type="text"
-            v-model="editUserForm.user_phonenumber"
-            id="user_phonenumber"
-          />
+    <div class="profile-container">
+      <div v-if="user">
+        <div class="user-info">
+          <p><strong>User Name:</strong> {{ user.userName }}</p>
+          <p><strong>Phone:</strong> {{ user.userPhonenumber }}</p>
+          <p><strong>Linkman:</strong> {{ user.linkman }}</p>
+          <p><strong>Address:</strong> {{ user.address }}</p>
+          <p><strong>Membership:</strong> {{ user.membership }}</p>
+          <button @click="editUser">Edit</button>
         </div>
-        <div>
-          <label for="linkman">联系人:</label>
-          <input type="text" v-model="editUserForm.linkman" id="linkman" />
-        </div>
-        <div>
-          <label for="address">地址:</label>
-          <input type="text" v-model="editUserForm.address" id="address" />
-        </div>
-        <button type="submit">保存</button>
-        <button type="button" @click="cancelEdit">取消</button>
-      </form>
+      </div>
+      <div v-else>
+        <p>Loading user information...</p>
+      </div>
     </div>
+    <!-- Edit User Modal -->
+    <el-dialog :visible.sync="isEditing" title="Edit User Profile">
+      <el-form @submit.prevent="updateUser">
+        <el-form-item label="Phone">
+          <el-input v-model="editUserForm.user_phonenumber" />
+        </el-form-item>
+        <el-form-item label="Linkman">
+          <el-input v-model="editUserForm.linkman" />
+        </el-form-item>
+        <el-form-item label="Address">
+          <el-input v-model="editUserForm.address" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="updateUser">Save</el-button>
+          <el-button @click="cancelEdit">Cancel</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import WebHome from "../WebHome.vue";
+import { Button, Dialog, Form, FormItem, Input } from "element-ui";
+
 export default {
   components: {
     WebHome,
+    "el-button": Button,
+    "el-dialog": Dialog,
+    "el-form": Form,
+    "el-form-item": FormItem,
+    "el-input": Input,
   },
   data() {
     return {
@@ -77,7 +93,7 @@ export default {
     },
     editUser() {
       this.isEditing = true;
-      this.editUserForm.user_phonenumber = this.user.user_phonenumber;
+      this.editUserForm.user_phonenumber = this.user.userPhonenumber;
       this.editUserForm.linkman = this.user.linkman;
       this.editUserForm.address = this.user.address;
     },
@@ -112,35 +128,70 @@ export default {
 </script>
 
 <style>
-/* 添加一些样式以使显示更美观 */
+/* Profile Header CSS */
+.profile .profile-header {
+  height: 64px;
+  border-bottom: 2px solid #4caf50;
+  background-color: #fff;
+  margin-bottom: 20px;
+}
+
+.profile .profile-header .profile-header-content {
+  max-width: 1225px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.profile .profile-header p {
+  font-size: 28px;
+  line-height: 58px;
+  font-weight: bold;
+  color: #424242;
+  padding: 10px 0;
+}
+/* Profile Header CSS END */
+
+/* User Info CSS */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .user-info {
   margin-bottom: 20px;
-  padding: 10px;
+  padding: 20px;
   border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 800px;
 }
-form {
-  margin-top: 20px;
+
+.user-info p {
+  margin: 10px 0;
+  font-size: 16px;
 }
-form div {
-  margin-bottom: 10px;
+
+.user-info strong {
+  font-weight: bold;
 }
-form label {
-  display: block;
-}
-form input {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-}
-form button {
-  margin-right: 10px;
-  padding: 10px 15px;
-  background-color: #007bff;
+
+.user-info button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #4caf50;
   color: white;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
-form button[type="button"] {
-  background-color: #6c757d;
+
+.user-info button:hover {
+  background-color: #39873b;
 }
 </style>

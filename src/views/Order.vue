@@ -178,7 +178,7 @@ export default {
   font-size: 28px;
   line-height: 58px;
   float: left;
-  font-weight: normal;
+  font-weight: bold;
   color: #424242;
   padding:10px 0;
 }

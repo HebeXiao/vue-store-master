@@ -128,7 +128,7 @@ a:hover {
 }
 
 .logo {
-  margin-left: -745px; 
+  margin-left: -730px; 
 }
 
 .button-back {

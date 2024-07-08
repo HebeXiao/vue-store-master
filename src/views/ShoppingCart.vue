@@ -274,6 +274,7 @@ export default {
   line-height: 58px;
   color: #424242;
   margin: 10px 0;
+  font-weight: bold;
 }
 
 .cart-icon {
