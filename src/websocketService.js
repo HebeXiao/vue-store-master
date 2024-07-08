@@ -33,14 +33,19 @@ export function connectWebSocket() {
         }, 8000); // 延迟4秒发送
       }
 
-      if (currentChallengeId === 1 &&  user_id !== receivedUserId) {
+      if (currentChallengeId === 1 && user_id !== receivedUserId) {
         if (message === 'Challenge succeeded: Triggered by user ID mismatch.') {
           // 当 challenge_id = 1 并且 userID 匹配时才触发以下操作
           window.location.href = 'http://localhost:8080/#/ChallengeResult';
         }
-      } else {
-        console.log('Received message for different challenge_id or user:', user_id, receivedUserId);
-      }
+      } 
+
+      if (currentChallengeId === 2) {
+        // 处理未经授权的人修改会员属性的特定消息
+        if (message === 'Challenge succeeded: Triggered by unauthorized modification.') {
+          window.location.href = 'http://localhost:8080/#/ChallengeResult';
+        }
+      } 
     } catch (error) {
       console.error('Error parsing message from WebSocket:', error);
     }

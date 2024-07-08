@@ -35,6 +35,9 @@
                 <i class="el-icon-shopping-cart-full"></i> Basket
               </router-link>
             </el-menu-item>
+            <el-menu-item v-if="this.$store.getters.getUser" index="/profile">
+              <router-link to="/profile">Profile</router-link>
+            </el-menu-item>
           </div>
         </el-menu>
       </el-header>

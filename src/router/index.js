@@ -6,9 +6,26 @@ Vue.use(Router)
 
 const routes = [
   {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('../views/Profile.vue'),
+    beforeEnter: (to, from, next) => {
+      if (!isWebSocketConnected()) {
+        connectWebSocket(); // 仅在 WebSocket 未连接时开启连接
+      }
+      next();
+    }
+  },
+  {
     path: '/Postman',
     name: 'Postman',
     component: () => import('../views/Postman.vue'),
+    beforeEnter: (to, from, next) => {
+      if (!isWebSocketConnected()) {
+        connectWebSocket(); // 仅在 WebSocket 未连接时开启连接
+      }
+      next();
+    }
   },
   {
     path: '/ChallengeFix',
@@ -29,7 +46,13 @@ const routes = [
   {
     path: '/orderDetail',
     name: 'OrderDetail',
-    component: () => import('../views/OrderDetail.vue')
+    component: () => import('../views/OrderDetail.vue'),
+    beforeEnter: (to, from, next) => {
+      if (!isWebSocketConnected()) {
+        connectWebSocket(); // 仅在 WebSocket 未连接时开启连接
+      }
+      next();
+    }
   },
   {
     path: '/',
@@ -65,7 +88,13 @@ const routes = [
   {
     path: '/goods/details',
     name: 'Details',
-    component: () => import('../views/Details.vue')
+    component: () => import('../views/Details.vue'),
+    beforeEnter: (to, from, next) => {
+      if (!isWebSocketConnected()) {
+        connectWebSocket(); // 仅在 WebSocket 未连接时开启连接
+      }
+      next();
+    }
   },
   {
     path: '/shoppingCart',
@@ -74,6 +103,12 @@ const routes = [
     meta: {
       requireAuth: true // 需要验证登录状态
     },
+    beforeEnter: (to, from, next) => {
+      if (!isWebSocketConnected()) {
+        connectWebSocket(); // 仅在 WebSocket 未连接时开启连接
+      }
+      next();
+    }
   },
   {
     path: '/order',
@@ -81,6 +116,12 @@ const routes = [
     component: () => import('../views/Order.vue'),
     meta: {
       requireAuth: true // 需要验证登录状态
+    },
+    beforeEnter: (to, from, next) => {
+      if (!isWebSocketConnected()) {
+        connectWebSocket(); // 仅在 WebSocket 未连接时开启连接
+      }
+      next();
     }
   },
   {
@@ -90,6 +131,12 @@ const routes = [
     meta: {
       requireAuth: true // 需要验证登录状态
     },
+    beforeEnter: (to, from, next) => {
+      if (!isWebSocketConnected()) {
+        connectWebSocket(); // 仅在 WebSocket 未连接时开启连接
+      }
+      next();
+    }
   }
 ]
 

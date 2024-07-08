@@ -31,7 +31,9 @@ export default new Vuex.Store({
     guidanceMode: false,
   },
   getters: {
-    getCurrentChallengeId: state => state.currentChallengeId,
+    getCurrentChallengeId: state => {
+      return state.currentChallengeId || localStorage.getItem('currentChallengeId');
+    },
     getChallenges: state => state.challenges,
     isGuidanceMode: (state) => state.guidanceMode
   },
@@ -41,12 +43,14 @@ export default new Vuex.Store({
     },
     setCurrentChallengeId(state, challengeId) {
       state.currentChallengeId= challengeId;
+      localStorage.setItem('currentChallengeId', challengeId);
     },
     setChallenges(state, challenges) {
       state.challenges = challenges;
     },
     resetChallengeId(state) {
       state.currentChallengeId = null; // 或者使用默认值
+      localStorage.removeItem('currentChallengeId');
     },
     setSocket(state, socket) {
       state.socket = socket;
@@ -58,7 +62,7 @@ export default new Vuex.Store({
     },
     setGuidanceMode(state, mode) {
       state.guidanceMode = mode;
-    }
+    },
   },
   actions: {
     fetchScoreboardData({ commit, state }) {

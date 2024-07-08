@@ -20,17 +20,17 @@
         <div class="address-body">
           <ul>
             <li
-              v-for="item in address"
-              :class="confirmAddress == item.id ? 'in-section' : ''"
-              :key="item.id"
-              @click="confirmAddress = item.id"
+              v-if="address.linkman"
+              :class="confirmAddress == address.user_id ? 'in-section' : ''"
+              @click="confirmAddress = address.user_id"
+              @dblclick="editAddress"
             >
-              <h2>{{ item.linkman }}</h2>
-              <p class="phone">Phone: {{ item.phone }}</p>
+              <h2>{{ address.linkman }}</h2>
+              <p class="phone">Phone: {{ address.userPhonenumber }}</p>
               <p class="address">Address:</p>
-              <p>{{ item.address }}</p>
+              <p>{{ address.address }}</p>
             </li>
-            <li class="add-address" @click="isAdd = true">
+            <li v-else class="add-address" @click="isAdd = true">
               <i class="el-icon-circle-plus-outline"></i>
               <p>Add new address</p>
             </li>
@@ -105,7 +105,7 @@
     <!-- Main content container END -->
 
     <!-- pop-up box -->
-    <el-dialog title="Add Address" width="400px" center :visible.sync="isAdd">
+    <el-dialog title="Add/Update Address" width="400px" center :visible.sync="isAdd">
       <el-form :model="add" status-icon ref="ruleForm" class="demo-ruleForm">
         <el-form-item prop="linkman">
           <el-input
@@ -116,12 +116,12 @@
             show-word-limit
           ></el-input>
         </el-form-item>
-        <el-form-item prop="phone">
+        <el-form-item prop="userPhonenumber">
           <el-input
             prefix-icon="el-icon-view"
             type="text"
             placeholder="Please enter the recipient's phone number!"
-            v-model="add.phone"
+            v-model="add.userPhonenumber"
             maxlength="11"
             show-word-limit
           ></el-input>
@@ -163,10 +163,10 @@ export default {
       isAdd: false,
       add: {
         linkman: "",
-        phone: "",
+        userPhonenumber: "",
         address: "",
       },
-      address: [],
+      address: {},
     };
   },
   created() {
@@ -174,16 +174,7 @@ export default {
       this.notifyError("Please check the box before checkout");
       this.$router.push({ path: "/shoppingCart" });
     }
-    const userData = localStorage.getItem("user");
-    const parsedUserData = JSON.parse(userData);
-    this.$axios
-      .post("api/user/address/list", { user_id: parsedUserData.user.user_id })
-      .then((res) => {
-        this.address = res.data.data;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    this.fetchAddress();
   },
   computed: {
     ...mapGetters([
@@ -208,29 +199,28 @@ export default {
   },
   methods: {
     ...mapActions(["deleteShoppingCart"]),
-    // delete from shopping cart
-    remove() {
+    fetchAddress() {
+      const userData = localStorage.getItem("user");
+      const parsedUserData = JSON.parse(userData);
       this.$axios
-        .post("/api/user/address/remove", { id: this.delId })
+        .post("api/user/address/list", { user_id: parsedUserData.user.user_id })
         .then((res) => {
-          if (res.data.code === "001") {
-            this.address = this.address.filter(
-              (addr) => addr.id !== this.delId
-            );
-            this.delId = 0;
-            this.dialogVisible = false;
-            this.notifySucceed(res.data.msg);
-          } else {
-            this.notifyError(res.data.msg);
+          this.address = res.data.data || {};
+          if (this.address.linkman) {
+            this.confirmAddress = this.address.user_id;
+            this.add = { ...this.address }; // Prefill the form with existing address
           }
         })
         .catch((err) => {
           console.error(err);
         });
     },
+    editAddress() {
+      this.isAdd = true;
+    },
     // Check the information all filled
     validateAndSave() {
-      if (!this.add.linkman || !this.add.phone || !this.add.address) {
+      if (!this.add.linkman || !this.add.userPhonenumber || !this.add.address) {
         this.notifyError("Please fill in all address fields.");
         return;
       }
@@ -243,7 +233,7 @@ export default {
       this.$axios
         .post("/api/user/address/save", {
           user_id: parsedUserData.user.user_id,
-          add: this.add,
+          address: this.add,
         })
         .then((res) => {
           if (res.data.code === "001") {
@@ -282,7 +272,7 @@ export default {
                 feedbackService.sendFeedback(
                   "Press the magic F12 key to summon up your browser's developer tools, then click on the 'Network' (Network) tab and refresh this page, you'll find something!"
                 );
-              }, 4000); 
+              }, 4000);
             }
             this.$router.push({ path: "/order" });
           } else {

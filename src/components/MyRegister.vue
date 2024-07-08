@@ -38,72 +38,60 @@
     </el-dialog>
   </div>
 </template>
+
 <script>
 export default {
   name: "MyRegister",
   props: ["register"],
   data() {
-    // 用户名的校验方法
     let validateName = (rule, value, callback) => {
       if (!value) {
         return callback(new Error("Please provide a username."));
       }
-        //判断数据库中是否已经存在该用户名
-        this.$axios
-          .post("/api/user/check", {
-            userName: this.RegisterUser.name
-          })
-          .then(res => {
-            // “001”代表用户名不存在，可以注册
-            if (res.data.code == "001") {
-              this.$refs.ruleForm.validateField("checkPass");
-              return callback();
-            } else {
-              return callback(new Error(res.data.msg));
-            }
-          })
-          .catch(err => {
-            return Promise.reject(err);
-          });
+      this.$axios
+        .post("/api/user/check", {
+          userName: this.RegisterUser.name
+        })
+        .then(res => {
+          if (res.data.code == "001") {
+            return callback();
+          } else {
+            return callback(new Error(res.data.msg));
+          }
+        })
+        .catch(err => {
+          return Promise.reject(err);
+        });
     };
-    // 密码的校验方法
     let validatePass = (rule, value, callback) => {
       if (value === "") {
         return callback(new Error("Please provide a password."));
       }
-      // Password must be 5-40 characters long.
       const passwordRule = /^\w{5,40}$/;
       if (passwordRule.test(value)) {
-        this.$refs.ruleForm.validateField("checkPass");
         return callback();
       } else {
-        return callback(
-          new Error("Password must be 5-40 characters long.")
-        );
+        return callback(new Error("Password must be 5-40 characters long."));
       }
     };
-    // 确认密码的校验方法
     let validateConfirmPass = (rule, value, callback) => {
       if (value === "") {
         return callback(new Error("Please repeat your password."));
       }
-      // 校验是否以密码一致
       if (this.RegisterUser.pass != "" && value === this.RegisterUser.pass) {
-        this.$refs.ruleForm.validateField("checkPass");
         return callback();
       } else {
         return callback(new Error("Passwords do not match."));
       }
     };
     return {
-      isRegister: false, // 控制注册组件是否显示
+      isRegister: false,
       RegisterUser: {
         name: "",
         pass: "",
         confirmPass: "",
         phone: ""
       },
-      // 用户信息校验规则,validator(校验方法),trigger(触发方式),blur为在组件 Input 失去焦点时触发
       rules: {
         name: [{ validator: validateName, trigger: "blur" }],
         pass: [{ validator: validatePass, trigger: "blur" }],
@@ -112,13 +100,11 @@ export default {
     };
   },
   watch: {
-    // 监听父组件传过来的register变量，设置this.isRegister的值
     register: function(val) {
       if (val) {
         this.isRegister = val;
       }
     },
-    // 监听this.isRegister变量的值，更新父组件register变量的值
     isRegister: function(val) {
       if (!val) {
         this.$refs["ruleForm"].resetFields();
@@ -128,9 +114,7 @@ export default {
   },
   methods: {
     Register() {
-      // 通过element自定义表单校验规则，校验用户输入的用户信息
       this.$refs["ruleForm"].validate(valid => {
-        //如果通过校验开始注册
         if (valid) {
           this.$axios
             .post("/api/user/register", {
@@ -139,14 +123,10 @@ export default {
               userPhonenumber: this.RegisterUser.phone
             })
             .then(res => {
-              // “001”代表注册成功，其他的均为失败
               if (res.data.code === "001") {
-                // 隐藏注册组件
                 this.isRegister = false;
-                // 弹出通知框提示注册成功信息
                 this.notifySucceed(res.data.msg);
               } else {
-                // 弹出通知框提示注册失败信息
                 this.notifyError(res.data.msg);
               }
             })
@@ -161,5 +141,6 @@ export default {
   }
 };
 </script>
-<style>
+
+<style scoped>
 </style>
