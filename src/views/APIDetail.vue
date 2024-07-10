@@ -45,6 +45,9 @@
       <div class="button-container">
         <button @click="learnMore">Learn More</button>
       </div>
+      <div class="button-container">
+        <button @click="goBack">Back</button>
+      </div>
       <!-- 这里可以添加更多相关内容 -->
     </div>
     <div v-else-if="challengeID === '2'">
@@ -58,6 +61,12 @@
         Your goal is to manipulate these properties to access or modify
         restricted data.
       </p>
+      <div class="button-container">
+        <button @click="learnMore2">Learn More</button>
+      </div>
+      <div class="button-container">
+        <button @click="goBack">Back</button>
+      </div>
       <!-- 这里可以添加更多相关内容 -->
     </div>
     <div v-else>
@@ -85,6 +94,15 @@ export default {
         "_blank"
       );
     },
+    learnMore2() {
+      window.open(
+        "https://owasp.org/API-Security/editions/2023/en/0xa3-broken-object-property-level-authorization/",
+        "_blank"
+      );
+    },
+    goBack(){
+      this.$router.go(-1);
+    }
   },
 };
 </script>

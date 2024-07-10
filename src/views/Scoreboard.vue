@@ -144,11 +144,11 @@ export default {
       feedbackService.sendFeedback(welcomeMessages[0]);
       setTimeout(() => {
         feedbackService.sendFeedback(welcomeMessages[1]);
-      }, 5000); // Send second message after 5 seconds
+      }, 10000); // Send second message after 5 seconds
       if (welcomeMessages[2]) {
         setTimeout(() => {
           feedbackService.sendFeedbackRight(welcomeMessages[2]);
-        }, 10000); // Send third message after 10 seconds
+        }, 18000); // Send third message after 10 seconds
       }
       this.$router.push("/goods");
     },

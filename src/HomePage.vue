@@ -146,7 +146,8 @@ export default {
     // Log out
     logout() {
       this.visible = false;
-      localStorage.setItem("user", "");
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
       this.setUser("");
       // If in the challenge
       if (this.getCurrentChallengeId) {

@@ -272,7 +272,7 @@ export default {
                 feedbackService.sendFeedback(
                   "Press the magic F12 key to summon up your browser's developer tools, then click on the 'Network' (Network) tab and refresh this page, you'll find something!"
                 );
-              }, 4000);
+              }, 20000);
             }
             this.$router.push({ path: "/order" });
           } else {

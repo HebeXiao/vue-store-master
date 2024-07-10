@@ -1,6 +1,8 @@
+
+Copy code
 <template>
   <transition name="fade">
-    <div v-if="visible" :class="['feedback-window', positionClass]">
+    <div v-if="visible" :class="['feedback-window', positionClass]" @mouseenter="stopClose" @mouseleave="allowClose">
       <img src="@/assets/imgs/robot.png" alt="Robot" class="robot-image" />
       <div class="message-container">
         <p style="font-size: 13px">{{ message }}</p>
@@ -17,6 +19,7 @@ export default {
       visible: false,
       message: "",
       positionClass: "left-top", // Default position
+      closeTimeout: null,
     };
   },
   methods: {
@@ -24,26 +27,32 @@ export default {
       this.message = msg;
       this.positionClass = "left-top";
       this.visible = true;
-      setTimeout(() => {
-        this.visible = false;
-      }, 10000); // Message shows for 10 seconds
+      this.resetTimeout(15000); // Message shows for 10 seconds
     },
     showMessageRight(msg) {
       this.message = msg;
       this.positionClass = "right-top";
       this.visible = true;
-      setTimeout(() => {
-        this.visible = false;
-      }, 10000); // Message shows for 10 seconds
+      this.resetTimeout(15000); // Message shows for 10 seconds
     },
     showMessageLong(msg) {
       this.message = msg;
       this.positionClass = "left-top";
       this.visible = true;
-      setTimeout(() => {
-        this.visible = false;
-      }, 15000); // Message shows for 20 seconds
+      this.resetTimeout(20000); // Message shows for 15 seconds
     },
+    resetTimeout(delay) {
+      clearTimeout(this.closeTimeout);
+      this.closeTimeout = setTimeout(() => {
+        this.visible = false;
+      }, delay);
+    },
+    stopClose() {
+      clearTimeout(this.closeTimeout); // Stop the close timeout when mouse is over the component
+    },
+    allowClose() {
+      this.resetTimeout(5000); // Restart the close timeout when mouse leaves
+    }
   },
 };
 </script>

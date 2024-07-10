@@ -72,7 +72,7 @@
       </p>
     </div>
     <div class="button-container">
-      <button @click="goBack">Back to Challenge</button>
+      <button @click="goBack">Back</button>
       <button @click="learnMore">Learn More</button>
     </div>
   </div>

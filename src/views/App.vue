@@ -25,54 +25,51 @@
       </div>
       <div class="introduction">
         <p>
-          In this tool designed to demonstrate and educate on API security
-          vulnerabilities, you will have the opportunity to challenge and
-          explore an insecure e-commerce mock-up website based on a
-          microservices architecture. This challenge covers two critical
-          vulnerabilities from the OWASP API Security Top 10:
+          Welcome to the Playground of API Security Vulnerabilities! Explore our
+          "slightly insecure" mock-up e-commerce website based on a
+          microservices architecture. Are you ready to tackle two of the most
+          critical vulnerabilities listed in the OWASP API Security Top 10?
         </p>
         <ul>
           <li>
             <router-link
               :to="{ name: 'APIDetail', query: { challengeID: '1' } }"
             >
-              <el-button type="text" style="font-weight: bold; font-size: 16px; margin: -5px 0">
-                API1:2023 Broken Object Level Authorisation
+              <el-button
+                type="text"
+                style="font-weight: bold; font-size: 16px; margin: -5px 0"
+              >
+                Broken Object Level Authorisation
               </el-button>
             </router-link>
           </li>
+
           <li>
             <router-link
               :to="{ name: 'APIDetail', query: { challengeID: '2' } }"
             >
-              <el-button type="text" style="font-weight: bold; font-size: 16px; margin: -5px 0">
-                API3:2023 Broken Object Property Level Authorization
+              <el-button
+                type="text"
+                style="font-weight: bold; font-size: 16px; margin: -5px 0"
+              >
+                Broken Object Property Level Authorization
               </el-button>
             </router-link>
           </li>
         </ul>
         <p>
-          Before you start exploring, You can also visit the information page,
-          which provides a detailed description of each vulnerability and
-          related tutorials. Besides, it is also recommended that you can visit
-          our
-          <router-link to="/about" class="nav-link" style="color: #476cff"
-            >information page</router-link
-          >
-          , which provides a detailed architectural background of the simulated
-          e-commerce platform.
+          Before you dive deep into the code abyss, don't forget to visit our
+          <router-link to="/about" class="nav-link" style="color: #45a049"
+            >Information Page</router-link
+          >. It's packed with detailed descriptions of each vulnerability and
+          related tutorials, plus an extensive architectural background of our
+          simulated e-commerce platform. These resources are key to your journey
+          towards becoming an API security master.
         </p>
         <p>
-          When you're ready to start the challenge, you can log in and go to the
-          scoreboard page to begin the challenge, where you can also view your
-          challenge progress and achievements.
-        </p>
-        <p>
-          If you're a beginner in cybersecurity, don't worry, you have the
-          option to turn on interactive tips when you start the challenge to
-          help you understand and overcome each challenge step-by-step. Our goal
-          is to improve your understanding of cybersecurity strategies through
-          practice and interaction.
+          Ready to take on the challenge? Log in and head over to the scoreboard
+          page, where you can kick off your challenges, track your progress, and
+          see if you can rise to the rank of defense master!
         </p>
       </div>
     </div>
@@ -114,13 +111,13 @@ export default {
   font-size: 30px;
   color: #45a049;
   text-align: center;
-  margin: 5px 10px;
+  margin-top: -15px;
 }
 
 .content {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; 
+  align-items: flex-start;
   margin: 30px 30px;
 }
 
@@ -132,11 +129,13 @@ export default {
 .introduction {
   flex: 1; /* The introductory text takes up the other half of the space */
   padding: 0 20px;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .el-carousel__item img {
   border-radius: 15px;
-  width: 100%; 
+  width: 100%;
   display: block;
 }
 </style>
