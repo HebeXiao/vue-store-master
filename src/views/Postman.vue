@@ -92,7 +92,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters(['isPreviousPageSection']),
+    ...mapGetters(['previousPageSection']),
   },
   data() {
     return {
@@ -101,8 +101,8 @@ export default {
   },
   methods: {
     goBack() {
-      if (this.isPreviousPageSection) {
-        this.$router.push('/about');
+      if (this.previousPageSection) {
+        this.$router.push(this.previousPageSection);
       } else {
         this.$router.go(-1);
       }

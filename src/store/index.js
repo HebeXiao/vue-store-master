@@ -39,13 +39,17 @@ export default new Vuex.Store({
     isGuidanceMode: state => {
       return state.guidanceMode || localStorage.getItem('guidanceMode');
     },
-    isPreviousPageSection(state) {
+    previousPageSection(state) {
       const sectionUrls = new Set([
-        '/about'
+        '/about',
+        '/goods',
+        '/order',
+        '/shoppingCart',
+        '/confirmOrder'
       ]);
       const historyLength = state.navigationHistory.length;
       const prevPage = historyLength > 1 ? state.navigationHistory[historyLength - 2] : null;
-      return prevPage && sectionUrls.has(prevPage);
+      return prevPage && sectionUrls.has(prevPage) ? prevPage : null;
     },
   },
   mutations: {
