@@ -2,7 +2,9 @@
 <template>
   <div>
     <!-- 你的模板内容 -->
-    <h1 class="centered-title">Using Postman to Explore and Test APIs</h1>
+    <h1 class="centered-title">
+      Using Developer Tools to Explore and Test APIs
+    </h1>
     <div class="postman-content">
       <p>
         Postman is a powerful tool designed for testing and developing APIs.
@@ -83,7 +85,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters(['isPreviousPageSection']),
+    ...mapGetters(["isPreviousPageSection"]),
   },
   data() {
     return {
@@ -93,14 +95,14 @@ export default {
   methods: {
     goBack() {
       if (this.isPreviousPageSection) {
-        this.$router.push('/about');
+        this.$router.push("/about");
       } else {
         this.$router.go(-1);
       }
     },
     learnMore() {
       window.open(
-        "https://learning.postman.com/docs/getting-started/basics/postman-basics/",
+        "https://developer.chrome.com/docs/devtools/overview",
         "_blank"
       );
     },

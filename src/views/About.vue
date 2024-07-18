@@ -120,6 +120,7 @@
           applications running in the browser or on other platforms.
         </p>
         <p>【more】</p>
+        <button @click="learnMoreDeveloper">Details</button>
         <div id="section5" class="title-with-image">
           <img src="@/assets/imgs/postman6.png" class="postman-image" />
           <h2>5. Introduction to Postman</h2>
@@ -154,6 +155,9 @@ export default {
     },
     learnMore() {
       this.$router.push("/Postman");
+    },
+    learnMoreDeveloper() {
+      this.$router.push("/DevTools");
     },
   },
 };

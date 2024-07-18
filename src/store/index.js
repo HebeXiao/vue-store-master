@@ -29,6 +29,7 @@ export default new Vuex.Store({
     user: null,
     socket: null,
     guidanceMode: false,
+    navigationHistory: []
   },
   getters: {
     getCurrentChallengeId: state => {
@@ -38,8 +39,22 @@ export default new Vuex.Store({
     isGuidanceMode: state => {
       return state.guidanceMode || localStorage.getItem('guidanceMode');
     },
+    isPreviousPageSection(state) {
+      const sectionUrls = new Set([
+        '/about'
+      ]);
+      const historyLength = state.navigationHistory.length;
+      const prevPage = historyLength > 1 ? state.navigationHistory[historyLength - 2] : null;
+      return prevPage && sectionUrls.has(prevPage);
+    },
   },
   mutations: {
+    addHistory(state, path) {
+      state.navigationHistory.push(path);
+    },
+    clearHistory(state) {
+      state.navigationHistory = [];
+    },
     setCurrentOrderId(state, orderId) {
       state.currentOrderId = orderId; // 设置当前订单ID
     },

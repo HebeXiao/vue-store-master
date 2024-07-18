@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import { connectWebSocket, isWebSocketConnected } from '@/websocketService';
+import store from '@/store'; // 导入 Vuex store
 
 Vue.use(Router);
 
@@ -20,12 +21,11 @@ const routes = [
     path: '/Postman',
     name: 'Postman',
     component: () => import('../views/Postman.vue'),
-    beforeEnter: (to, from, next) => {
-      if (!isWebSocketConnected()) {
-        connectWebSocket(); // 仅在 WebSocket 未连接时开启连接
-      }
-      next();
-    }
+  },
+  {
+    path: '/DevTools',
+    name: 'DevTools',
+    component: () => import('../views/DevTools.vue'),
   },
   {
     path: '/ChallengeFix',
@@ -158,5 +158,15 @@ Router.prototype.push = function push(location, onResolve, onReject) {
     return originalPush.call(this, location, onResolve, onReject);
   return originalPush.call(this, location).catch((err) => err);
 };
+
+router.beforeEach((to, from, next) => {
+  if (from.fullPath) {
+    store.commit('addHistory', from.fullPath);
+  }
+  if (to.fullPath) {
+    store.commit('addHistory', to.fullPath);
+  }
+  next();
+});
 
 export default router;
