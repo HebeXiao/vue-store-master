@@ -143,7 +143,6 @@
 
 <script>
 export default {
-  name: "ChallengeFix",
   data() {
     return {
       // 你的数据属性

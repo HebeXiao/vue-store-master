@@ -1,87 +1,167 @@
-<!-- src/views/ChallengeFix.vue -->
 <template>
-  <div>
-    <!-- 你的模板内容 -->
-    <h1 class="centered-title">
-      Using Developer Tools to Explore and Test APIs
-    </h1>
-    <div class="postman-content">
-      <p>
-        Postman is a powerful tool designed for testing and developing APIs.
-        Here’s a comprehensive tutorial to help you master the basic skills
-        needed to complete your API challenge.
-      </p>
-      <div class="title-with-image">
-        <img src="@/assets/imgs/postman1.png" class="postman-image" />
-        <h2>1. Installing Postman</h2>
+  <div class="container">
+    <aside class="sidebar">
+      <ul>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#launching">Launching Developer Tools</a></li>
+        <li><a href="#view-requests">View API Requests</a></li>
+        <li><a href="#send-requests">Send API Requests</a></li>
+        <li><a href="#discover-token">Discover Token</a></li>
+        <li><a href="#send-token-requests">Send API Request with Token</a></li>
+      </ul>
+    </aside>
+    <main class="main-content">
+      <!-- 你的模板内容 -->
+      <h1 class="centered-title">
+        Using Developer Tools to Explore and Test APIs
+      </h1>
+      <div class="devtools-content">
+        <p id="introduction">
+          Developer Tools are powerful features built into modern browsers
+          designed to help developers and security researchers debug, analyze, and
+          optimize web pages. By using these tools, you can view the source code
+          of web pages, debug JavaScript, analyze network requests and responses,
+          detect performance bottlenecks, and perform security checks. This
+          tutorial will help you utilize developer tools to identify and exploit
+          API requests to understand vulnerabilities related to API security and
+          improve your cybersecurity skills.
+        </p>
+        <div class="title-with-image" id="launching">
+          <img src="@/assets/imgs/postman1.png" class="devtools-image" />
+          <h2>1. Launching Developer Tools</h2>
+        </div>
+        <p>
+          To use Developer Tools, you need to open it first. Right-click on a web
+          page and select “Inspect” or press Ctrl+Shift+I (Windows) or
+          Cmd+Option+I (Mac). Once Developer Tools opens, you'll see a window with
+          multiple tabs, such as Elements, Console, Network, and so on.
+        </p>
+        <img src="@/assets/imgs/devtools1.png" class="guidance-image" />
+        <p><strong>Common Tab Functions</strong></p>
+        <p>
+          <strong style="color: #45a049">1. Console: </strong> Debug JavaScript
+          code, view and output variable values, detect script errors and
+          warnings.<br />
+          <strong style="color: #45a049">2. Network: </strong> Monitor all network
+          requests and responses, analyze API requests and responses, and examine
+          request and response headers.<br />
+          <strong style="color: #45a049">3. Application: </strong> Manage
+          application-related resources for the web page.<br />
+        </p>
+        <div class="title-with-image" id="view-requests">
+          <img src="@/assets/imgs/postman2.png" class="devtools-image" />
+          <h2>2. View API Requests</h2>
+        </div>
+        <p><strong>Steps:</strong></p>
+        <p>
+          <strong style="color: #45a049">1. Open Developer Tools.</strong><br />
+          <strong style="color: #45a049">2. Select the Network tab. </strong><br />
+          <strong style="color: #45a049"
+            >3. Refresh the web page or perform an action to trigger an API
+            request.</strong
+          ><br />
+        </p>
+        <p>
+          In the Network tab, you will see a list of all network activity,
+          including API requests. You can click on a request to see its details,
+          including the request URL, method, status code, response data, and more.
+        </p>
+        <img src="@/assets/imgs/devtools2.png" class="guidance-image" />
+        <div class="title-with-image" id="send-requests">
+          <img src="@/assets/imgs/postman4.png" class="devtools-image" />
+          <h2>3. Send API request</h2>
+        </div>
+        <p>
+          Developer tools usually do not directly support sending custom API
+          requests. You can send custom API requests using Postman, a very popular
+          tool for building and testing APIs. There is a detailed tutorial on this
+          in
+          <router-link to="/Postman" class="nav-link" style="color: #45a049"
+            >Postman Tutorial</router-link
+          >. If you don't want to download Postman, you can use the Console to
+          write JavaScript code to send requests.
+        </p>
+        <p><strong>Steps:</strong></p>
+        <p>
+          <strong style="color: #45a049"
+            >1. Open the Console tab of the Developer Tools. </strong><br />
+          <strong style="color: #45a049"
+            >2. Write and send a request using fetch or XMLHttpRequest. For
+            example: </strong><br />
+        </p>
+        <pre
+          style="
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+          "
+        ><code>
+fetch('https://api.example.com/data', {
+  method: 'GET'
+})
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+</code></pre>
+        <div class="title-with-image" id="discover-token">
+          <img src="@/assets/imgs/postman6.png" class="devtools-image" />
+          <h2>4. Discover Token</h2>
+        </div>
+        <p>
+          API requests often use Token for authentication. Here's how to find
+          Token in Developer Tools:
+        </p>
+        <p><strong>Steps:</strong></p>
+        <p>
+          <strong style="color: #45a049"
+            >1. Find and click on an API request in the Network tab. </strong><br />
+          <strong style="color: #45a049"
+            >2. In the right panel, select the Headers sub-tab. </strong><br />
+          <strong style="color: #45a049"
+            >3. In the Request Headers section, look for a header that contains
+            fields such as Authorization, Token, and Bearer. </strong><br />
+        </p>
+        <img src="@/assets/imgs/devtools3.png" class="guidance-image" />
+        <div class="title-with-image" id="send-token-requests">
+          <img src="@/assets/imgs/postman7.png" class="devtools-image" />
+          <h2>5. Send API request with Token</h2>
+        </div>
+        <p>
+          <strong style="color: #45a049"
+            >1. Write the request code that contains the Token in the Console.</strong><br />
+          <strong style="color: #45a049"
+            >2. Use fetch or XMLHttpRequest to set the request header to include the Token. For example: </strong><br />
+        </p>
+        <pre
+          style="
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+          "
+        ><code>
+fetch('https://api.example.com/protected-data', {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer YOUR_TOKEN_HERE'
+  }
+})
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+</code></pre>
       </div>
-      <p>
-        First, you need to download and install Postman. Visit
-        <a
-          class="link"
-          href="https://www.postman.com/downloads/"
-          target="_blank"
-          >the Postman website</a
-        >
-        to download the version for your operating system and follow the
-        installation instructions.
-      </p>
-      <div class="title-with-image">
-        <img src="@/assets/imgs/postman2.png" class="postman-image" />
-        <h2>2. Creating a New Request</h2>
+      <div class="button-container">
+        <button @click="goBack">Back</button>
+        <button @click="learnMore">Learn More</button>
       </div>
-      <p>
-        Once installed, open Postman and follow these steps to create a new API
-        request: <br />
-        1. Click "+" to create a new request. <br />
-        2. Select the request method <br />
-        3. Enter the API URL in the request field. <br />
-        4. Click "Send" to start the test.<br />
-        5. After the test is completed, you can see the status 200, indicating
-        that the API is connected and returns the result successfully.<br />
-        6.The result value returned by the GET API is a JSON file.
-      </p>
-      <img src="@/assets/imgs/postman3.png" class="guidance-image" />
-      <div class="title-with-image">
-        <img src="@/assets/imgs/postman4.png" class="postman-image" />
-        <h2>3. Adding Request Headers</h2>
-      </div>
-      <p>
-        Some API requests require specific headers, such as a token for
-        authentication. Several types of authorization are supported by Postman.
-        Select a type from the Type dropdown list on the Authorization tab of a
-        request.<br />
-        【Ps. Bearer tokens enable requests to authenticate using an access key,
-        such as a JSON Web Token (JWT). The token is a text string, included in
-        the request header. In the request Authorization tab, select Bearer
-        Token from the Type dropdown list. In the Token field, enter your API
-        key value.】
-      </p>
-      <img src="@/assets/imgs/postman5.png" class="guidance-image" />
-      <div class="title-with-image">
-        <img src="@/assets/imgs/postman6.png" class="postman-image" />
-        <h2>4. Inspecting and Debugging the Response</h2>
-      </div>
-      <p>
-        If your request is rejected or returns an error, you can inspect and
-        debug it by following these steps:<br />
-        1. Check the response status code. For example, 401 indicates
-        unauthorized access, which might mean an invalid or missing token.<br />
-        2. Review the response headers and body for error messages to identify
-        the issue.<br />
-        3. Go back and modify your request. For example, verify and ensure the
-        token is correct or adjust request parameters.<br />
-      </p>
-    </div>
-    <div class="button-container">
-      <button @click="goBack">Back</button>
-      <button @click="learnMore">Learn More</button>
-    </div>
+    </main>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
   computed: {
@@ -111,7 +191,46 @@ export default {
 </script>
 
 <style scoped>
-/* 你的样式 */
+/* 样式 */
+.container {
+  display: flex;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #f4f4f4;
+  padding: 5px;
+  border-right: 1px solid #ddd;
+  position: fixed;
+  margin-top: -20px;
+  height: 265px;
+  overflow-y: auto;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 10px 0;
+}
+
+.sidebar a {
+  color: #45a049;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  text-decoration: underline;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  margin-left: 220px; /* 确保主内容不被固定的侧边栏覆盖 */
+}
+
 button {
   margin-top: 20px;
   padding: 10px 20px;
@@ -132,7 +251,7 @@ button:hover {
   color: #45a049;
 }
 
-.postman-content {
+.devtools-content {
   padding: 0 50px;
 }
 
@@ -142,7 +261,7 @@ button:hover {
   margin-top: 20px;
 }
 
-.postman-image {
+.devtools-image {
   width: 30px; /* 调整图片的宽度 */
   height: auto; /* 使图片保持比例 */
   margin-right: 10px; /* 调整图片与标题之间的间距 */
@@ -158,7 +277,7 @@ h2 {
 }
 
 .guidance-image {
-  width: 500px;
+  width: 600px;
   display: block;
   margin: 20px auto; /* 水平居中 */
 }
