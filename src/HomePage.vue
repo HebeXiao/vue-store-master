@@ -34,7 +34,7 @@
                 >Scoreboard</el-button
               >
             </li>
-            <li v-if="this.$store.getters.getUser && getCurrentChallengeId && this.$route.path !== '/ChallengeFix'">
+            <li v-if="showHintButton">
               <el-button @click="showHint" type="text" style="font-size: 18px"
                 >Hint</el-button
               >
@@ -116,6 +116,9 @@ import HintWindow from "./components/HintWindow.vue";
 import DialogWindow from './components/DialogWindow.vue'; // Import the DialogWindow component
 
 export default {
+  created() {
+    this.refreshState();
+  },
   components: {
     HintWindow,
     DialogWindow  // Register the DialogWindow component
@@ -130,12 +133,20 @@ export default {
     };
   },
   computed: {
+    showHintButton() {
+      return this.$store.getters.getUser && this.getCurrentChallengeId && this.$route.path !== '/ChallengeFix';
+    },
     ...mapGetters(["getUser", "getNum", "getCurrentChallengeId"]),
   },
   methods: {
     ...mapActions(["setUser", "setShowLogin"]),
     ...mapMutations(["setCurrentChallengeId"]),
     // Receive data from registered subcomponents
+    refreshState() {
+      if (this.getCurrentChallengeId){
+        this.$store.commit('setCurrentChallengeId', localStorage.getItem('currentChallengeId'));
+      }
+    },
     isRegister(val) {
       this.register = val;
     },
@@ -148,6 +159,7 @@ export default {
       this.visible = false;
       localStorage.removeItem('user');
       localStorage.removeItem('token');
+      localStorage.removeItem('guidanceMode');
       this.setUser("");
       // If in the challenge
       if (this.getCurrentChallengeId) {
@@ -170,13 +182,13 @@ export default {
         this.targetRoute = targetRoute;  // Save the target route for later use
       } else {
         this.$router.push(targetRoute);
-        this.$store.commit("resetChallengeId");
       }
     },
     // Confirm exit from the challenge
     confirmExit() {
       this.$store.commit("resetChallengeId");
       this.$store.commit("closeSocket");
+      this.$store.commit("resetGuidanceMode");
       this.$router.push(this.targetRoute).catch(err => {
         console.error("Router error:", err);
       });

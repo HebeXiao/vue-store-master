@@ -21,12 +21,13 @@ export function connectWebSocket() {
 
       // 直接从 Vuex store 获取当前挑战 ID 和用户 ID
       const currentChallengeId = store.getters.getCurrentChallengeId;
+      const isGuidanceMode = store.getters.isGuidanceMode;
       const userData = localStorage.getItem('user');
       const parsedUserData = JSON.parse(userData);
       const user_id = parsedUserData.user.user_id;
 
       // 处理 token 为空的特定消息
-      if (message === 'Challenge succeeded: Triggered by empty token.') {
+      if (message === 'Challenge succeeded: Triggered by empty token.' && isGuidanceMode === true) {
         feedbackService.sendLongFeedback("Oops, looks like you forgot one important thing! A request without a Token is like a door without a key, how can you get in?");
         setTimeout(() => {
           feedbackService.sendFeedback("No worries! Just pop open your browser's developer tools, hop over to the 'Application' tab, and you'll find it chilling under 'Local Storage'.");

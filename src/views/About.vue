@@ -1,130 +1,141 @@
 <template>
-  <div>
-    <!-- 你的模板内容 -->
-    <h1 class="centered-title">Information Hub</h1>
-    <div class="postman-content">
-      <p>
-        Greetings to our info hub! This is a source of API security knowledge.
-        Ready to outsmart hackers? Join us to uncover the secrets of protecting
-        APIs!
-      </p>
-      <div class="title-with-image">
-        <img src="@/assets/imgs/postman1.png" class="postman-image" />
-        <h2>1. Your API Security Class Schedule</h2>
-      </div>
-      <p>
-        We've prepared "mini-lessons" on the OWASP Top 10 API Security Risks,
-        including:
-      </p>
+  <div class="container">
+    <div class="sidebar">
       <ul>
-        <li>
-          <router-link :to="{ name: 'APIDetail', query: { challengeID: '1' } }">
-            <el-button type="text" style="font-weight: bold; font-size: 16px">
-              Broken Object Level Authorisation
-            </el-button>
-          </router-link>
-        </li>
-
-        <li>
-          <router-link :to="{ name: 'APIDetail', query: { challengeID: '2' } }">
-            <el-button type="text" style="font-weight: bold; font-size: 16px">
-              Broken Object Property Level Authorization
-            </el-button>
-          </router-link>
-        </li>
+        <li><a href="#section1">API Security Class Schedule</a></li>
+        <li><a href="#section2">Secrets of Architecture</a></li>
+        <li><a href="#section3">What is a RESTful API?</a></li>
+        <li><a href="#section4">Developer Tools</a></li>
+        <li><a href="#section5">Introduction to Postman</a></li>
       </ul>
-      <p>
-        Each "lesson" comes with detailed case studies, not just telling you
-        "what" but more importantly "why" and "how to fix it".
-      </p>
-      <div class="title-with-image">
-        <img src="@/assets/imgs/postman2.png" class="postman-image" />
-        <h2>2. The Secrets of Architecture</h2>
-      </div>
-      <p>
-        Our simulated e-commerce platform is ingeniously crafted using a
-        microservices architecture, designed to enhance both flexibility and
-        resilience. In this structure, we break down the platform into four key
-        services—User, Product, Order, and Cart. Each service operates
-        independently yet communicates seamlessly with the others through
-        RESTful APIs.
-      </p>
-      <p>
-        <strong style="color: #45a049">1. User Service: </strong> Manages user
-        authentication and profile data. This is the gatekeeper of personal and
-        sensitive data, making security paramount.<br />
-        <strong style="color: #45a049">2. Product Service: </strong> Handles
-        everything related to product listings, descriptions, and inventory
-        levels. It’s crucial for maintaining accurate and secure product
-        data.<br />
-        <strong style="color: #45a049">3. Order Service: </strong> Responsible
-        for processing orders, including payment transactions. This service is a
-        hotbed for financial data and thus a critical point for security.<br />
-        <strong style="color: #45a049">4. Cart Service: </strong>Manages the
-        shopping cart operations, interacting closely with the Product and Order
-        services to ensure smooth transaction flows.
-      </p>
-      <p>【A picture for the architecture of the microservice system】</p>
-      <div class="title-with-image">
-        <img src="@/assets/imgs/postman4.png" class="postman-image" />
-        <h2>3. What is a RESTful API?</h2>
-      </div>
-      <p>
-        RESTful API stands for Representational State Transfer API. It's a way
-        for different parts of a computer program or different programs to talk
-        to each other in a simple and predictable way. Imagine it as a set of
-        rules that help software components communicate.RESTful APIs use
-        standard web methods like those used for web pages, primarily HTTP (the
-        protocol browsers use to communicate with websites).Each request from
-        your phone or computer to the server must include all the information
-        the server needs to understand it. This means the server doesn't need to
-        remember anything about the user after the request is done.
-      </p>
-      <p><strong>Simple Commands:</strong></p>
-      <p>
-        <strong style="color: #45a049">GET to retrieve information</strong>
-        <br />
-        <strong style="color: #45a049">POST to send new information</strong
-        ><br />
-        <strong style="color: #45a049"
-          >PUT to change existing information </strong
-        ><br />
-        <strong style="color: #45a049"
-          >DELETE to remove existing information</strong
-        >
-      </p>
-      <p>
-        Even though RESTful APIs are simple, they need to be secured to prevent
-        unauthorized access.
-      </p>
-      <div class="title-with-image">
-        <img src="@/assets/imgs/postman6.png" class="postman-image" />
-        <h2>4. Introduction to Developer Tools</h2>
-      </div>
-      <p>
-        Developer tools, often referred to as "DevTools," are software
-        applications that help developers create, test, and debug their
-        software. These tools are essential for efficient development and are
-        integrated into many of the web browsers and development environments we
-        use today. They provide a deep insight into the internals of
-        applications running in the browser or on other platforms.
-      </p>
-      <p>【more】</p>
-      <div class="title-with-image">
-        <img src="@/assets/imgs/postman6.png" class="postman-image" />
-        <h2>5. Introduction to Postman</h2>
-      </div>
-      <p>
-        Postman is a popular software development tool used primarily for
-        building and testing APIs. It provides a user-friendly graphical
-        interface that allows developers to create, send, and analyze HTTP
-        requests and responses.
-      </p>
-      <p>【more】</p>
-      <button @click="learnMore">Details</button>
     </div>
-    <div class="button-container">
-      <button @click="goBack">Back to Home</button>
+    <div class="main-content">
+      <!-- 你的模板内容 -->
+      <h1 class="centered-title">Information Hub</h1>
+      <div class="postman-content">
+        <p>
+          Greetings to our info hub! This is a source of API security knowledge.
+          Ready to outsmart hackers? Join us to uncover the secrets of protecting
+          APIs!
+        </p>
+        <div id="section1" class="title-with-image">
+          <img src="@/assets/imgs/postman1.png" class="postman-image" />
+          <h2>1. Your API Security Class Schedule</h2>
+        </div>
+        <p>
+          We've prepared "mini-lessons" on the OWASP Top 10 API Security Risks,
+          including:
+        </p>
+        <ul>
+          <li>
+            <router-link :to="{ name: 'APIDetail', query: { challengeID: '1' } }">
+              <el-button type="text" style="font-weight: bold; font-size: 16px">
+                Broken Object Level Authorisation
+              </el-button>
+            </router-link>
+          </li>
+
+          <li>
+            <router-link :to="{ name: 'APIDetail', query: { challengeID: '2' } }">
+              <el-button type="text" style="font-weight: bold; font-size: 16px">
+                Broken Object Property Level Authorization
+              </el-button>
+            </router-link>
+          </li>
+        </ul>
+        <p>
+          Each "lesson" comes with detailed case studies, not just telling you
+          "what" but more importantly "why" and "how to fix it".
+        </p>
+        <div id="section2" class="title-with-image">
+          <img src="@/assets/imgs/postman2.png" class="postman-image" />
+          <h2>2. The Secrets of Architecture</h2>
+        </div>
+        <p>
+          Our simulated e-commerce platform is ingeniously crafted using a
+          microservices architecture, designed to enhance both flexibility and
+          resilience. In this structure, we break down the platform into four key
+          services—User, Product, Order, and Cart. Each service operates
+          independently yet communicates seamlessly with the others through
+          RESTful APIs.
+        </p>
+        <p>
+          <strong style="color: #45a049">1. User Service: </strong> Manages user
+          authentication and profile data. This is the gatekeeper of personal and
+          sensitive data, making security paramount.<br />
+          <strong style="color: #45a049">2. Product Service: </strong> Handles
+          everything related to product listings, descriptions, and inventory
+          levels. It’s crucial for maintaining accurate and secure product
+          data.<br />
+          <strong style="color: #45a049">3. Order Service: </strong> Responsible
+          for processing orders, including payment transactions. This service is a
+          hotbed for financial data and thus a critical point for security.<br />
+          <strong style="color: #45a049">4. Cart Service: </strong>Manages the
+          shopping cart operations, interacting closely with the Product and Order
+          services to ensure smooth transaction flows.
+        </p>
+        <p>【A picture for the architecture of the microservice system】</p>
+        <div id="section3" class="title-with-image">
+          <img src="@/assets/imgs/postman4.png" class="postman-image" />
+          <h2>3. What is a RESTful API?</h2>
+        </div>
+        <p>
+          RESTful API stands for Representational State Transfer API. It's a way
+          for different parts of a computer program or different programs to talk
+          to each other in a simple and predictable way. Imagine it as a set of
+          rules that help software components communicate.RESTful APIs use
+          standard web methods like those used for web pages, primarily HTTP (the
+          protocol browsers use to communicate with websites).Each request from
+          your phone or computer to the server must include all the information
+          the server needs to understand it. This means the server doesn't need to
+          remember anything about the user after the request is done.
+        </p>
+        <p><strong>Simple Commands:</strong></p>
+        <p>
+          <strong style="color: #45a049">GET to retrieve information</strong>
+          <br />
+          <strong style="color: #45a049">POST to send new information</strong
+          ><br />
+          <strong style="color: #45a049"
+            >PUT to change existing information </strong
+          ><br />
+          <strong style="color: #45a049"
+            >DELETE to remove existing information</strong
+          >
+        </p>
+        <p>
+          Even though RESTful APIs are simple, they need to be secured to prevent
+          unauthorized access.
+        </p>
+        <div id="section4" class="title-with-image">
+          <img src="@/assets/imgs/postman6.png" class="postman-image" />
+          <h2>4. Introduction to Developer Tools</h2>
+        </div>
+        <p>
+          Developer tools, often referred to as "DevTools," are software
+          applications that help developers create, test, and debug their
+          software. These tools are essential for efficient development and are
+          integrated into many of the web browsers and development environments we
+          use today. They provide a deep insight into the internals of
+          applications running in the browser or on other platforms.
+        </p>
+        <p>【more】</p>
+        <div id="section5" class="title-with-image">
+          <img src="@/assets/imgs/postman6.png" class="postman-image" />
+          <h2>5. Introduction to Postman</h2>
+        </div>
+        <p>
+          Postman is a popular software development tool used primarily for
+          building and testing APIs. It provides a user-friendly graphical
+          interface that allows developers to create, send, and analyze HTTP
+          requests and responses.
+        </p>
+        <p>【more】</p>
+        <button @click="learnMore">Details</button>
+      </div>
+      <div class="button-container">
+        <button @click="goBack">Back to Home</button>
+      </div>
     </div>
   </div>
 </template>
@@ -139,7 +150,7 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.go(-1);
+      this.$router.push("/");
     },
     learnMore() {
       this.$router.push("/Postman");
@@ -151,6 +162,36 @@ export default {
 <style scoped>
 * {
   list-style: none;
+}
+.container {
+  display: flex;
+}
+.sidebar {
+  width: 220px;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-right: 1px solid #ddd;
+  position: fixed;
+  height: 200px;
+  overflow-y: auto;
+  margin-top: -20px;
+}
+.sidebar ul {
+  padding: 0;
+}
+.sidebar ul li {
+  margin-bottom: 10px;
+}
+.sidebar ul li a {
+  text-decoration: none;
+  color: #45a049;
+}
+.sidebar ul li a:hover {
+  text-decoration: underline;
+}
+.main-content {
+  margin-left: 220px; /* 确保内容不会被侧边栏遮挡 */
+  padding: 20px;
 }
 /* 你的样式 */
 button {

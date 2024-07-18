@@ -78,6 +78,7 @@ export default {
     // Confirm exit from the challenge
     confirmExit() {
       this.$store.commit("resetChallengeId");
+      this.$store.commit("resetGuidanceMode");
       this.$store.commit("closeSocket");
       this.$router.push("/scoreboard");
       this.showDialog = false; // Close the dialog

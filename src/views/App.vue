@@ -8,18 +8,11 @@
       <div class="block">
         <el-carousel height="470px">
           <el-carousel-item v-for="item in carousel" :key="item.carousel_id">
-            <router-link
-              :to="{
-                name: 'APIDetail',
-                query: { challengeID: item.carousel_id },
-              }"
-            >
-              <img
-                style="height: 470px"
-                :src="item.imgPath"
-                :alt="item.description"
-              />
-            </router-link>
+            <img
+              style="height: 470px"
+              :src="item.imgPath"
+              :alt="item.description"
+            />
           </el-carousel-item>
         </el-carousel>
       </div>
@@ -79,8 +72,6 @@
   </div>
 </template>
 
-
-
 <script>
 export default {
   data() {
@@ -139,3 +130,4 @@ export default {
   display: block;
 }
 </style>
+
