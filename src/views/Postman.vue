@@ -1,4 +1,3 @@
-<!-- src/views/ChallengeFix.vue -->
 <template>
   <div class="container">
     <aside class="sidebar">

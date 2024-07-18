@@ -29,7 +29,9 @@
       </div>
       <div class="dialog-footer">
         <!-- 新增按钮在当前等级为2时显示，并且在其他按钮上方 -->
+        <button v-if="currentLevel === 1" class="tutorial-button" @click="navigateToDevTools">Go to DevTools Tutorial</button>
         <button v-if="currentLevel === 2" class="tutorial-button" @click="navigateToPostman">Go to Postman Tutorial</button>
+        <button v-if="currentLevel === 3" class="tutorial-button" @click="navigateToToken">Go to Token Tutorial</button>
         <button class="dialog-button" @click="setHint(1, currentChallengeId)">
           Level 1 Hint
         </button>
@@ -122,6 +124,14 @@ export default {
     navigateToPostman() {
         this.close(); // 关闭弹窗
         this.$router.push({ name: 'Postman' });
+    },
+    navigateToDevTools() {
+        this.close(); // 关闭弹窗
+        this.$router.push({ name: 'DevTools' });
+    },
+     navigateToToken() {
+        this.close(); // 关闭弹窗
+        this.$router.push({ name: 'Token' });
     },
     getImageClass(level) {
       switch (level) {

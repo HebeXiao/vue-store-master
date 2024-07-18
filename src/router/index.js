@@ -28,6 +28,11 @@ const routes = [
     component: () => import('../views/DevTools.vue'),
   },
   {
+    path: '/Token',
+    name: 'Token',
+    component: () => import('../views/Token.vue'),
+  },
+  {
     path: '/ChallengeFix',
     name: 'ChallengeFix',
     component: () => import('../views/ChallengeFix.vue'),
