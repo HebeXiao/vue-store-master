@@ -108,13 +108,35 @@ export default {
     updateUser() {
       const userData = localStorage.getItem("user");
       const parsedUserData = JSON.parse(userData);
+
+      // 原始用户信息
+      const originalPhone = parsedUserData.user.user_phonenumber;
+      const originalLinkman = parsedUserData.user.linkman;
+      const originalAddress = parsedUserData.user.address;
+
+      // 构建payload，仅包含已更改的字段
+      const payload = {
+        user_id: parsedUserData.user.user_id, // 用户ID总是需要的
+      };
+
+      // 检查电话号码是否更改
+      if (this.editUserForm.user_phonenumber !== originalPhone) {
+        payload.user_phonenumber = this.editUserForm.user_phonenumber;
+      }
+
+      // 检查联系人是否更改
+      if (this.editUserForm.linkman !== originalLinkman) {
+        payload.linkman = this.editUserForm.linkman;
+      }
+
+      // 检查地址是否更改
+      if (this.editUserForm.address !== originalAddress) {
+        payload.address = this.editUserForm.address;
+      }
+
+      // 发送POST请求更新用户信息
       this.$axios
-        .post("api/user/update", {
-          user_id: parsedUserData.user.user_id,
-          user_phonenumber: this.editUserForm.user_phonenumber,
-          linkman: this.editUserForm.linkman,
-          address: this.editUserForm.address,
-        })
+        .post("api/user/update", payload)
         .then(() => {
           this.fetchUser(); // 重新获取用户信息
           this.isEditing = false;

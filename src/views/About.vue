@@ -211,11 +211,11 @@ export default {
 }
 .sidebar {
   width: 220px;
-  padding: 20px;
+  padding: 5px;
   background-color: #f4f4f4;
   border-right: 1px solid #ddd;
   position: fixed;
-  height: 205px;
+  height: 230px;
   overflow-y: auto;
   margin-top: -20px;
 }

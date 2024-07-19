@@ -62,7 +62,7 @@ export default {
       hints: {
         1: {
           1: {
-            text: "To view order details, you first need to master how to track API requests.\n\n Use the Developer Tools (press F12 or right-click and select 'Inspect') to gain a detailed understanding of the communication between your browser and the website's server. Navigate to the 'Network' tab, which records all network requests and responses.\n\n Try viewing an order and pay attention to how the browser requests information. Every detail here could be the key to unlocking the secrets of the API.",
+            text: "To view order details, you first need to master how to track API requests.\n\n Use the Developer Tools (press F12 or right-click and select 'Inspect') to gain a detailed understanding of the communication between your browser and the website's server. Try viewing an order and pay attention to how the browser requests information. Every detail here could be the key to unlocking the secrets of the API.",
             img: "developer.png",
           },
           2: {

@@ -9,16 +9,15 @@
       <h1 class="challenge-title">Challenge Successfully</h1>
       <div class="challenge-details">
         <p>Congratulations! You have successfully completed the challenge.</p>
-        <p v-if="getCurrentChallengeId === 1" style="font-size:15px;">
-          The BOLA (Broken Object Level Authorization) vulnerabilities occur when an application lacks proper object-level
-          access controls, allowing users to modify request parameters to access
-          or manipulate unauthorized resources. Luckily, you've learned how to use developer tools and Postman
-          to explore and test API requests. By discovering a valid token, you
-          successfully bypassed authentication. Remember, when designing and
-          developing APIs, it's crucial to implement strong validation and
-          authorization mechanisms to ensure only authorized users can access
-          specific resources. Stay vigilant and become a cybersecurity
-          superhero!
+        <p v-if="getCurrentChallengeId === 1" style="font-size: 15px">
+          Congratulations on successfully retrieving other users' order data
+          from the API. This data is returned in JSON format. JSON is like a
+          super sticky note for data, using simple key-value pairs to record all
+          the information. By checking the API response, you can discover that
+          you have obtained all the information you want.
+        </p>
+        <p v-if="getCurrentChallengeId === 2" style="font-size: 15px">
+          Hi
         </p>
         <p>Keep up the good work and continue to hone your skills.</p>
         <el-button type="primary" @click="goToDashboard"
@@ -40,10 +39,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapMutations, mapGetters } from "vuex";
+
 export default {
   computed: {
     ...mapGetters(["getCurrentChallengeId"]),
+    ...mapMutations(["setCurrentChallengeId"]),
   },
   methods: {
     goToDashboard() {
@@ -58,10 +59,11 @@ export default {
         is_completed: 1, // Assuming is_completed is 1, which means the challenge is complete.
       };
 
+      this.$store.commit("resetChallengeId");
+
       this.$axios
         .post("/api/challenge/add", requestBody)
-        .then((response) => {
-          console.log("Challenge status added:", response.data);
+        .then(() => {
           // Refresh the data on the Scoreboard page before redirection
           this.$router.push({ path: "/Scoreboard" }).then(() => {
             window.location.reload();
@@ -87,7 +89,7 @@ export default {
   color: #fff;
   font-family: "Arial", sans-serif;
   position: relative;
-  padding-bottom:60px
+  padding-bottom: 60px;
 }
 
 .content {
@@ -95,7 +97,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height:100%;
+  height: 100%;
 }
 
 .challenge-title {

@@ -45,7 +45,7 @@ export default new Vuex.Store({
         '/goods',
         '/order',
         '/shoppingCart',
-        '/confirmOrder'
+        '/confirmOrder',
       ]);
       const historyLength = state.navigationHistory.length;
       const prevPage = historyLength > 1 ? state.navigationHistory[historyLength - 2] : null;

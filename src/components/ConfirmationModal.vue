@@ -13,7 +13,9 @@
       <div class="modal-body">
         <div v-html="challengeMessage"></div>
       </div>
-      <p style="font-weight:bold;font-size:20px">Are you ready to start your adventure?</p>
+      <p style="font-weight: bold; font-size: 20px">
+        Are you ready to start your adventure?
+      </p>
       <div class="modal-footer">
         <button @click="confirmEntry" class="confirm-button">
           Start Challenge
@@ -48,7 +50,10 @@ export default {
           return message;
         }
         case 2: {
-          return "你即将开始挑战2，确认继续吗？";
+          const message = `Your second mission is queued up and ready to go! <br><br>
+          What's your mission? To exploit the system's flaws and alter user membership attributes that are typically non-editable. Your goal is to change membership attributes from false to true, uncovering how to bypass restrictions that prevent such modifications.<br><br>
+          Check the profile to discover the secret!`;
+          return message;
         }
         default: {
           return "你即将开始一个新的挑战，确认继续吗？";
@@ -132,7 +137,7 @@ export default {
 .modal-footer {
   display: flex;
   justify-content: space-between;
-  margin-top:20px;
+  margin-top: 20px;
 }
 
 .confirm-button,

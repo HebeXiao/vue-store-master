@@ -18,23 +18,23 @@
       <div class="devtools-content">
         <p id="introduction">
           Developer Tools are powerful features built into modern browsers
-          designed to help developers and security researchers debug, analyze, and
-          optimize web pages. By using these tools, you can view the source code
-          of web pages, debug JavaScript, analyze network requests and responses,
-          detect performance bottlenecks, and perform security checks. This
-          tutorial will help you utilize developer tools to identify and exploit
-          API requests to understand vulnerabilities related to API security and
-          improve your cybersecurity skills.
+          designed to help developers and security researchers debug, analyze,
+          and optimize web pages. By using these tools, you can view the source
+          code of web pages, debug JavaScript, analyze network requests and
+          responses, detect performance bottlenecks, and perform security
+          checks. This tutorial will help you utilize developer tools to
+          identify and exploit API requests to understand vulnerabilities
+          related to API security and improve your cybersecurity skills.
         </p>
         <div class="title-with-image" id="launching">
           <img src="@/assets/imgs/postman1.png" class="devtools-image" />
           <h2>1. Launching Developer Tools</h2>
         </div>
         <p>
-          To use Developer Tools, you need to open it first. Right-click on a web
-          page and select “Inspect” or press Ctrl+Shift+I (Windows) or
-          Cmd+Option+I (Mac). Once Developer Tools opens, you'll see a window with
-          multiple tabs, such as Elements, Console, Network, and so on.
+          To use Developer Tools, you need to open it first. Right-click on a
+          web page and select “Inspect” or press Ctrl+Shift+I (Windows) or
+          Cmd+Option+I (Mac). Once Developer Tools opens, you'll see a window
+          with multiple tabs, such as Elements, Console, Network, and so on.
         </p>
         <img src="@/assets/imgs/devtools1.png" class="guidance-image" />
         <p><strong>Common Tab Functions</strong></p>
@@ -42,9 +42,9 @@
           <strong style="color: #45a049">1. Console: </strong> Debug JavaScript
           code, view and output variable values, detect script errors and
           warnings.<br />
-          <strong style="color: #45a049">2. Network: </strong> Monitor all network
-          requests and responses, analyze API requests and responses, and examine
-          request and response headers.<br />
+          <strong style="color: #45a049">2. Network: </strong> Monitor all
+          network requests and responses, analyze API requests and responses,
+          and examine request and response headers.<br />
           <strong style="color: #45a049">3. Application: </strong> Manage
           application-related resources for the web page.<br />
         </p>
@@ -55,7 +55,8 @@
         <p><strong>Steps:</strong></p>
         <p>
           <strong style="color: #45a049">1. Open Developer Tools.</strong><br />
-          <strong style="color: #45a049">2. Select the Network tab. </strong><br />
+          <strong style="color: #45a049">2. Select the Network tab. </strong
+          ><br />
           <strong style="color: #45a049"
             >3. Refresh the web page or perform an action to trigger an API
             request.</strong
@@ -64,7 +65,8 @@
         <p>
           In the Network tab, you will see a list of all network activity,
           including API requests. You can click on a request to see its details,
-          including the request URL, method, status code, response data, and more.
+          including the request URL, method, status code, response data, and
+          more.
         </p>
         <img src="@/assets/imgs/devtools2.png" class="guidance-image" />
         <div class="title-with-image" id="send-requests">
@@ -73,21 +75,21 @@
         </div>
         <p>
           Developer tools usually do not directly support sending custom API
-          requests. You can send custom API requests using Postman, a very popular
-          tool for building and testing APIs. There is a detailed tutorial on this
-          in
-          <router-link to="/Postman" class="nav-link" style="color: #45a049"
-            >Postman Tutorial</router-link
-          >. If you don't want to download Postman, you can use the Console to
-          write JavaScript code to send requests.
+          requests. You can send custom API requests using Postman, a very
+          popular tool for building and testing APIs. There is a detailed
+          tutorial on this in Postman Tutorial. If you don't want to download
+          Postman, you can use the Console to write JavaScript code to send
+          requests.
         </p>
         <p><strong>Steps:</strong></p>
         <p>
           <strong style="color: #45a049"
-            >1. Open the Console tab of the Developer Tools. </strong><br />
+            >1. Open the Console tab of the Developer Tools. </strong
+          ><br />
           <strong style="color: #45a049"
             >2. Write and send a request using fetch or XMLHttpRequest. For
-            example: </strong><br />
+            example: </strong
+          ><br />
         </p>
         <pre
           style="
@@ -115,12 +117,15 @@ fetch('https://api.example.com/data', {
         <p><strong>Steps:</strong></p>
         <p>
           <strong style="color: #45a049"
-            >1. Find and click on an API request in the Network tab. </strong><br />
+            >1. Find and click on an API request in the Network tab. </strong
+          ><br />
           <strong style="color: #45a049"
-            >2. In the right panel, select the Headers sub-tab. </strong><br />
+            >2. In the right panel, select the Headers sub-tab. </strong
+          ><br />
           <strong style="color: #45a049"
             >3. In the Request Headers section, look for a header that contains
-            fields such as Authorization, Token, and Bearer. </strong><br />
+            fields such as Authorization, Token, and Bearer. </strong
+          ><br />
         </p>
         <img src="@/assets/imgs/devtools3.png" class="guidance-image" />
         <div class="title-with-image" id="send-token-requests">
@@ -129,9 +134,13 @@ fetch('https://api.example.com/data', {
         </div>
         <p>
           <strong style="color: #45a049"
-            >1. Write the request code that contains the Token in the Console.</strong><br />
+            >1. Write the request code that contains the Token in the
+            Console.</strong
+          ><br />
           <strong style="color: #45a049"
-            >2. Use fetch or XMLHttpRequest to set the request header to include the Token. For example: </strong><br />
+            >2. Use fetch or XMLHttpRequest to set the request header to include
+            the Token. For example: </strong
+          ><br />
         </p>
         <pre
           style="
