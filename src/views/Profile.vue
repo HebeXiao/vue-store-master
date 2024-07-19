@@ -23,7 +23,10 @@
           <p><strong>Linkman:</strong> {{ user.linkman }}</p>
           <p><strong>Address:</strong> {{ user.address }}</p>
           <p><strong>Membership:</strong> {{ user.membership }}</p>
-          <button @click="editUser">Edit</button>
+          <!-- 其他内容 -->
+          <div class="button-container">
+            <button @click="editUser">Edit</button>
+          </div>
         </div>
       </div>
       <div v-else>
@@ -44,7 +47,6 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="updateUser">Save</el-button>
-          <el-button @click="cancelEdit">Cancel</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -150,6 +152,33 @@ export default {
 </script>
 
 <style>
+/* 弹窗样式调整 */
+.el-dialog {
+  width: 600px;
+  margin: auto;
+}
+
+.el-dialog__body {
+  font-size: 14px;
+}
+
+.el-dialog .el-button {
+  margin-top: 10px;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 5px;
+}
+
+.el-dialog .el-button:hover {
+  background-color: #39873b;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  width: 100%; /* 确保占满父元素宽度 */
+}
+
 /* Profile Header CSS */
 .profile .profile-header {
   height: 64px;
@@ -159,7 +188,7 @@ export default {
 }
 
 .profile .profile-header .profile-header-content {
-  max-width: 1225px;
+  max-width: 1100px;
   margin: 0 auto;
   display: flex;
   justify-content: center;
