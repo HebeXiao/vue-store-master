@@ -22,7 +22,15 @@
           <p><strong>Phone:</strong> {{ user.userPhonenumber }}</p>
           <p><strong>Linkman:</strong> {{ user.linkman }}</p>
           <p><strong>Address:</strong> {{ user.address }}</p>
-          <p><strong>Membership:</strong> {{ user.membership }}</p>
+          <p><strong>Membership:</strong><br />
+            <!-- 条件渲染Membership状态 -->
+            <span v-if="user.membership === false">
+              <img src="@/assets/imgs/not_activated.png" alt="Not Activated" class="membership-image"/>
+            </span>
+            <span v-else>
+              <img src="@/assets/imgs/activated.png" alt="Activated" class="membership-image"/>
+            </span>
+          </p>
           <!-- 其他内容 -->
           <div class="button-container">
             <button @click="editUser">Edit</button>
@@ -244,5 +252,9 @@ export default {
 
 .user-info button:hover {
   background-color: #39873b;
+}
+
+.membership-image{
+  width: 100px;
 }
 </style>

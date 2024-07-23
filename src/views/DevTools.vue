@@ -5,9 +5,11 @@
         <li><a href="#introduction">Introduction</a></li>
         <li><a href="#launching">Launching Developer Tools</a></li>
         <li><a href="#view-requests">View API Requests</a></li>
+        <li><a href="#network">Network Panel Information</a></li>
         <li><a href="#send-requests">Send API Requests</a></li>
         <li><a href="#discover-token">Discover Token</a></li>
         <li><a href="#send-token-requests">Send API Request with Token</a></li>
+        <li class="back-button"><button @click="goBack">Back</button></li>
       </ul>
     </aside>
     <main class="main-content">
@@ -49,18 +51,65 @@
           application-related resources for the web page.<br />
         </p>
         <div class="title-with-image" id="view-requests">
-          <img src="@/assets/imgs/postman2.png" class="devtools-image" />
+          <img src="@/assets/imgs/postman1.png" class="devtools-image" />
           <h2>2. View API Requests</h2>
         </div>
-        <p><strong>Steps:</strong></p>
         <p>
-          <strong style="color: #45a049">1. Open Developer Tools.</strong><br />
-          <strong style="color: #45a049">2. Select the Network tab. </strong
-          ><br />
-          <strong style="color: #45a049"
-            >3. Refresh the web page or perform an action to trigger an API
-            request.</strong
-          ><br />
+          To use Developer Tools, you need to open it first. Right-click on a
+          web page and select “Inspect” or press Ctrl+Shift+I (Windows) or
+          Cmd+Option+I (Mac). Once Developer Tools opens, you'll see a window
+          with multiple tabs, such as Elements, Console, Network, and so on.
+        </p>
+        <img src="@/assets/imgs/devtools1.png" class="guidance-image" />
+        <p><strong>Common Tab Functions</strong></p>
+        <p>
+          <strong style="color: #45a049">1. Console: </strong> Debug JavaScript
+          code, view and output variable values, detect script errors and
+          warnings.<br />
+          <strong style="color: #45a049">2. Network: </strong> Monitor all
+          network requests and responses, analyze API requests and responses,
+          and examine request and response headers.<br />
+          <strong style="color: #45a049">3. Application: </strong> Manage
+          application-related resources for the web page.<br />
+        </p>
+        <div class="title-with-image" id="network">
+          <img src="@/assets/imgs/postman2.png" class="devtools-image" />
+          <h2>3. Network Panel Information</h2>
+        </div>
+        <p>
+          In the Network panel in Developer Tools, you will see various tabs,
+          each with a different function:
+        </p>
+        <p>
+          <strong style="color: #45a049">1. Headers:</strong><br /><strong
+            >General: </strong
+          >Displays basic information about the request, such as URL, request
+          method (GET, POST, etc.), status code and status message.<br />
+          <strong>Request Headers: </strong> Displays information about the
+          headers of the HTTP request sent to the server. The request headers
+          contain metadata about the client and the request itself, such as
+          Host, User-Agent, Accept, Content-Type, and so on.<br />
+          <strong>Response Headers: </strong> displays the HTTP response headers
+          returned by the server. The response headers contain metadata about
+          the response and the server, such as Content-Type, Content-Length,
+          Set-Cookie, and so on.<br />
+          <strong style="color: #45a049">2. Payload:</strong><br />
+          Used to see the data sent in a POST request. This usually includes
+          form data, JSON objects, or other types of request body data. It shows
+          the actual content portion of the request, making it easy for
+          developers to debug and view the data passed to the server.<br />
+          <strong style="color: #45a049">3. Preview:</strong><br />
+          Displays a preview of the response data in an easy-to-read format,
+          especially if the response content is in a parsable format such as
+          JSON, XML, HTML, and so on. This tab helps the developer to quickly
+          view and understand the response without having to read the original
+          response text.<br />
+          <strong style="color: #45a049">4. Response:</strong><br />
+          Displays the full response content returned by the server. The
+          response may be HTML, JSON, plain text, image, video, etc. This is the
+          raw response data. This is the most raw response data, without any
+          parsing and formatting, suitable for scenarios where you need to view
+          detailed content.<br />
         </p>
         <p>
           In the Network tab, you will see a list of all network activity,
@@ -68,10 +117,10 @@
           including the request URL, method, status code, response data, and
           more.
         </p>
-        <img src="@/assets/imgs/devtools2.png" class="guidance-image" />
+        <img src="@/assets/imgs/hint1.png" class="guidance-image" />
         <div class="title-with-image" id="send-requests">
           <img src="@/assets/imgs/postman4.png" class="devtools-image" />
-          <h2>3. Send API request</h2>
+          <h2>4. Send API request</h2>
         </div>
         <p>
           Developer tools usually do not directly support sending custom API
@@ -108,7 +157,7 @@ fetch('https://api.example.com/data', {
 </code></pre>
         <div class="title-with-image" id="discover-token">
           <img src="@/assets/imgs/postman6.png" class="devtools-image" />
-          <h2>4. Discover Token</h2>
+          <h2>5. Discover Token</h2>
         </div>
         <p>
           API requests often use Token for authentication. Here's how to find
@@ -130,7 +179,7 @@ fetch('https://api.example.com/data', {
         <img src="@/assets/imgs/devtools3.png" class="guidance-image" />
         <div class="title-with-image" id="send-token-requests">
           <img src="@/assets/imgs/postman7.png" class="devtools-image" />
-          <h2>5. Send API request with Token</h2>
+          <h2>6. Send API request with Token</h2>
         </div>
         <p>
           <strong style="color: #45a049"
@@ -206,13 +255,13 @@ export default {
 }
 
 .sidebar {
-  width: 200px;
+  width: 220px;
   background-color: #f4f4f4;
   padding: 5px;
   border-right: 1px solid #ddd;
   position: fixed;
   margin-top: -20px;
-  height: 265px;
+  height: 315px;
   overflow-y: auto;
 }
 
@@ -232,6 +281,21 @@ export default {
 
 .sidebar a:hover {
   text-decoration: underline;
+}
+
+.sidebar li.back-button {
+  text-align: center; /* Center the button within the list item */
+}
+
+.sidebar li.back-button button {
+  width: 100%; /* Make the button expand to fill the list item */
+  background-color: #f4f4f4; /* Match the sidebar background color */
+  border: 1px solid #ddd; /* Add a subtle border */
+  color: #45a049; /* Use the theme's green color */
+}
+
+.sidebar li.back-button button:hover {
+  background-color: #e0e0e0; /* Slightly darker on hover for feedback */
 }
 
 .main-content {

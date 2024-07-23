@@ -30,8 +30,9 @@
       <div class="dialog-footer">
         <!-- 新增按钮在当前等级为2时显示，并且在其他按钮上方 -->
         <button v-if="currentLevel === 1" class="tutorial-button" @click="navigateToDevTools">Go to DevTools Tutorial</button>
-        <button v-if="currentLevel === 2" class="tutorial-button" @click="navigateToPostman">Go to Postman Tutorial</button>
-        <button v-if="currentLevel === 3" class="tutorial-button" @click="navigateToToken">Go to Token Tutorial</button>
+        <button v-if="currentLevel === 2 && currentChallengeId === 1" class="tutorial-button" @click="navigateToPostman">Go to Postman Tutorial</button>
+        <button v-if="currentLevel === 3 && currentChallengeId === 1" class="tutorial-button" @click="navigateToToken">Go to Token Tutorial</button>
+        <button v-if="currentLevel === 3 && currentChallengeId === 2" class="tutorial-button" @click="navigateToPostman">Go to Postman Tutorial</button>
         <button class="dialog-button" @click="setHint(1, currentChallengeId)">
           Level 1 Hint
         </button>
@@ -75,9 +76,18 @@ export default {
           },
         },
         2: {
-          1: "Look at the HTML structure of the page. Which element seems to be incorrectly nested?",
-          2: "Consider using a browser’s developer tools to inspect the HTML elements and see where the nesting issue occurs.",
-          3: "Ensure that all opening tags have corresponding closing tags and are properly nested according to HTML specifications.",
+          1: {
+            text: "Hey, remember the Developer Tools from the first mission? The Network panel in Developer Tools has a number of tabs hiding secrets, each of which can lead you to discover new information. Explore carefully and see what interesting details you can find!\n\nHeaders: See the headers of requests and responses for their metadata.\nPayload: view the content of the data sent in the request.\nPreview: Preview the response to quickly understand the data returned by the server.\nResponse: view the full server response, in-depth understanding of the returned data.",
+            img: "hint1.png",
+          },
+          2: {
+            text: "Remember the Network panel we explored? Now it's time to dive into the Payload tab. This tab shows you the data you're sending in your request. By taking a closer look at the Payload, you can understand the structure and content of the request.\n\nRemember, finding the right data structure and content is a key step in cracking this challenge.",
+            img: "hint2.png",
+          },
+          3: {
+            text: "Ready for the last step of the challenge? Take advantage of the powerful tool Postman that we introduced earlier. Open Postman, create a new POST request, remember to set up Headers, try to find and modify the membership information, send the request and see if your changes are successful!",
+            img: "hint3.png",
+          },
         },
       },
     };
@@ -91,9 +101,11 @@ export default {
   methods: {
     open() {
       this.visible = true;
+      this.resetState(); // 重置状态
     },
     close() {
       this.visible = false;
+      this.resetState(); // 重置状态
     },
     toggleImage() {
       this.showImage = !this.showImage; // 切换图片显示状态
@@ -112,6 +124,13 @@ export default {
         this.hintImage = require("@/assets/imgs/error.png");
       }
       this.showImage = false; // 每次设置新提示时重置图片显示状态
+    },
+    resetState() {
+      // 重置到默认状态
+      this.currentLevel = 0;
+      this.showImage = false;
+      this.hintMessage = "Here lie the mysterious clues you need! Click the button to uncover the secrets that will lend you a helping hand.";
+      this.hintImage = null;
     },
     needsPlaceholder(level) {
       // 返回一个布尔值，根据你的需求判断是否在某个特定的level显示占位符

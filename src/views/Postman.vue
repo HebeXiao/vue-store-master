@@ -5,8 +5,13 @@
         <li><a href="#introduction">Introduction</a></li>
         <li><a href="#installing">Installing Postman</a></li>
         <li><a href="#creating-request">Creating a New Request</a></li>
-        <li><a href="#adding-headers">Adding Request Headers</a></li>
-        <li><a href="#inspecting-debugging">Inspecting and Debugging the Response</a></li>
+        <li><a href="#request_editor">Request Editor</a></li>
+        <li>
+          <a href="#inspecting-debugging"
+            >Inspecting and Debugging the Response</a
+          >
+        </li>
+        <li class="back-button"><button @click="goBack">Back</button></li>
       </ul>
     </aside>
     <main class="main-content">
@@ -37,8 +42,8 @@
           <h2>2. Creating a New Request</h2>
         </div>
         <p>
-          Once installed, open Postman and follow these steps to create a new API
-          request: <br />
+          Once installed, open Postman and follow these steps to create a new
+          API request: <br />
           1. Click "+" to create a new request. <br />
           2. Select the request method <br />
           3. Enter the API URL in the request field. <br />
@@ -48,22 +53,116 @@
           6. The result value returned by the GET API is a JSON file.
         </p>
         <img src="@/assets/imgs/postman3.png" class="guidance-image" />
-        <div class="title-with-image" id="adding-headers">
-          <img src="@/assets/imgs/postman4.png" class="postman-image" />
-          <h2>3. Adding Request Headers</h2>
+        <div class="title-with-image" id="request_editor">
+          <img src="@/assets/imgs/postman7.png" class="postman-image" />
+          <h2>3. Request Editor</h2>
         </div>
         <p>
-          Some API requests require specific headers, such as a token for
-          authentication. Several types of authorization are supported by Postman.
-          Select a type from the Type dropdown list on the Authorization tab of a
-          request.<br />
-          【Ps. Bearer tokens enable requests to authenticate using an access key,
-          such as a JSON Web Token (JWT). The token is a text string, included in
-          the request header. In the request Authorization tab, select Bearer
-          Token from the Type dropdown list. In the Token field, enter your API
-          key value.】
+          The Request Editor is the main interface part of Postman for building,
+          editing and sending API requests, allowing the user to set various
+          parameters of the request in detail, such as the URL, method, header
+          information, request body, authentication method, and so on.<br />
+          <strong style="color: #45a049">1. Params: </strong>This tab is used to
+          edit the query parameters of the URL. Query parameters are key-value
+          pairs appended to the URL and are usually used to pass additional
+          information to the server.
         </p>
-        <img src="@/assets/imgs/postman5.png" class="guidance-image" />
+        <div>
+          <button
+            @click="showExample1 = !showExample1"
+            style="margin-top: -5px"
+          >
+            {{ showExample1 ? "Hide Example" : "Show Example" }}
+          </button>
+          <div v-if="showExample1" class="example_container">
+            Let's say you want to query a user with the username “example”, your
+            base URL is https://api.example.com/users, and under the Params tab,
+            you can add a query parameter: <br /><strong>Key: </strong>username
+            <br /><strong>Value: </strong> example <br />Postman will
+            automatically format these parameters and append them to the URL,
+            which will be <br />
+            <strong>https://api.example.com/users?username=example</strong>.
+          </div>
+        </div>
+        <p>
+          <strong style="color: #45a049">2. Auth: </strong>The Auth tag is used
+          to configure the authentication method for the request.Postman
+          supports a variety of authentication protocols, such as Basic Auth,
+          Bearer Token, and so on.If the API requires a Bearer Token to
+          authenticate the user, you can select “Bearer Token” in the Auth tab
+          and enter your token; Postman will automatically add the appropriate
+          authentication header when sending the request.<br />
+        </p>
+        <div>
+          <button
+            @click="showExample2 = !showExample2"
+            style="margin-top: -5px"
+          >
+            {{ showExample2 ? "Hide Example" : "Show Example" }}
+          </button>
+          <div v-if="showExample2" class="example_container">
+            <img src="@/assets/imgs/postman5.png" class="guidance-image" />
+          </div>
+        </div>
+        <p>
+          <strong style="color: #45a049">3. Headers: </strong>The Headers tag is
+          used to define the headers of an HTTP request. Headers can contain a
+          lot of useful information such as content type, authentication
+          information, etc.
+        </p>
+        <div>
+          <button
+            @click="showExample3 = !showExample3"
+            style="margin-top: -5px"
+          >
+            {{ showExample3 ? "Hide Example" : "Show Example" }}
+          </button>
+          <div v-if="showExample3" class="example_container">
+            If you are sending data in JSON format, you may need to set the
+            Content-Type header to application/json. this can be done by adding
+            it under the Headers tag: <br /><strong>Key: </strong>Content-Type
+            <br /><strong>Value: </strong> application/json
+          </div>
+        </div>
+        <p>
+          <strong style="color: #45a049">4. Body: </strong>The Body tag is used
+          to edit the content body of a POST or PUT request. You can choose from
+          different content types such as form-data, x-www-form-urlencoded, raw
+          (JSON, text, JavaScript, etc.).
+        </p>
+        <div>
+          <button
+            @click="showExample4 = !showExample4"
+            style="margin-top: -5px"
+          >
+            {{ showExample4 ? "Hide Example" : "Show Example" }}
+          </button>
+          <div v-if="showExample4" class="example_container">
+            Suppose you need to send a JSON object to create a new user, you can
+            choose the Body type as “raw”, the format as “JSON”, and then enter
+            the following content:
+            <pre
+              style="
+                background-color: #f4f4f4;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+              "
+            ><code>
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com"
+}
+
+</code></pre>
+          </div>
+        </div>
+        <p>
+          <strong style="color: #45a049">5. Scripts: </strong>The Scripts tag
+          allows you to write JavaScript code that can be executed before a
+          request is sent (Pre-request Script) or after a request (Tests).<br />
+        </p>
+        <img src="@/assets/imgs/postman9.png" class="guidance-image" />
         <div class="title-with-image" id="inspecting-debugging">
           <img src="@/assets/imgs/postman6.png" class="postman-image" />
           <h2>4. Inspecting and Debugging the Response</h2>
@@ -88,14 +187,18 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapGetters(['previousPageSection']),
+    ...mapGetters(["previousPageSection"]),
   },
   data() {
     return {
+      showExample1: false, // 初始状态为不显示
+      showExample2: false, // 初始状态为不显示
+      showExample3: false, // 初始状态为不显示
+      showExample4: false,
       // 你的数据属性
     };
   },
@@ -129,7 +232,7 @@ export default {
   padding: 5px;
   border-right: 1px solid #ddd;
   position: fixed;
-  height: 230px;
+  height: 260px;
   margin-top: -20px;
   overflow-y: auto;
 }
@@ -150,6 +253,22 @@ export default {
 
 .sidebar a:hover {
   text-decoration: underline;
+}
+
+.sidebar li.back-button {
+  text-align: center; /* Center the button within the list item */
+}
+
+.sidebar li.back-button button {
+  margin-top: -2px;
+  width: 100%; /* Make the button expand to fill the list item */
+  background-color: #f4f4f4; /* Match the sidebar background color */
+  border: 1px solid #ddd; /* Add a subtle border */
+  color: #45a049; /* Use the theme's green color */
+}
+
+.sidebar li.back-button button:hover {
+  background-color: #e0e0e0; /* Slightly darker on hover for feedback */
 }
 
 .main-content {
@@ -214,5 +333,12 @@ h2 {
   justify-content: center;
   gap: 10px; /* 按钮之间的间距 */
   margin-bottom: 30px;
+}
+
+.example_container {
+  padding: 10px;
+  background-color: #f4f4f4;
+  margin-top: 5px;
+  border-radius: 5px;
 }
 </style>

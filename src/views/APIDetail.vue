@@ -7,6 +7,7 @@
         <li><a href="#security-weakness">Security Weakness</a></li>
         <li><a href="#impact">Impact</a></li>
         <li><a href="#vulnerability-check">Vulnerability Check</a></li>
+        <li class="back-button"><button @click="goBack">Back</button></li>
       </ul>
     </div>
     <div class="main-content">
@@ -131,7 +132,7 @@ export default {
   background-color: #f4f4f4;
   border-right: 1px solid #ddd;
   position: fixed;
-  height: 200px;
+  height: 220px;
   overflow-y: auto;
   margin-top: -20px;
 }
@@ -144,6 +145,22 @@ export default {
 .sidebar ul li a {
   text-decoration: none;
   color: #45a049;
+}
+
+.sidebar li.back-button {
+  text-align: center; /* Center the button within the list item */
+}
+
+.sidebar li.back-button button {
+  margin-top: -2px;
+  width: 100%; /* Make the button expand to fill the list item */
+  background-color: #f4f4f4; /* Match the sidebar background color */
+  border: 1px solid #ddd; /* Add a subtle border */
+  color: #45a049; /* Use the theme's green color */
+}
+
+.sidebar li.back-button button:hover {
+  background-color: #e0e0e0; /* Slightly darker on hover for feedback */
 }
 .main-content {
   margin-left: 220px; /* 确保内容不会被侧边栏遮挡 */
