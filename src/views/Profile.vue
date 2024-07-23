@@ -22,13 +22,22 @@
           <p><strong>Phone:</strong> {{ user.userPhonenumber }}</p>
           <p><strong>Linkman:</strong> {{ user.linkman }}</p>
           <p><strong>Address:</strong> {{ user.address }}</p>
-          <p><strong>Membership:</strong><br />
+          <p>
+            <strong>Membership:</strong><br />
             <!-- 条件渲染Membership状态 -->
             <span v-if="user.membership === false">
-              <img src="@/assets/imgs/not_activated.png" alt="Not Activated" class="membership-image"/>
+              <img
+                src="@/assets/imgs/not_activated.png"
+                alt="Not Activated"
+                class="membership-image"
+              />
             </span>
             <span v-else>
-              <img src="@/assets/imgs/activated.png" alt="Activated" class="membership-image"/>
+              <img
+                src="@/assets/imgs/activated.png"
+                alt="Activated"
+                class="membership-image"
+              />
             </span>
           </p>
           <!-- 其他内容 -->
@@ -63,7 +72,9 @@
 
 <script>
 import WebHome from "../WebHome.vue";
+import { mapGetters } from "vuex";
 import { Button, Dialog, Form, FormItem, Input } from "element-ui";
+import feedbackService from "@/store/modules/feedbackService";
 
 export default {
   components: {
@@ -87,6 +98,12 @@ export default {
   },
   created() {
     this.fetchUser();
+  },
+  computed: {
+    ...mapGetters([
+      "isGuidanceMode",
+      "getCurrentChallengeId",
+    ]),
   },
   methods: {
     fetchUser() {
@@ -118,6 +135,7 @@ export default {
     updateUser() {
       const userData = localStorage.getItem("user");
       const parsedUserData = JSON.parse(userData);
+      const challengeId = this.getCurrentChallengeId;
 
       // 原始用户信息
       const originalPhone = parsedUserData.user.user_phonenumber;
@@ -154,6 +172,17 @@ export default {
         .catch((err) => {
           console.error(err);
         });
+
+      if (this.isGuidanceMode && challengeId === 2) {
+        feedbackService.sendFeedback(
+          "You have successfully edited the Profile! Notice how the edit request occurred and think about how the request was constructed."
+        );
+        setTimeout(() => {
+          feedbackService.sendFeedback(
+            "Tip: The Developer tool is your observation tool, and the Postman tool is your little testing helper! Take care to check that the Header is set."
+          );
+        }, 10000);
+      }
     },
   },
 };
@@ -254,7 +283,7 @@ export default {
   background-color: #39873b;
 }
 
-.membership-image{
+.membership-image {
   width: 100px;
 }
 </style>

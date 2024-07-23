@@ -135,8 +135,9 @@ export default {
           break;
         case 2:
           welcomeMessages = [
-            "Welcome to Challenge 2！",
-            "Stay tuned for subsequent guidance.",
+            "In this challenge, we will examine the Broken Object Property Level Authorization (BOPLA) vulnerability. This vulnerability allows an attacker to modify object properties that should not be modified. Please proceed with caution.",
+            "Please check the Profile and try to edit the information normally. Note that developer tools are still very useful here.",
+            "If you need help you can check the hint.",
           ];
           break;
       }
