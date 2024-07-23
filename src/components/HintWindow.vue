@@ -6,11 +6,11 @@
         <h3>Hint</h3>
         <button class="close-button" @click="close">×</button>
       </div>
-      <div class="dialog-body">
+      <div class="dialog-body" v-if="!showConfirmDialog">
         <p v-html="hintMessage.split('\n').join('<br>')"></p>
         <!-- 只在需要显示图片或占位符时渲染 image-container -->
         <div
-          v-if="hintImage || needsPlaceholder(currentLevel)"
+          v-if="hintImage && currentLevel !== 4"
           class="image-container"
           :class="{ 'with-border': needsBorder(currentLevel) }"
           @click="toggleImage"
@@ -27,12 +27,65 @@
           </div>
         </div>
       </div>
+      <!-- Confirmation Dialog for Solution -->
+      <div v-if="showConfirmDialog" class="confirm-dialog">
+        <p>
+          Sure you want to check the answer? <br />
+          Think again, maybe you're pretty close to the answer yourself!
+        </p>
+        <button @click="viewSolution">Yes</button>
+        <button @click="toggleConfirmDialog">No</button>
+      </div>
       <div class="dialog-footer">
+        <!-- 在 level 4 显示 DevTools 和 Postman Tutorial 按钮 -->
+        <div v-if="currentLevel === 4 && currentChallengeId === 1" class="tutorial-buttons-container">
+          <button class="tutorial-button" @click="navigateToDevTools">
+            DevTools Tutorial
+          </button>
+          <button class="tutorial-button" @click="navigateToPostman">
+            Postman Tutorial
+          </button>
+          <button class="tutorial-button" @click="navigateToToken">
+            Token Tutorial
+          </button>
+        </div>
+        <div v-if="currentLevel === 4 && currentChallengeId === 2" class="tutorial-buttons-container">
+          <button class="tutorial-button" @click="navigateToDevTools">
+            DevTools Tutorial
+          </button>
+          <button class="tutorial-button" @click="navigateToPostman">
+            Postman Tutorial
+          </button>
+        </div>
         <!-- 新增按钮在当前等级为2时显示，并且在其他按钮上方 -->
-        <button v-if="currentLevel === 1" class="tutorial-button" @click="navigateToDevTools">Go to DevTools Tutorial</button>
-        <button v-if="currentLevel === 2 && currentChallengeId === 1" class="tutorial-button" @click="navigateToPostman">Go to Postman Tutorial</button>
-        <button v-if="currentLevel === 3 && currentChallengeId === 1" class="tutorial-button" @click="navigateToToken">Go to Token Tutorial</button>
-        <button v-if="currentLevel === 3 && currentChallengeId === 2" class="tutorial-button" @click="navigateToPostman">Go to Postman Tutorial</button>
+        <button
+          v-if="currentLevel === 1"
+          class="tutorial-button"
+          @click="navigateToDevTools"
+        >
+          DevTools Tutorial
+        </button>
+        <button
+          v-if="currentLevel === 2 && currentChallengeId === 1"
+          class="tutorial-button"
+          @click="navigateToPostman"
+        >
+          Postman Tutorial
+        </button>
+        <button
+          v-if="currentLevel === 3 && currentChallengeId === 1"
+          class="tutorial-button"
+          @click="navigateToToken"
+        >
+          Token Tutorial
+        </button>
+        <button
+          v-if="currentLevel === 3 && currentChallengeId === 2"
+          class="tutorial-button"
+          @click="navigateToPostman"
+        >
+          Postman Tutorial
+        </button>
         <button class="dialog-button" @click="setHint(1, currentChallengeId)">
           Level 1 Hint
         </button>
@@ -41,6 +94,9 @@
         </button>
         <button class="dialog-button" @click="setHint(3, currentChallengeId)">
           Level 3 Hint
+        </button>
+        <button class="solution-button" @click="toggleConfirmDialog">
+          Solution
         </button>
       </div>
     </div>
@@ -57,6 +113,7 @@ export default {
       visible: false,
       currentLevel: 0,
       showImage: false, // 添加一个控制图片显示的变量
+      showConfirmDialog: false,
       hintMessage:
         "Here lie the mysterious clues you need! Click the button to uncover the secrets that will lend you a helping hand.",
       hintImage: null, // 初始化为 null 或空字符串
@@ -74,10 +131,20 @@ export default {
             text: "The token is key to verifying your identity. If your request is rejected, it might mean you need a valid token to prove who you are. Open your developer tools and examine the response headers or body to find this elusive token. Once you've found it, insert it into your API request like a key to unlock the door to the data.",
             img: "token.png",
           },
+          4: {
+            text:
+              "Step 1: Get an API request using developer tools\nUse your browser's developer tools (usually the F12 key or the “Inspect” option in the context menu) to monitor network requests when a user views an order.\n" +
+              "Step 2: Find User Token\nFind the API request in the Network tab of the Developer Tools and look at the Headers of the request, look for a Token starting with Authorization: Bearer <token> in the Headers.\n"+
+              "Step 3: Accessing the API with Token\nOpen Postman (or continue to use developer tools) add the API URL to Postman, set the request method to GET, add a Token to Headers, then send the request and see the response. If the Token is valid and the request is successful, you will see the user's order information in the response.\n\n"+
+              "Additional Notes:\n"+
+              "For a detailed Postman tutorial, check out Postman Tutorial.\n"+
+              "For a detailed tutorial on Developer Tools, check out the Developer Tools Tutorial.\n"+
+              "For a detailed tutorial on Token, check out the Token Tutorial."
+          },
         },
         2: {
           1: {
-            text: "Hey, remember the Developer Tools from the first mission? The Network panel in Developer Tools has a number of tabs hiding secrets, each of which can lead you to discover new information. Explore carefully and see what interesting details you can find!\n\nHeaders: See the headers of requests and responses for their metadata.\nPayload: view the content of the data sent in the request.\nPreview: Preview the response to quickly understand the data returned by the server.\nResponse: view the full server response, in-depth understanding of the returned data.",
+            text: "Solution: Hey, remember the Developer Tools from the first mission? The Network panel in Developer Tools has a number of tabs hiding secrets, each of which can lead you to discover new information. Explore carefully and see what interesting details you can find!\n\nHeaders: See the headers of requests and responses for their metadata.\nPayload: view the content of the data sent in the request.\nPreview: Preview the response to quickly understand the data returned by the server.\nResponse: view the full server response, in-depth understanding of the returned data.",
             img: "hint1.png",
           },
           2: {
@@ -87,6 +154,15 @@ export default {
           3: {
             text: "Ready for the last step of the challenge? Take advantage of the powerful tool Postman that we introduced earlier. Open Postman, create a new POST request, remember to set up Headers, try to find and modify the membership information, send the request and see if your changes are successful!",
             img: "hint3.png",
+          },
+          4: {
+            text:
+              "Step 1: Use Developer Tools to View API Requests\nNavigate to the Profile page and try to edit the profile. In the Network tab of the Developer Tools, find the API request that was sent. Looking at the request body in detail, notice that the membership attribute has a value of false or true.\n" +
+              "Step 2: Replay API requests using Postman or developer tools\nSet the request method to POST, select raw and JSON format in Body, construct the request body, and change the value of the membership attribute from false to true.\n"+
+              "Step 3: Send a request and verify the result\nSend a modified POST request and view the response. Reload the Profile page or view the Profile information via another GET request to confirm that the membership attribute has been modified to true.\n\n"+
+              "Additional Notes:\n"+
+              "For a detailed Postman tutorial, check out Postman Tutorial.\n"+
+              "For a detailed tutorial on Developer Tools, check out the Developer Tools Tutorial.\n"
           },
         },
       },
@@ -114,8 +190,13 @@ export default {
       if (this.hints[challengeId] && this.hints[challengeId][level]) {
         this.currentLevel = level; // 更新当前提示级别
         this.hintMessage = this.hints[challengeId][level].text;
-        this.hintImage = require("@/assets/imgs/" +
-          this.hints[challengeId][level].img);
+        if (level !== 4) {
+          // 排除 level 4 的图片
+          this.hintImage = require("@/assets/imgs/" +
+            this.hints[challengeId][level].img);
+        } else {
+          this.hintImage = null; // 不显示图片
+        }
       } else {
         console.error(
           `Hint not found for challengeId ${challengeId} and level ${level}`
@@ -129,28 +210,29 @@ export default {
       // 重置到默认状态
       this.currentLevel = 0;
       this.showImage = false;
-      this.hintMessage = "Here lie the mysterious clues you need! Click the button to uncover the secrets that will lend you a helping hand.";
+      this.hintMessage =
+        "Here lie the mysterious clues you need! Click the button to uncover the secrets that will lend you a helping hand.";
       this.hintImage = null;
     },
     needsPlaceholder(level) {
       // 返回一个布尔值，根据你的需求判断是否在某个特定的level显示占位符
-      return [1, 2, 3].includes(level); 
+      return [1, 2, 3].includes(level);
     },
     needsBorder(level) {
       // 可能与 needsPlaceholder 相同，或根据其他逻辑决定
       return [1, 2, 3].includes(level);
     },
     navigateToPostman() {
-        this.close(); // 关闭弹窗
-        this.$router.push({ name: 'Postman' });
+      this.close(); // 关闭弹窗
+      this.$router.push({ name: "Postman" });
     },
     navigateToDevTools() {
-        this.close(); // 关闭弹窗
-        this.$router.push({ name: 'DevTools' });
+      this.close(); // 关闭弹窗
+      this.$router.push({ name: "DevTools" });
     },
-     navigateToToken() {
-        this.close(); // 关闭弹窗
-        this.$router.push({ name: 'Token' });
+    navigateToToken() {
+      this.close(); // 关闭弹窗
+      this.$router.push({ name: "Token" });
     },
     getImageClass(level) {
       switch (level) {
@@ -163,6 +245,13 @@ export default {
         default:
           return "";
       }
+    },
+    toggleConfirmDialog() {
+      this.showConfirmDialog = !this.showConfirmDialog;
+    },
+    viewSolution() {
+      this.setHint(4, this.currentChallengeId); // 假设已经有这个方法处理显示解决方案
+      this.showConfirmDialog = false;
     },
   },
 };
@@ -241,6 +330,14 @@ button {
   background-color: #367c39;
 }
 
+.solution-button {
+  background-color: #476cff;
+}
+
+.solution-button:hover {
+  background-color: #3159f7;
+}
+
 button:focus {
   outline: none;
 }
@@ -293,5 +390,34 @@ button:focus {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%); /* 居中显示 */
+}
+
+.confirm-dialog {
+  background-color: white;
+  color: black;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.confirm-dialog button {
+  margin: 10px;
+  padding: 5px 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.confirm-dialog button:hover {
+  background-color: #367c39;
+}
+
+.tutorial-buttons-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
 }
 </style>
