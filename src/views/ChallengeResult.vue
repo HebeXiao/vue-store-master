@@ -9,15 +9,17 @@
       <h1 class="challenge-title">Challenge Successfully</h1>
       <div class="challenge-details">
         <p>Congratulations! You have successfully completed the challenge.</p>
-        <p v-if="getCurrentChallengeId === 1" style="font-size: 15px">
+        <p v-if="Number(currentChallengeId) === 1" style="font-size: 15px">
           Congratulations on successfully retrieving other users' order data
           from the API. This data is returned in JSON format. JSON is like a
           super sticky note for data, using simple key-value pairs to record all
           the information. By checking the API response, you can discover that
           you have obtained all the information you want.
         </p>
-        <p v-if="getCurrentChallengeId === 2" style="font-size: 15px">
-          Hi
+        <p v-if="Number(currentChallengeId) === 2" style="font-size: 15px">
+          Congratulations! You've cheekily tweaked a membership attribute that
+          was supposed to be set in stone. Check out the API's response to see
+          the mischief you've managed to make. Keep up the playful spirit!
         </p>
         <p>Keep up the good work and continue to hone your skills.</p>
         <el-button type="primary" @click="goToDashboard"
@@ -40,8 +42,13 @@
 
 <script>
 import { mapMutations, mapGetters } from "vuex";
-
+import store from "@/store"; // 确保路径正确
 export default {
+  data() {
+    return {
+      currentChallengeId: store.getters.getCurrentChallengeId,
+    };
+  },
   computed: {
     ...mapGetters(["getCurrentChallengeId"]),
     ...mapMutations(["setCurrentChallengeId"]),
@@ -84,7 +91,7 @@ export default {
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
+  height: 500px;
   background: linear-gradient(to right, #4caf50, #4caf50);
   color: #fff;
   font-family: "Arial", sans-serif;

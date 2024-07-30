@@ -3,22 +3,25 @@
     <!-- Show progress -->
     <div class="progress-container">
       <div class="progress-bar" :style="{ width: progress + '%' }">
-        <span class="progress-text">Challenge Progress: {{ progress.toFixed(2) }}%</span>
+        <span class="progress-text"
+          >Challenge Progress: {{ progress.toFixed(2) }}%</span
+        >
       </div>
     </div>
     <!-- Show all challenge -->
     <div class="card">
       <div
-        v-for="challenge in challenges"
+        v-for="challenge in orderedChallenges"
         :key="challenge.challenge_id"
         :class="['card_challenge', { completed: challenge.is_completed }]"
       >
         <h3>{{ challenge.challenge_name }}</h3>
         <p v-html="challenge.challenge_description"></p>
         <div class="button-container">
-          <!-- Start/Re-challenge button -->
+          <!-- 根据 challenge_id 来条件渲染按钮 -->
           <button
-            @click="showConfirmationModal(challenge.challenge_id)"
+            v-if="challenge.challenge_id === 3 || challenge.challenge_id === 4"
+            @click="startExercise(challenge.challenge_id)"
             class="button"
             :class="{
               'btn-restart': challenge.is_completed,
@@ -27,13 +30,27 @@
           >
             {{ challenge.is_completed ? "Challenge Again" : "Start Challenge" }}
           </button>
-          <!-- View Fix button -->
-          <button
-            @click="viewFix(challenge.challenge_id)"
-            class="button btn-fix"
-          >
-            How To Prevent
-          </button>
+          <template v-else>
+            <button
+              @click="showConfirmationModal(challenge.challenge_id)"
+              class="button"
+              :class="{
+                'btn-restart': challenge.is_completed,
+                'btn-start': !challenge.is_completed,
+              }"
+            >
+              {{
+                challenge.is_completed ? "Challenge Again" : "Start Challenge"
+              }}
+            </button>
+            <!-- View Fix button -->
+            <button
+              @click="viewFix(challenge.challenge_id)"
+              class="button btn-fix"
+            >
+              How To Prevent
+            </button>
+          </template>
         </div>
         <!-- Conditional Rendering Challenge Success Picture -->
         <img
@@ -56,12 +73,26 @@
 </template>
 
 <script>
-import ConfirmationModal from '../components/ConfirmationModal.vue';
+import ConfirmationModal from "../components/ConfirmationModal.vue";
 import feedbackService from "@/store/modules/feedbackService";
 
 export default {
+  computed: {
+    // 计算属性来动态排序挑战
+    orderedChallenges() {
+      const order = [1, 3, 2, 4];
+      const orderedChallenges = [];
+      order.forEach((id) => {
+        const challenge = this.challenges.find((ch) => ch.challenge_id === id);
+        if (challenge) {
+          orderedChallenges.push(challenge);
+        }
+      });
+      return orderedChallenges;
+    },
+  },
   components: {
-    ConfirmationModal
+    ConfirmationModal,
   },
   data() {
     return {
@@ -69,7 +100,7 @@ export default {
       progress: 0,
       showModal: false,
       currentChallengeId: null,
-      withGuidance: false
+      withGuidance: false,
     };
   },
   mounted() {
@@ -109,6 +140,34 @@ export default {
     },
     // Show confirmation modal
     showConfirmationModal(challengeId) {
+      // 检查是否尝试开始第二个挑战而第一个挑战还未完成
+      if (
+        challengeId === 2 &&
+        !this.challenges.find((ch) => ch.challenge_id === 1).is_completed
+      ) {
+        alert("Please complete the first challenge first!");
+        return;
+      }
+      this.currentChallengeId = challengeId;
+      this.withGuidance = false;
+      this.showModal = true;
+    },
+    startExercise(challengeId) {
+      // 检查是否尝试开始第二个挑战而第一个挑战还未完成
+      if (
+        challengeId === 3 &&
+        !this.challenges.find((ch) => ch.challenge_id === 1).is_completed
+      ) {
+        alert("Please complete the challenge first!");
+        return;
+      }
+      if (
+        challengeId === 4 &&
+        !this.challenges.find((ch) => ch.challenge_id === 2).is_completed
+      ) {
+        alert("Please complete the challenge first!");
+        return;
+      }
       this.currentChallengeId = challengeId;
       this.withGuidance = false;
       this.showModal = true;

@@ -16,11 +16,16 @@
       <p style="font-weight: bold; font-size: 20px">
         Are you ready to start your adventure?
       </p>
-      <div class="modal-footer">
+      <div class="modal-footer" :class="{'center-buttons': challengeId === 3 || challengeId === 4}">
         <button @click="confirmEntry" class="confirm-button">
           Start Challenge
         </button>
-        <button @click="startWithGuidance" class="guidance-button">
+        <!-- 仅在 challengeId 不等于 3 或 4 时显示 Start with Guidance 按钮 -->
+        <button
+          v-if="challengeId !== 3 && challengeId !== 4"
+          @click="startWithGuidance"
+          class="guidance-button"
+        >
           Start with Guidance
         </button>
       </div>
@@ -55,8 +60,16 @@ export default {
           Check the profile to discover the secret!`;
           return message;
         }
+        case 3: {
+          const message = `Congratulations on conquering Challenge 1!<br><br> Now, let's aim higher and join the Advanced Challenge together to discover even more excitement!<br><br>Your objective? <br><br>View shopping cart information for user with user id 20.`;
+          return message;
+        }
+        case 4: {
+          const message = `Congratulations on conquering Challenge 2!<br><br> Now, let's aim higher and join the Advanced Challenge together to discover even more excitement!`;
+          return message;
+        }
         default: {
-          return "你即将开始一个新的挑战，确认继续吗？";
+          return "You are about to start a new challenge, confirmed to continue?";
         }
       }
     },
@@ -156,4 +169,9 @@ export default {
 .guidance-button:hover {
   background-color: #45a049;
 }
+
+.center-buttons {
+  justify-content: center; /* 居中显示按钮 */
+}
+
 </style>

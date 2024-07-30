@@ -75,6 +75,7 @@ import WebHome from "../WebHome.vue";
 import { mapGetters } from "vuex";
 import { Button, Dialog, Form, FormItem, Input } from "element-ui";
 import feedbackService from "@/store/modules/feedbackService";
+import store from '@/store'; // 确保路径正确
 
 export default {
   components: {
@@ -135,7 +136,7 @@ export default {
     updateUser() {
       const userData = localStorage.getItem("user");
       const parsedUserData = JSON.parse(userData);
-      const challengeId = this.getCurrentChallengeId;
+      const currentChallengeId = store.getters.getCurrentChallengeId;
 
       // 原始用户信息
       const originalPhone = parsedUserData.user.user_phonenumber;
@@ -173,7 +174,7 @@ export default {
           console.error(err);
         });
 
-      if (this.isGuidanceMode && challengeId === 2) {
+      if (this.isGuidanceMode && Number(currentChallengeId) === 2) {
         feedbackService.sendFeedback(
           "You have successfully edited the Profile! Notice how the edit request occurred and think about how the request was constructed."
         );

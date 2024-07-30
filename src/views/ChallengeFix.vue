@@ -141,10 +141,110 @@ public <span class="keyword">Object</span> <span class="keyword">save</span>(<sp
         breaches.
       </p>
     </div>
-    <div v-else-if="getCurrentChallengeId === 2">
+    <div class="defences-content" v-else-if="getCurrentChallengeId === 2">
+      <div class="title-with-image">
+        <img src="@/assets/imgs/postman1.png" class="defences-image" />
+        <h2>
+          1. Ensure that users have permission to access object properties
+        </h2>
+      </div>
       <p>
-        This fix is for Challenge 2. Here are the details about the next
-        vulnerability...
+        When exposing an object in an API endpoint, if a user attempts to modify
+        an attribute that they should not have access to (e.g., membership
+        attributes or account balances), the system should validate the user's
+        access rights.
+      </p>
+      <div class="code-container">
+        <p>original code</p>
+        <pre><code>
+<span class="keyword">if</span> (newMembership != <span class="keyword">null</span>) {
+    user.setMembership(newMembership);
+}   </code></pre>
+      </div>
+      <div class="code-container">
+        <p>Reference code</p>
+        <pre><code>
+<span class="keyword">if</span> (newMembership != <span class="keyword">null</span> &amp;&amp; user.isAuthorizedToUpdateMembership()) {
+    user.setMembership(newMembership);
+} <span class="keyword">else</span> {
+    <span class="keyword">throw</span> <span class="keyword">new</span> UnauthorizedAccessException(<span class="string">"You do not have permission to update membership."</span>);
+}
+    </code></pre>
+      </div>
+      <p>
+        Ensure that only users who are authorized to change memberships can
+        perform this action. This usually involves checking the user's role or
+        permissions.
+      </p>
+      <div class="title-with-image">
+        <img src="@/assets/imgs/postman2.png" class="defences-image" />
+        <h2>2. Avoid functions that automatically bind inputs to variables</h2>
+      </div>
+      <p>
+        “Mass Assignment” is a common security issue that can inadvertently
+        modify properties that should not be modified if the user submits data
+        that is directly bound to an internal object or database record. For
+        example, user-submitted data may include an isAdmin flag bit that should
+        not be modified by the user, and the API should only accept predefined,
+        modifiable properties.
+      </p>
+      <div class="code-container">
+        <p>original code</p>
+        <pre><code>
+<span class="keyword">if</span> (newMembership != <span class="keyword">null</span>) {
+    user.setMembership(newMembership);
+}   </code></pre>
+      </div>
+      <div class="code-container">
+        <p>Reference code</p>
+        <pre><code>
+<span class="comment">// Suppose there is a method to validate and process the newMembership value</span>
+<span class="type">Membership</span> validatedMembership = <span class="class">MembershipService</span>.<span class="method">validateNewMembership</span>(newMembership);
+
+<span class="keyword">if</span> (validatedMembership != <span class="keyword">null</span> &amp;&amp; user.isAuthorizedToUpdateMembership()) {
+    user.setMembership(validatedMembership);
+} <span class="keyword">else</span> {
+    <span class="keyword">throw new</span> <span class="class">UnauthorizedAccessException</span>(<span class="string">"Invalid or unauthorized membership update attempt."</span>);
+}
+    </code></pre>
+      </div>
+      <p>
+        Ensure that newMembership is obtained from a secure source and avoid
+        assigning values directly from user input.
+      </p>
+      <div class="title-with-image">
+        <img src="@/assets/imgs/postman4.png" class="defences-image" />
+        <h2>3. Restrictions on Modifiable Attributes</h2>
+      </div>
+      <p>
+        The API should define which attributes are modifiable by the client,
+        e.g. a user can modify their personal information (e.g. address or phone
+        number) but not their user level or creation date.
+      </p>
+      <div class="code-container">
+        <p>original code</p>
+        <pre><code>
+<span class="keyword">if</span> (newMembership != <span class="keyword">null</span>) {
+    user.setMembership(newMembership);
+}   </code></pre>
+      </div>
+      <div class="code-container">
+        <p>Reference code</p>
+        <pre><code>
+<span class="keyword">if</span> (newMembership != <span class="keyword">null</span> &amp;&amp; user.isAuthorizedToUpdateMembership()) {
+    <span class="keyword">if</span> (<span class="class">MembershipService</span>.<span class="method">isMembershipChangeAllowed</span>(user.getMembership(), newMembership)) {
+        user.setMembership(newMembership);
+    } <span class="keyword">else</span> {
+        <span class="keyword">throw new</span> <span class="class">InvalidOperationException</span>(<span class="string">"Requested membership change is not allowed."</span>);
+    }
+} <span class="keyword">else</span> {
+    <span class="keyword">throw new</span> <span class="class">UnauthorizedAccessException</span>(<span class="string">"You do not have permission to update membership."</span>);
+}
+    </code></pre>
+      </div>
+      <p>
+        Make sure that the API clearly defines which properties can be modified,
+        here only membership is considered.
       </p>
     </div>
     <div class="button-container">

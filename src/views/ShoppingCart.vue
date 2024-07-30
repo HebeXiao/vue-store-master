@@ -99,13 +99,13 @@
       <div class="cart-bar">
         <div class="cart-bar-left">
           <span class="cart-total">
-            Total <span style="color: #4caf50;">{{ getNum }}</span> items,
-            <span style="color: #4caf50;">{{ getCheckNum }}</span> items selected
+            Total <span style="color: #4caf50">{{ getNum }}</span> items,
+            <span style="color: #4caf50">{{ getCheckNum }}</span> items selected
           </span>
         </div>
         <div class="cart-bar-right">
           <span>
-            <span style= "color: #4caf50; font-size: 20px;">Total：</span>
+            <span style="color: #4caf50; font-size: 20px">Total：</span>
             <span class="total-price">{{ getTotalPrice }}£</span>
           </span>
           <div
@@ -149,13 +149,36 @@ export default {
       "checkAll",
       "setShoppingCart",
     ]),
-    // Get shopping cart information  
+
+    // Get shopping cart information
+    // Get shopping cart information
     initShoppingCart() {
       const userData = localStorage.getItem("user");
+      const challengeId = localStorage.getItem("currentChallengeId"); // Assume challengeId is stored in local storage
       if (userData) {
         const parsedUserData = JSON.parse(userData);
-        this.$axios
-          .post("/api/cart/list", { user_id: parsedUserData.user.user_id })
+        let endpoint = "/api/cart/list"; // Default endpoint
+        let method = "post";
+        let requestConfig = {
+          data: { user_id: parsedUserData.user.user_id },
+        };
+
+        if (challengeId === "3") {
+          endpoint = "/api/cart/list/new"; // Adjusted endpoint for challenge id 3
+          method = "get";
+          requestConfig = {
+            params: { user_id: parsedUserData.user.user_id },
+            headers: {
+              Authorization: `Bearer ${parsedUserData.token}`, // Assuming token is stored in user data
+            },
+          };
+        }
+
+        this.$axios({
+          method: method,
+          url: endpoint,
+          ...requestConfig,
+        })
           .then((res) => {
             if (res.data.code === "001") {
               this.setShoppingCart(res.data.data);
@@ -168,6 +191,7 @@ export default {
           });
       }
     },
+
     // confirm order
     handleOrderClick() {
       if (this.getCheckGoods.length > 0) {
@@ -381,7 +405,7 @@ export default {
 
 .delete-icon {
   font-size: 20px;
-  cursor: pointer
+  cursor: pointer;
 }
 
 /* Shopping cart header CSS END */

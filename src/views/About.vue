@@ -216,7 +216,7 @@ export default {
   background-color: #f4f4f4;
   border-right: 1px solid #ddd;
   position: fixed;
-  height: 250px;
+  height: 275px;
   overflow-y: auto;
   margin-top: -20px;
 }

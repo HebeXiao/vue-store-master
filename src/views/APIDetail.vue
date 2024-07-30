@@ -132,7 +132,7 @@ export default {
   background-color: #f4f4f4;
   border-right: 1px solid #ddd;
   position: fixed;
-  height: 220px;
+  height: 240px;
   overflow-y: auto;
   margin-top: -20px;
 }
