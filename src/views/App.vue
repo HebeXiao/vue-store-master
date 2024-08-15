@@ -18,8 +18,10 @@
       </div>
       <div class="introduction">
         <p>
-          Welcome to the Playground of API Security Vulnerabilities! Explore our
-          "slightly insecure" mock-up e-commerce website based on a
+          Welcome to the challenge of Application Programming Interface (API)
+          Security Vulnerabilities! An API is like a middleman that helps
+          different software components communicate and interact effectively.
+          Explore our "slightly insecure" mock-up e-commerce website based on a
           microservices architecture. Are you ready to tackle two of the most
           critical vulnerabilities listed in the OWASP API Security Top 10?
         </p>
@@ -55,13 +57,15 @@
           <router-link to="/about" class="nav-link" style="color: #45a049"
             >Information Page</router-link
           >. It's packed with detailed descriptions of each vulnerability and
-          related tutorials, plus an extensive architectural background of our
-          simulated e-commerce platform. These resources are key to your journey
-          towards becoming an API security master.
+          related tutorials. These resources are key to your journey towards
+          becoming an API security master.
         </p>
         <p>
-          Ready to take on the challenge? Log in and head over to the scoreboard
-          page, where you can kick off your challenges, track your progress, and
+          <br />
+          Ready to take on the challenge?
+          <strong style="color: #45a049"
+            >Log in and head over to the scoreboard page </strong
+          >, where you can kick off your challenges, track your progress, and
           see if you can rise to the rank of defense master!
         </p>
       </div>
@@ -119,9 +123,10 @@ export default {
 
 .introduction {
   flex: 1; /* The introductory text takes up the other half of the space */
-  padding: 0 20px;
+  padding: 0 15px;
   font-size: 18px;
   font-weight: 500;
+  margin-top: -15px;
 }
 
 .el-carousel__item img {

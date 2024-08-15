@@ -96,8 +96,7 @@ export default {
   },
   methods: {
     viewOrderDetail(orderId) {
-      this.$store.commit('setCurrentOrderId', orderId);
-      this.$router.push('/orderDetail');
+      this.$router.push({ path: '/orderDetail', query: { order_id: orderId } });
     }
   },
   activated() {

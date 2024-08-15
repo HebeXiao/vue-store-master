@@ -59,8 +59,13 @@ export function connectWebSocket() {
       }
 
       if (Number(currentChallengeId) === 3) {
-        // 处理未经授权的人修改会员属性的特定消息
         if (message === 'Challenge succeeded: Triggered by user ID mismatch in cart.') {
+          window.location.href = 'http://localhost:8080/#/ChallengeResult';
+        }
+      }
+
+      if (Number(currentChallengeId) === 4) {
+        if (message === 'Challenge succeeded: Triggered by modify number.') {
           window.location.href = 'http://localhost:8080/#/ChallengeResult';
         }
       }

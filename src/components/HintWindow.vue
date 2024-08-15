@@ -38,7 +38,7 @@
       </div>
       <div class="dialog-footer">
         <!-- 在 level 4 显示 DevTools 和 Postman Tutorial 按钮 -->
-        <div v-if="currentLevel === 4 && currentChallengeId === 1" class="tutorial-buttons-container">
+        <div v-if="currentLevel === 4 && (currentChallengeId === 1 || currentChallengeId ===3)" class="tutorial-buttons-container">
           <button class="tutorial-button" @click="navigateToDevTools">
             DevTools Tutorial
           </button>
@@ -49,7 +49,7 @@
             Token Tutorial
           </button>
         </div>
-        <div v-if="currentLevel === 4 && currentChallengeId === 2" class="tutorial-buttons-container">
+        <div v-if="currentLevel === 4 && (currentChallengeId === 2 || currentChallengeId ===4)" class="tutorial-buttons-container">
           <button class="tutorial-button" @click="navigateToDevTools">
             DevTools Tutorial
           </button>
@@ -66,21 +66,21 @@
           DevTools Tutorial
         </button>
         <button
-          v-if="currentLevel === 2 && currentChallengeId === 1"
+          v-if="currentLevel === 2 && (currentChallengeId === 1 || currentChallengeId ===3)"
           class="tutorial-button"
           @click="navigateToPostman"
         >
           Postman Tutorial
         </button>
         <button
-          v-if="currentLevel === 3 && currentChallengeId === 1"
+          v-if="currentLevel === 3 && (currentChallengeId === 1 || currentChallengeId ===3)"
           class="tutorial-button"
           @click="navigateToToken"
         >
           Token Tutorial
         </button>
         <button
-          v-if="currentLevel === 3 && currentChallengeId === 2"
+          v-if="currentLevel === 3 && (currentChallengeId === 2 || currentChallengeId ===4)"
           class="tutorial-button"
           @click="navigateToPostman"
         >
@@ -143,6 +143,53 @@ export default {
           },
         },
         2: {
+          1: {
+            text: "Solution: Hey, remember the Developer Tools from the first mission? The Network panel in Developer Tools has a number of tabs hiding secrets, each of which can lead you to discover new information. Explore carefully and see what interesting details you can find!\n\nHeaders: See the headers of requests and responses for their metadata.\nPayload: view the content of the data sent in the request.\nPreview: Preview the response to quickly understand the data returned by the server.\nResponse: view the full server response, in-depth understanding of the returned data.",
+            img: "hint1.png",
+          },
+          2: {
+            text: "Remember the Network panel we explored? Now it's time to dive into the Payload tab. This tab shows you the data you're sending in your request. By taking a closer look at the Payload, you can understand the structure and content of the request.\n\nRemember, finding the right data structure and content is a key step in cracking this challenge.",
+            img: "hint2.png",
+          },
+          3: {
+            text: "Ready for the last step of the challenge? Take advantage of the powerful tool Postman that we introduced earlier. Open Postman, create a new POST request, remember to set up Headers, try to find and modify the membership information, send the request and see if your changes are successful!",
+            img: "hint3.png",
+          },
+          4: {
+            text:
+              "Step 1: Use Developer Tools to View API Requests\nNavigate to the Profile page and try to edit the profile. In the Network tab of the Developer Tools, find the API request that was sent. Looking at the request body in detail, notice that the membership attribute has a value of false or true.\n" +
+              "Step 2: Replay API requests using Postman or developer tools\nSet the request method to POST, select raw and JSON format in Body, construct the request body, and change the value of the membership attribute from false to true.\n"+
+              "Step 3: Send a request and verify the result\nSend a modified POST request and view the response. Reload the Profile page or view the Profile information via another GET request to confirm that the membership attribute has been modified to true.\n\n"+
+              "Additional Notes:\n"+
+              "For a detailed Postman tutorial, check out Postman Tutorial.\n"+
+              "For a detailed tutorial on Developer Tools, check out the Developer Tools Tutorial.\n"
+          },
+        },
+        3: {
+          1: {
+            text: "To view order details, you first need to master how to track API requests.\n\n Use the Developer Tools (press F12 or right-click and select 'Inspect') to gain a detailed understanding of the communication between your browser and the website's server. Try viewing an order and pay attention to how the browser requests information. Every detail here could be the key to unlocking the secrets of the API.",
+            img: "developer.png",
+          },
+          2: {
+            text: "Launch Postman and start your API exploration journey. Create a new request, enter the API URL, and send the request. Observe the response and understand how the API responds to your query.\n\n If you're new to Postman or eager to master more magical techniques, consider clicking the 'Learn More' button to delve deeper into this powerful tool, making your API exploration journey smoother.",
+            img: "Postman.png",
+          },
+          3: {
+            text: "The token is key to verifying your identity. If your request is rejected, it might mean you need a valid token to prove who you are. Open your developer tools and examine the response headers or body to find this elusive token. Once you've found it, insert it into your API request like a key to unlock the door to the data.",
+            img: "token.png",
+          },
+          4: {
+            text:
+              "Step 1: Get an API request using developer tools\nUse your browser's developer tools (usually the F12 key or the “Inspect” option in the context menu) to monitor network requests when a user views an order.\n" +
+              "Step 2: Find User Token\nFind the API request in the Network tab of the Developer Tools and look at the Headers of the request, look for a Token starting with Authorization: Bearer <token> in the Headers.\n"+
+              "Step 3: Accessing the API with Token\nOpen Postman (or continue to use developer tools) add the API URL to Postman, set the request method to GET, add a Token to Headers, then send the request and see the response. If the Token is valid and the request is successful, you will see the user's order information in the response.\n\n"+
+              "Additional Notes:\n"+
+              "For a detailed Postman tutorial, check out Postman Tutorial.\n"+
+              "For a detailed tutorial on Developer Tools, check out the Developer Tools Tutorial.\n"+
+              "For a detailed tutorial on Token, check out the Token Tutorial."
+          },
+        },
+        4: {
           1: {
             text: "Solution: Hey, remember the Developer Tools from the first mission? The Network panel in Developer Tools has a number of tabs hiding secrets, each of which can lead you to discover new information. Explore carefully and see what interesting details you can find!\n\nHeaders: See the headers of requests and responses for their metadata.\nPayload: view the content of the data sent in the request.\nPreview: Preview the response to quickly understand the data returned by the server.\nResponse: view the full server response, in-depth understanding of the returned data.",
             img: "hint1.png",

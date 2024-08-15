@@ -65,7 +65,7 @@ export default {
           return message;
         }
         case 4: {
-          const message = `Congratulations on conquering Challenge 2!<br><br> Now, let's aim higher and join the Advanced Challenge together to discover even more excitement!`;
+          const message = `Congratulations on conquering Challenge 2!<br><br> Now, let's aim higher and join the Advanced Challenge together to discover even more excitement!<br><br>Your objective? <br><br>Attempt to modify the quantity of a product in the order details that is considered unchangeable`;
           return message;
         }
         default: {

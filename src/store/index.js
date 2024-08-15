@@ -37,7 +37,7 @@ export default new Vuex.Store({
     },
     getChallenges: state => state.challenges,
     isGuidanceMode: state => {
-      return state.guidanceMode || localStorage.getItem('guidanceMode');
+      return state.guidanceMode || (localStorage.getItem('guidanceMode') === 'true');
     },
     previousPageSection(state) {
       const sectionUrls = new Set([
@@ -63,7 +63,7 @@ export default new Vuex.Store({
       state.currentOrderId = orderId; // 设置当前订单ID
     },
     setCurrentChallengeId(state, challengeId) {
-      state.currentChallengeId= challengeId;
+      state.currentChallengeId = challengeId;
       localStorage.setItem('currentChallengeId', challengeId);
     },
     setChallenges(state, challenges) {
@@ -73,8 +73,8 @@ export default new Vuex.Store({
       state.currentChallengeId = null; // 或者使用默认值
       localStorage.removeItem('currentChallengeId');
     },
-    resetGuidanceMode(state){
-      state.guidanceMode = false; 
+    resetGuidanceMode(state) {
+      state.guidanceMode = false;
       localStorage.removeItem('guidanceMode');
     },
     setSocket(state, socket) {
