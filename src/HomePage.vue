@@ -42,7 +42,7 @@
             <li v-if="this.$store.getters.getUser && !getCurrentChallengeId">
               <span class="sep"></span>
               <span class="sep"></span>
-              <span class="divider">|</span> <!-- 分割线 -->
+              <span class="divider">|</span> 
               <el-popover placement="top" width="180" v-model="visible">
                 <p>Are you sure you want to log out?</p>
                 <div style="text-align: right; margin: 10px 0 0">
@@ -207,16 +207,20 @@ export default {
   border: 0;
   list-style: none;
 }
+
 #app .el-header {
   padding: 0;
 }
+
 #app .el-main {
   min-height: 100px;
   padding: 0 0;
 }
+
 #app .el-footer {
   padding: 0;
 }
+
 a,
 a:hover {
   text-decoration: none;
@@ -229,13 +233,16 @@ a:hover {
   background-color: #3d3d3d;
   margin-bottom: 20px;
 }
+
 .topbar .nav {
   width: 1225px;
   margin: 0 auto;
 }
+
 .topbar .nav ul {
   float: right;
 }
+
 .topbar .nav li {
   float: left;
   height: 50px;
@@ -245,11 +252,13 @@ a:hover {
   line-height: 50px;
   margin-left: 20px;
 }
+
 .topbar .nav .sep {
   color: #b0b0b0;
   font-size: 16px;
   margin: 0 5px;
 }
+
 .topbar .nav .divider {
   height: 30px;
   width: 1px;
@@ -257,15 +266,19 @@ a:hover {
   margin: 0 5px;
   margin-left:-10px;
 }
+
 .topbar .nav li .el-button {
   color: #b0b0b0;
 }
+
 .topbar .nav .el-button:hover {
   color: #fff;
 }
+
 .topbar .nav li a {
   color: #b0b0b0;
 }
+
 .topbar .nav a:hover {
   color: #fff;
 }
@@ -278,11 +291,13 @@ a:hover {
   background: #2f2f2f;
   padding-bottom: 20px;
 }
+
 .footer .ng-promise-box {
   margin: 0 auto;
   border-bottom: 1px solid #3d3d3d;
   line-height: 145px;
 }
+
 .footer .ng-promise-box .ng-promise p a {
   color: #fff;
   font-size: 18px;
@@ -294,10 +309,12 @@ a:hover {
   text-decoration: none;
   background: url("./assets/imgs/us-icon.png") no-repeat left 0;
 }
+
 .footer .mod_help {
   text-align: center;
   color: #888888;
 }
+
 .footer .mod_help p {
   margin: 20px 0 16px 0;
 }

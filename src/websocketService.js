@@ -1,13 +1,13 @@
 // src/websocketService.js
 let socket;
 let reconnectTimeout;
-import store from '@/store'; // 确保路径正确
+import store from '@/store'; 
 import feedbackService from "./store/modules/feedbackService";
 
 export function connectWebSocket() {
   if (socket && socket.readyState === WebSocket.OPEN) {
     console.log('WebSocket connection already established');
-    return; // WebSocket 已连接，不做任何操作
+    return; // WebSocket is connected, no action is taken.
   }
 
   socket = new WebSocket('ws://localhost:3006/challenge');
@@ -19,52 +19,54 @@ export function connectWebSocket() {
       const message = data.message;
       const receivedUserId = data.userID;
 
-      // 直接从 Vuex store 获取当前挑战 ID 和用户 ID
+      // Get the current challenge ID and user ID directly from the Vuex store
       const currentChallengeId = store.getters.getCurrentChallengeId;
       const isGuidanceMode = store.getters.isGuidanceMode;
       const userData = localStorage.getItem('user');
       const parsedUserData = JSON.parse(userData);
       const user_id = parsedUserData.user.user_id;
 
-      // 处理 token 为空的特定消息
+      // Handling specific messages with empty tokens
       if (message === 'Challenge failed: Triggered by empty token.' && Number(currentChallengeId) === 1 && isGuidanceMode === true) {
         feedbackService.sendLongFeedback("Oops, looks like you forgot one important thing! A request without a Token is like a door without a key, how can you get in?");
         setTimeout(() => {
           feedbackService.sendFeedback("No worries! Just pop open your browser's developer tools, hop over to the 'Application' tab, and you'll find it chilling under 'Local Storage'.");
-        }, 8000); // 延迟4秒发送
+        }, 8000);
       }
 
       if (Number(currentChallengeId) === 1 && user_id !== receivedUserId) {
+        // The following actions are triggered when challenge_id = 1 and userID matches
         if (message === 'Challenge succeeded: Triggered by user ID mismatch.') {
-          // 当 challenge_id = 1 并且 userID 匹配时才触发以下操作
           window.location.href = 'http://localhost:8080/#/ChallengeResult';
         }
       }
 
       if (Number(currentChallengeId) === 2) {
-        // 处理未经授权的人修改会员属性的特定消息
+        // Handling specific messages from unauthorized people modifying member attributes
         if (message === 'Challenge succeeded: Triggered by unauthorized modification.') {
           window.location.href = 'http://localhost:8080/#/ChallengeResult';
         }
       }
 
       if (Number(currentChallengeId) === 2 && isGuidanceMode === true) {
-        // 处理无效的 membership 类型的特定消息
+        // Handling of invalid membership type specific messages
         if (message === 'Challenge failed: Triggered by invalid membership type.') {
           feedbackService.sendLongFeedback("Oops, it seems like there's an issue with the membership type provided!");
           setTimeout(() => {
             feedbackService.sendFeedback("Make sure the membership type is either true or false.");
-          }, 8000); // 延迟8秒发送
+          }, 8000); 
         }
       }
 
       if (Number(currentChallengeId) === 3) {
+        // View another user's shopping cart data
         if (message === 'Challenge succeeded: Triggered by user ID mismatch in cart.') {
           window.location.href = 'http://localhost:8080/#/ChallengeResult';
         }
       }
 
       if (Number(currentChallengeId) === 4) {
+        // Modifying properties that cannot be modified
         if (message === 'Challenge succeeded: Triggered by modify number.') {
           window.location.href = 'http://localhost:8080/#/ChallengeResult';
         }
@@ -78,14 +80,14 @@ export function connectWebSocket() {
   socket.onopen = () => {
     console.log('WebSocket connection established');
     if (reconnectTimeout) {
-      clearTimeout(reconnectTimeout); // 成功连接后清除重连定时器
+      clearTimeout(reconnectTimeout); // Clear reconnect timer after successful connection
       reconnectTimeout = null;
     }
   };
 
   socket.onclose = () => {
     console.log('WebSocket connection closed.');
-    // 当连接关闭时，也更新 Vuex store
+    // When the connection closes, also update the Vuex store
     store.commit('setSocket', null);
   };
 

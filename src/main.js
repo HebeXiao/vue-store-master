@@ -8,14 +8,14 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
 
-// 全局函数及变量
+// Global Functions and Variables
 import Global from './Global';
 Vue.use(Global);
 
 import Axios from 'axios';
 Vue.prototype.$axios = Axios;
 
-// 全局请求拦截器
+// Global Request Interceptor
 Axios.interceptors.request.use(
   config => {
     const token = localStorage.getItem('token');
@@ -30,7 +30,7 @@ Axios.interceptors.request.use(
   }
 );
 
-// 全局响应拦截器
+// Global Response Interceptor
 Axios.interceptors.response.use(
   res => {
     if (res.data.code === "401") {
@@ -48,7 +48,7 @@ Axios.interceptors.response.use(
   }
 );
 
-// 全局拦截器, 在进入需要用户权限的页面前校验是否已经登录
+// Global interceptor, checks if a user is logged in before going to a page that requires user permissions
 router.beforeResolve((to, from, next) => {
   const loginUser = store.state.user;
   if (to.meta.requireAuth && !loginUser) {
@@ -63,7 +63,7 @@ router.beforeResolve((to, from, next) => {
   next();
 });
 
-// 相对时间过滤器, 把时间戳转换成时间
+// Relative time filter, converts timestamps to time.
 Vue.filter('dateFormat', (dataStr) => {
   var time = new Date(dataStr);
   function timeAdd0 (str) {
@@ -81,7 +81,7 @@ Vue.filter('dateFormat', (dataStr) => {
   return y + '-' + timeAdd0(m) + '-' + timeAdd0(d) + ' ' + timeAdd0(h) + ':' + timeAdd0(mm) + ':' + timeAdd0(s);
 });
 
-// 全局组件
+// global component
 import MyLogin from './components/MyLogin';
 Vue.component(MyLogin.name, MyLogin);
 import MyRegister from './components/MyRegister';

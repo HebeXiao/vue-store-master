@@ -42,7 +42,7 @@
 
 <script>
 import { mapMutations, mapGetters } from "vuex";
-import store from "@/store"; // 确保路径正确
+import store from "@/store";
 export default {
   data() {
     return {

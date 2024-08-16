@@ -60,7 +60,7 @@
         <div class="button-container">
           <button @click="goBack">Back to Home</button>
         </div>
-        <!-- challenge 2 -->
+        <!-- API security vulnerability 2 -->
       </div>
       <div v-else-if="challengeID === '2'">
         <h2 class="centered-title">
@@ -155,9 +155,11 @@ export default {
 * {
   list-style: none;
 }
+
 .container {
   display: flex;
 }
+
 .sidebar {
   width: 180px;
   padding: 10px;
@@ -168,12 +170,15 @@ export default {
   overflow-y: auto;
   margin-top: -20px;
 }
+
 .sidebar ul {
   padding: 0;
 }
+
 .sidebar ul li {
   margin-bottom: 10px;
 }
+
 .sidebar ul li a {
   text-decoration: none;
   color: #45a049;
@@ -194,10 +199,12 @@ export default {
 .sidebar li.back-button button:hover {
   background-color: #e0e0e0; /* Slightly darker on hover for feedback */
 }
+
 .main-content {
-  margin-left: 220px; /* 确保内容不会被侧边栏遮挡 */
+  margin-left: 220px;
   padding: 20px;
 }
+
 .api-detail {
   padding: 0 50px;
 }
@@ -210,8 +217,8 @@ export default {
 }
 
 .image {
-  width: 100px; /* 调整图片的宽度 */
-  height: auto; /* 使图片保持比例 */
+  width: 100px;
+  height: auto; 
   margin-left: 20px;
 }
 

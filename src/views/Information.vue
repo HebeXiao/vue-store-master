@@ -12,7 +12,6 @@
       </ul>
     </div>
     <div class="main-content">
-      <!-- 你的模板内容 -->
       <h1 class="centered-title">Information Hub</h1>
       <div class="postman-content">
         <p>
@@ -183,7 +182,6 @@
 export default {
   data() {
     return {
-      // 你的数据属性
     };
   },
   methods: {
@@ -207,9 +205,11 @@ export default {
 * {
   list-style: none;
 }
+
 .container {
   display: flex;
 }
+
 .sidebar {
   width: 220px;
   padding: 5px;
@@ -220,16 +220,20 @@ export default {
   overflow-y: auto;
   margin-top: -20px;
 }
+
 .sidebar ul {
   padding: 0;
 }
+
 .sidebar ul li {
   margin-bottom: 10px;
 }
+
 .sidebar ul li a {
   text-decoration: none;
   color: #45a049;
 }
+
 .sidebar ul li a:hover {
   text-decoration: underline;
 }
@@ -249,11 +253,12 @@ export default {
 .sidebar li.back-button button:hover {
   background-color: #e0e0e0; /* Slightly darker on hover for feedback */
 }
+
 .main-content {
   margin-left: 220px; /* 确保内容不会被侧边栏遮挡 */
   padding: 20px;
 }
-/* 你的样式 */
+
 button {
   margin-top: 20px;
   padding: 10px 20px;
@@ -286,14 +291,14 @@ button:hover {
 }
 
 .postman-image {
-  width: 30px; /* 调整图片的宽度 */
-  height: auto; /* 使图片保持比例 */
-  margin-right: 10px; /* 调整图片与标题之间的间距 */
+  width: 30px;
+  height: auto;
+  margin-right: 10px; 
 }
 
 h2 {
   font-size: 18px;
-  margin: 0; /* 确保标题与图片在同一行 */
+  margin: 0; 
 }
 
 .link {
@@ -303,19 +308,19 @@ h2 {
 .guidance-image {
   width: 500px;
   display: block;
-  margin: 20px auto; /* 水平居中 */
+  margin: 20px auto; 
 }
 
 .button-container {
   display: flex;
   justify-content: center;
-  gap: 10px; /* 按钮之间的间距 */
+  gap: 10px; 
   margin-bottom: 30px;
 }
 
 .guidance-image {
   width: 450px;
   display: block;
-  margin: 20px auto; /* 水平居中 */
+  margin: 20px auto;
 }
 </style>

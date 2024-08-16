@@ -24,7 +24,6 @@
           <p><strong>Address:</strong> {{ user.address }}</p>
           <p>
             <strong>Membership:</strong><br />
-            <!-- 条件渲染Membership状态 -->
             <span v-if="user.membership === false">
               <img
                 src="@/assets/imgs/not_activated.png"
@@ -40,7 +39,6 @@
               />
             </span>
           </p>
-          <!-- 其他内容 -->
           <div class="button-container">
             <button @click="editUser">Edit</button>
           </div>
@@ -75,7 +73,7 @@ import WebHome from "../WebHome.vue";
 import { mapGetters } from "vuex";
 import { Button, Dialog, Form, FormItem, Input } from "element-ui";
 import feedbackService from "@/store/modules/feedbackService";
-import store from '@/store'; // 确保路径正确
+import store from '@/store'; 
 
 export default {
   components: {
@@ -138,36 +136,30 @@ export default {
       const parsedUserData = JSON.parse(userData);
       const currentChallengeId = store.getters.getCurrentChallengeId;
 
-      // 原始用户信息
       const originalPhone = parsedUserData.user.user_phonenumber;
       const originalLinkman = parsedUserData.user.linkman;
       const originalAddress = parsedUserData.user.address;
 
-      // 构建payload，仅包含已更改的字段
       const payload = {
-        user_id: parsedUserData.user.user_id, // 用户ID总是需要的
+        user_id: parsedUserData.user.user_id, 
       };
 
-      // 检查电话号码是否更改
       if (this.editUserForm.user_phonenumber !== originalPhone) {
         payload.user_phonenumber = this.editUserForm.user_phonenumber;
       }
 
-      // 检查联系人是否更改
       if (this.editUserForm.linkman !== originalLinkman) {
         payload.linkman = this.editUserForm.linkman;
       }
 
-      // 检查地址是否更改
       if (this.editUserForm.address !== originalAddress) {
         payload.address = this.editUserForm.address;
       }
 
-      // 发送POST请求更新用户信息
       this.$axios
         .post("api/user/update", payload)
         .then(() => {
-          this.fetchUser(); // 重新获取用户信息
+          this.fetchUser(); 
           this.isEditing = false;
         })
         .catch((err) => {
@@ -190,7 +182,6 @@ export default {
 </script>
 
 <style>
-/* 弹窗样式调整 */
 .el-dialog {
   width: 600px;
   margin: auto;
@@ -213,8 +204,8 @@ export default {
 
 .button-container {
   display: flex;
-  justify-content: center; /* 水平居中 */
-  width: 100%; /* 确保占满父元素宽度 */
+  justify-content: center; 
+  width: 100%; 
 }
 
 /* Profile Header CSS */

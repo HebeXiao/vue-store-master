@@ -271,14 +271,13 @@ export default {
 </script>
 
 <style scoped>
-/* 添加到 <style scoped> 中 */
 .code-container {
   background-color: #f4f4f4;
   border-left: 5px solid #45a049;
   margin: 20px 0;
   padding: 10px 20px;
-  overflow-x: auto; /* 处理过长代码的滚动 */
-  font-family: "Courier New", Courier, monospace; /* 代码字体 */
+  overflow-x: auto; 
+  font-family: "Courier New", Courier, monospace; 
 }
 
 .code {
@@ -289,21 +288,21 @@ export default {
   font-size: 90%;
 }
 
-/* 新增代码高亮样式 */
+
 .keyword {
-  color: #0077aa; /* 蓝色，用于关键字 */
+  color: #0077aa;
 }
 
 .string {
-  color: #d14; /* 红色，用于字符串 */
+  color: #d14; 
 }
 
 .comment {
-  color: #999988; /* 浅灰色，用于注释 */
+  color: #999988; 
 }
 
 .number {
-  color: #099; /* 暗青色，用于数字 */
+  color: #099; 
 }
 
 .centered-title {
@@ -319,14 +318,14 @@ export default {
 }
 
 .defences-image {
-  width: 30px; /* 调整图片的宽度 */
-  height: auto; /* 使图片保持比例 */
-  margin-right: 10px; /* 调整图片与标题之间的间距 */
+  width: 30px; 
+  height: auto; 
+  margin-right: 10px; 
 }
 
 h2 {
   font-size: 18px;
-  margin: 0; /* 确保标题与图片在同一行 */
+  margin: 0; 
 }
 
 .defences-content {
@@ -335,7 +334,7 @@ h2 {
 
 .button-container {
   display: flex;
-  justify-content: center; /* 将按钮居中 */
+  justify-content: center; 
   margin-top: 20px;
 }
 

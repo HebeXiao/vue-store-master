@@ -13,7 +13,6 @@
       </ul>
     </aside>
     <main class="main-content">
-      <!-- 你的模板内容 -->
       <h1 class="centered-title">
         Using Developer Tools to Explore and Test APIs
       </h1>
@@ -227,7 +226,6 @@ export default {
   },
   data() {
     return {
-      // 你的数据属性
     };
   },
   methods: {
@@ -249,7 +247,6 @@ export default {
 </script>
 
 <style scoped>
-/* 样式 */
 .container {
   display: flex;
 }
@@ -301,7 +298,7 @@ export default {
 .main-content {
   flex: 1;
   padding: 20px;
-  margin-left: 220px; /* 确保主内容不被固定的侧边栏覆盖 */
+  margin-left: 220px; 
 }
 
 button {
@@ -335,14 +332,14 @@ button:hover {
 }
 
 .devtools-image {
-  width: 30px; /* 调整图片的宽度 */
-  height: auto; /* 使图片保持比例 */
-  margin-right: 10px; /* 调整图片与标题之间的间距 */
+  width: 30px; 
+  height: auto; 
+  margin-right: 10px;
 }
 
 h2 {
   font-size: 18px;
-  margin: 0; /* 确保标题与图片在同一行 */
+  margin: 0; 
 }
 
 .link {
@@ -352,13 +349,13 @@ h2 {
 .guidance-image {
   width: 600px;
   display: block;
-  margin: 20px auto; /* 水平居中 */
+  margin: 20px auto;
 }
 
 .button-container {
   display: flex;
   justify-content: center;
-  gap: 10px; /* 按钮之间的间距 */
+  gap: 10px; 
   margin-bottom: 30px;
 }
 </style>

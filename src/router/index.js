@@ -62,7 +62,7 @@ const routes = [
   {
     path: '/',
     name: 'HomePage',
-    component: () => import('../views/App.vue')
+    component: () => import('../views/Welcome.vue')
   },
   {
     path: '/scoreboard',
@@ -86,9 +86,9 @@ const routes = [
     }
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue')
+    path: '/information',
+    name: 'Information',
+    component: () => import('../views/Information.vue')
   },
   {
     path: '/goods/details',

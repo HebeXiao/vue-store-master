@@ -54,7 +54,7 @@
         </ul>
         <p>
           Before you dive deep into the code abyss, don't forget to visit our
-          <router-link to="/about" class="nav-link" style="color: #45a049"
+          <router-link to="/information" class="nav-link" style="color: #45a049"
             >Information Page</router-link
           >. It's packed with detailed descriptions of each vulnerability and
           related tutorials. These resources are key to your journey towards

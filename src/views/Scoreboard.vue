@@ -18,7 +18,6 @@
         <h3>{{ challenge.challenge_name }}</h3>
         <p v-html="challenge.challenge_description"></p>
         <div class="button-container">
-          <!-- 根据 challenge_id 来条件渲染按钮 -->
           <button
             v-if="challenge.challenge_id === 3 || challenge.challenge_id === 4"
             @click="startExercise(challenge.challenge_id)"
@@ -78,7 +77,7 @@ import feedbackService from "@/store/modules/feedbackService";
 
 export default {
   computed: {
-    // 计算属性来动态排序挑战
+    // Computing attributes to dynamically sort challenges
     orderedChallenges() {
       const order = [1, 3, 2, 4];
       const orderedChallenges = [];
@@ -140,7 +139,6 @@ export default {
     },
     // Show confirmation modal
     showConfirmationModal(challengeId) {
-      // 检查是否尝试开始第二个挑战而第一个挑战还未完成
       if (
         challengeId === 2 &&
         !this.challenges.find((ch) => ch.challenge_id === 1).is_completed
@@ -153,7 +151,6 @@ export default {
       this.showModal = true;
     },
     startExercise(challengeId) {
-      // 检查是否尝试开始第二个挑战而第一个挑战还未完成
       if (
         challengeId === 3 &&
         !this.challenges.find((ch) => ch.challenge_id === 1).is_completed
