@@ -8,7 +8,7 @@
       </div>
       <div class="dialog-body" v-if="!showConfirmDialog">
         <p v-html="hintMessage.split('\n').join('<br>')"></p>
-        <!-- 只在需要显示图片或占位符时渲染 image-container -->
+        <!-- Renders images or placeholders only when they need to be displayed -->
         <div
           v-if="hintImage && currentLevel !== 4"
           class="image-container"
@@ -37,7 +37,6 @@
         <button @click="toggleConfirmDialog">No</button>
       </div>
       <div class="dialog-footer">
-        <!-- 在 level 4 显示 DevTools 和 Postman Tutorial 按钮 -->
         <div v-if="currentLevel === 4 && (currentChallengeId === 1 || currentChallengeId ===3)" class="tutorial-buttons-container">
           <button class="tutorial-button" @click="navigateToDevTools">
             DevTools Tutorial
@@ -57,7 +56,6 @@
             Postman Tutorial
           </button>
         </div>
-        <!-- 新增按钮在当前等级为2时显示，并且在其他按钮上方 -->
         <button
           v-if="currentLevel === 1"
           class="tutorial-button"
@@ -112,11 +110,11 @@ export default {
     return {
       visible: false,
       currentLevel: 0,
-      showImage: false, // 添加一个控制图片显示的变量
+      showImage: false, 
       showConfirmDialog: false,
       hintMessage:
         "Here lie the mysterious clues you need! Click the button to uncover the secrets that will lend you a helping hand.",
-      hintImage: null, // 初始化为 null 或空字符串
+      hintImage: null,
       hints: {
         1: {
           1: {
@@ -224,25 +222,24 @@ export default {
   methods: {
     open() {
       this.visible = true;
-      this.resetState(); // 重置状态
+      this.resetState(); 
     },
     close() {
       this.visible = false;
-      this.resetState(); // 重置状态
+      this.resetState(); 
     },
     toggleImage() {
-      this.showImage = !this.showImage; // 切换图片显示状态
+      this.showImage = !this.showImage; 
     },
     setHint(level, challengeId) {
       if (this.hints[challengeId] && this.hints[challengeId][level]) {
-        this.currentLevel = level; // 更新当前提示级别
+        this.currentLevel = level; 
         this.hintMessage = this.hints[challengeId][level].text;
         if (level !== 4) {
-          // 排除 level 4 的图片
           this.hintImage = require("@/assets/imgs/" +
             this.hints[challengeId][level].img);
         } else {
-          this.hintImage = null; // 不显示图片
+          this.hintImage = null; 
         }
       } else {
         console.error(
@@ -251,10 +248,9 @@ export default {
         this.hintMessage = "Hint not available.";
         this.hintImage = require("@/assets/imgs/error.png");
       }
-      this.showImage = false; // 每次设置新提示时重置图片显示状态
+      this.showImage = false; 
     },
     resetState() {
-      // 重置到默认状态
       this.currentLevel = 0;
       this.showImage = false;
       this.hintMessage =
@@ -262,23 +258,21 @@ export default {
       this.hintImage = null;
     },
     needsPlaceholder(level) {
-      // 返回一个布尔值，根据你的需求判断是否在某个特定的level显示占位符
       return [1, 2, 3].includes(level);
     },
     needsBorder(level) {
-      // 可能与 needsPlaceholder 相同，或根据其他逻辑决定
       return [1, 2, 3].includes(level);
     },
     navigateToPostman() {
-      this.close(); // 关闭弹窗
+      this.close(); 
       this.$router.push({ name: "Postman" });
     },
     navigateToDevTools() {
-      this.close(); // 关闭弹窗
+      this.close(); 
       this.$router.push({ name: "DevTools" });
     },
     navigateToToken() {
-      this.close(); // 关闭弹窗
+      this.close(); 
       this.$router.push({ name: "Token" });
     },
     getImageClass(level) {
@@ -297,7 +291,7 @@ export default {
       this.showConfirmDialog = !this.showConfirmDialog;
     },
     viewSolution() {
-      this.setHint(4, this.currentChallengeId); // 假设已经有这个方法处理显示解决方案
+      this.setHint(4, this.currentChallengeId); 
       this.showConfirmDialog = false;
     },
   },
@@ -414,29 +408,29 @@ button:focus {
 
 .image-container {
   margin-top: 20px;
-  width: 290px; /* 根据图片实际宽度调整 */
-  height: 180px; /* 根据图片实际高度调整 */
+  width: 290px;
+  height: 180px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  position: relative; /* 为占位符定位 */
-  margin-left: auto; /* 水平居中 */
-  margin-right: auto; /* 水平居中 */
+  position: relative; 
+  margin-left: auto; 
+  margin-right: auto; 
 }
 
 .image-container.with-border {
-  border: 2px dashed #ccc; /* 仅在需要时显示边框 */
+  border: 2px dashed #ccc;
 }
 
 .placeholder {
   text-align: center;
   color: #ccc;
-  font-size: 14px; /* 调整字体大小为合适的值 */
+  font-size: 14px;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* 居中显示 */
+  transform: translate(-50%, -50%); 
 }
 
 .confirm-dialog {

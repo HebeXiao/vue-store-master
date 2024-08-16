@@ -18,7 +18,7 @@ export default {
     return {
       visible: false,
       message: "",
-      positionClass: "left-top", // Default position
+      positionClass: "left-top", 
       closeTimeout: null,
     };
   },

@@ -90,7 +90,6 @@ export default {
         name: "",
         pass: "",
         confirmPass: "",
-        phone: ""
       },
       rules: {
         name: [{ validator: validateName, trigger: "blur" }],
@@ -120,7 +119,6 @@ export default {
             .post("/api/user/register", {
               userName: this.RegisterUser.name,
               password: this.RegisterUser.pass,
-              userPhonenumber: this.RegisterUser.phone
             })
             .then(res => {
               if (res.data.code === "001") {
@@ -141,6 +139,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-</style>

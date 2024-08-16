@@ -1,112 +1,93 @@
 <template>
   <div id="myLogin">
     <el-dialog title="Login" width="300px" center :visible.sync="isLogin">
-      <el-form :model="LoginUser" :rules="rules" status-icon ref="ruleForm" class="demo-ruleForm">
+      <el-form :model="loginUser" :rules="rules" ref="ruleForm" class="demo-ruleForm">
         <el-form-item prop="name">
-          <el-input prefix-icon="el-icon-user-solid" placeholder="Username" v-model="LoginUser.name"></el-input>
+          <el-input prefix-icon="el-icon-user-solid" placeholder="Username" v-model="loginUser.name"></el-input>
         </el-form-item>
         <el-form-item prop="pass">
-          <el-input
-            prefix-icon="el-icon-view"
-            type="password"
-            placeholder="Password"
-            v-model="LoginUser.pass"
-          ></el-input>
+          <el-input prefix-icon="el-icon-view" type="password" placeholder="Password" v-model="loginUser.pass"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button size="medium" type="primary" @click="Login" style="width:100%;">Login</el-button>
+          <el-button size="medium" type="primary" @click="login" class="full-width-button">Login</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
   </div>
 </template>
+
 <script>
 import { mapActions } from "vuex";
 
 export default {
   name: "MyLogin",
   data() {
-    // 用户名的校验方法
-    let validateName = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("Please provide a username."));
-      }
-      return callback();
-    };
-    // 密码的校验方法
-    let validatePass = (rule, value, callback) => {
-      if (value === "") {
-        return callback(new Error("Please provide a password."));
-      }
-      return callback();
-    };
     return {
-      LoginUser: {
-        name: "",
-        pass: ""
-      },
-      // 用户信息校验规则,validator(校验方法),trigger(触发方式),blur为在组件 Input 失去焦点时触发
+      loginUser: { name: "", pass: "" },
       rules: {
-        name: [{ validator: validateName, trigger: "blur" }],
-        pass: [{ validator: validatePass, trigger: "blur" }]
+        name: [{ validator: this.validateName, trigger: "blur" }],
+        pass: [{ validator: this.validatePass, trigger: "blur" }]
       }
     };
   },
   computed: {
-    // 获取vuex中的showLogin，控制登录组件是否显示
     isLogin: {
       get() {
         return this.$store.getters.getShowLogin;
       },
       set(val) {
-        this.$refs["ruleForm"].resetFields();
+        this.$refs.ruleForm.resetFields();
         this.setShowLogin(val);
       }
     }
   },
   methods: {
     ...mapActions(["setUser", "setShowLogin"]),
-    Login() {
-      // 通过element自定义表单校验规则，校验用户输入的用户信息
-      this.$refs["ruleForm"].validate(valid => {
-        //如果通过校验开始登录
+
+    validateName(rule, value, callback) {
+      if (!value) {
+        callback(new Error("Please provide a username."));
+      } else {
+        callback();
+      }
+    },
+
+    validatePass(rule, value, callback) {
+      if (!value) {
+        callback(new Error("Please provide a password."));
+      } else {
+        callback();
+      }
+    },
+
+    login() {
+      this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          this.$axios
-            .post("/api/user/login", {
-              userName: this.LoginUser.name,
-              password: this.LoginUser.pass
-            })
-            .then(res => {
-              // “001”代表登录成功，其他的均为失败
-              if (res.data.code === "001") {
-                // 隐藏登录组件
-                this.isLogin = false;
-                // 登录信息存到本地
-                let user = JSON.stringify(res.data.data);
-                let token = res.data.data.token; // 获取token
-                localStorage.setItem("user", user);
-                localStorage.setItem("token", token); // 存储token
-                // 登录信息存到vuex
-                this.setUser(res.data.data);
-                // 弹出通知框提示登录成功信息
-                this.notifySucceed(res.data.msg);
-              } else {
-                // 清空输入框的校验状态
-                this.$refs["ruleForm"].resetFields();
-                // 弹出通知框提示登录失败信息
-                this.notifyError(res.data.msg);
-              }
-            })
-            .catch(err => {
-              return Promise.reject(err);
-            });
-        } else {
-          return false;
+          this.$axios.post("/api/user/login", {
+            userName: this.loginUser.name,
+            password: this.loginUser.pass
+          }).then(res => {
+            if (res.data.code === "001") {
+              this.handleLoginSuccess(res.data);
+            } else {
+              this.$refs.ruleForm.resetFields();
+              this.notifyError(res.data.msg);
+            }
+          }).catch(err => {
+            this.notifyError(err.message);
+          });
         }
       });
+    },
+
+    handleLoginSuccess(data) {
+      this.isLogin = false;
+      const { token, ...userData } = data.data;
+      localStorage.setItem("user", JSON.stringify(userData));
+      localStorage.setItem("token", token);
+      this.setUser(userData);
+      this.notifySucceed(data.msg);
     }
   }
 };
 </script>
-<style>
-</style>

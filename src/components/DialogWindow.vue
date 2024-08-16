@@ -50,7 +50,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999; /* 确保弹窗在最上方 */
+  z-index: 9999; 
 }
 
 .dialog-box {
@@ -65,7 +65,7 @@ export default {
 .dialog-header {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* 在弹窗头部两端对齐 */
+  justify-content: space-between; 
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -84,12 +84,12 @@ export default {
   font-size: 30px;
   color: #ffffff;
   cursor: pointer;
-  margin-left: auto; /* 确保按钮靠右 */
+  margin-left: auto; 
 }
 
 .dialog-content {
   margin-bottom: 40px;
-  text-align: center; /* 使内容文本居中 */
+  text-align: center; 
   margin-top: 40px;
   font-size:18px;
 }

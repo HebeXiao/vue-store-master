@@ -27,7 +27,7 @@ export function connectWebSocket() {
       const user_id = parsedUserData.user.user_id;
 
       // 处理 token 为空的特定消息
-      if (message === 'Challenge succeeded: Triggered by empty token.' && Number(currentChallengeId) === 1 && isGuidanceMode === true) {
+      if (message === 'Challenge failed: Triggered by empty token.' && Number(currentChallengeId) === 1 && isGuidanceMode === true) {
         feedbackService.sendLongFeedback("Oops, looks like you forgot one important thing! A request without a Token is like a door without a key, how can you get in?");
         setTimeout(() => {
           feedbackService.sendFeedback("No worries! Just pop open your browser's developer tools, hop over to the 'Application' tab, and you'll find it chilling under 'Local Storage'.");
@@ -50,7 +50,7 @@ export function connectWebSocket() {
 
       if (Number(currentChallengeId) === 2 && isGuidanceMode === true) {
         // 处理无效的 membership 类型的特定消息
-        if (message === 'Challenge succeeded: Triggered by invalid membership type.') {
+        if (message === 'Challenge failed: Triggered by invalid membership type.') {
           feedbackService.sendLongFeedback("Oops, it seems like there's an issue with the membership type provided!");
           setTimeout(() => {
             feedbackService.sendFeedback("Make sure the membership type is either true or false.");

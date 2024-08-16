@@ -20,7 +20,6 @@
         <button @click="confirmEntry" class="confirm-button">
           Start Challenge
         </button>
-        <!-- 仅在 challengeId 不等于 3 或 4 时显示 Start with Guidance 按钮 -->
         <button
           v-if="challengeId !== 3 && challengeId !== 4"
           @click="startWithGuidance"
@@ -171,7 +170,7 @@ export default {
 }
 
 .center-buttons {
-  justify-content: center; /* 居中显示按钮 */
+  justify-content: center; 
 }
 
 </style>
