@@ -1,10 +1,3 @@
-/*
- * @Description: Vuex入口
- * @Author: hai-27
- * @Date: 2020-02-07 16:23:00
- * @LastEditors: hai-27
- * @LastEditTime: 2020-02-25 22:51:50
- */
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios';
@@ -23,8 +16,8 @@ export default new Vuex.Store({
     feedbackService
   },
   state: {
-    currentOrderId: null, // 存储当前订单ID
-    currentChallengeId: null, //存储当前挑战ID
+    currentOrderId: null, 
+    currentChallengeId: null, 
     challenges: [],
     user: null,
     socket: null,
@@ -60,7 +53,7 @@ export default new Vuex.Store({
       state.navigationHistory = [];
     },
     setCurrentOrderId(state, orderId) {
-      state.currentOrderId = orderId; // 设置当前订单ID
+      state.currentOrderId = orderId; 
     },
     setCurrentChallengeId(state, challengeId) {
       state.currentChallengeId = challengeId;
@@ -70,7 +63,7 @@ export default new Vuex.Store({
       state.challenges = challenges;
     },
     resetChallengeId(state) {
-      state.currentChallengeId = null; // 或者使用默认值
+      state.currentChallengeId = null; 
       localStorage.removeItem('currentChallengeId');
     },
     resetGuidanceMode(state) {
